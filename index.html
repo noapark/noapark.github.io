@@ -363,23 +363,29 @@ const instructor = {
 
 /* ===== 렌더링 ===== */
 const container = document.getElementById("instructorCard");
-
 const instructorColor = instructorColors[instructor.name] || "#FFFFFF";
+  
+// 에러 방지: instructorColors가 없거나 해당 이름의 컬러가 없을 경우 기본 투명/기본값 처리
+const instructorColor = (typeof instructorColors !== 'undefined' && instructorColors[instructor.name]) || "rgba(79, 70, 229, 0.05)";
 
 container.innerHTML = `
-  <div class="card">
-    <div class="top">
-      <div class="avatar">${instructor.avatar}</div>
+  <div class="card" style="background: var(--card-bg); border-radius: 24px; padding: 35px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); text-align: left; max-width: 750px; margin: 0 auto;">
+    
+    <!-- 상단 프로필 헤더 -->
+    <div class="top" style="display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 25px; margin-bottom: 25px;">
+      <div class="avatar" style="font-size: 40px; background: ${instructorColor}; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">${instructor.avatar}</div>
       <div>
-        <h2>${instructor.name}</h2>
-        <p class="role">${instructor.role}</p>
+        <h2 style="font-size: 24px; color: var(--dark); margin-bottom: 4px;">${instructor.name}</h2>
+        <p class="role" style="color: var(--primary); font-weight: 600; font-size: 15px;">${instructor.role}</p>
       </div>
     </div>
 
-    <p class="bio">${instructor.bio}</p>
+    <!-- 소개글 -->
+    <p class="bio" style="font-size: 15px; line-height: 1.7; color: #4b5563; margin-bottom: 20px;">${instructor.bio}</p>
 
-    <div class="tags">
-      ${instructor.tags.map(tag => `<span>#${tag}</span>`).join("")}
+    <!-- 태그 -->
+    <div class="tags" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px;">
+      ${instructor.tags.map(tag => `<span style="background: var(--primary-light); color: var(--primary); font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 30px;">#${tag}</span>`).join("")}
     </div>
 
     <div class="stats">
@@ -388,9 +394,14 @@ container.innerHTML = `
       <div>⭐ ${instructor.stats.rating}</div>
     </div>
 
-    <h4>강의 리스트</h4>
-    <ul class="course-list">
-      ${instructor.courses.map(c => `<li>${c}</li>`).join("")}
+<!-- 강의 리스트 -->
+    <h4 style="font-size: 16px; color: var(--dark); margin-bottom: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px;">📖 담당 교육 과정</h4>
+    <ul class="course-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; list-style: none; padding: 0;">
+      ${instructor.courses.map(c => `
+        <li style="background: #f8fafc; border-left: 3px solid var(--primary); padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 14px; color: #374151; font-weight: 600; transition: transform 0.2s ease;">
+          ${c}
+        </li>
+      `).join("")}
     </ul>
   </div>
 `;
