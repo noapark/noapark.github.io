@@ -77,6 +77,47 @@
       color:#666;
       font-size:16px;
     }
+    
+   /*코파일럿 */
+    .features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.feat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: .3s;
+  text-align: center;
+}
+
+.feat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+}
+
+.feat-icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.feat-card h3 {
+  font-size: 18px;
+  color: #4f46e5;
+  margin-bottom: 10px;
+}
+
+.feat-card p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+   /*코파일럿 */
 
     /* cards */
     .projects-grid {
@@ -231,7 +272,7 @@
       </div>
     </section>
 
-    <section id="instructor" class="instructor">
+    <section id="instructor" class="section">
   <!-- INSTRUCTOR PREVIEW -->
   <div class="section" style="background:var(--surface)">
     <div class="section-inner">
