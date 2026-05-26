@@ -183,7 +183,26 @@
       -webkit-background-clip:text;
       color:transparent;
     }
+    
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(181,136,74,.15);
+  border: 1px solid rgba(181,136,74,.35);
+  color: #d4a96a;
+  border-radius: 99px;
 
+  /* 여기만 수정 */
+  padding: 11px 28px;
+  font-size: .88rem;
+
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+``
     @media (max-width:768px) {
   body {
     text-align:center;
@@ -281,9 +300,9 @@
         <p>강사는 현업 경력 7년 이상, 최신 이슈를 바탕으로 커리큘럼을 설계합니다.</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px" id="homeInstGrid"></div>
-      /*  <div style="text-align:center;margin-top:28px"> */
-      /*   <button class="btn-nav btn-ghost" style="padding:11px 28px;font-size:.88rem" onclick="goPage('instructors')">강사 프로필 보기 →</button> */
-     /*  </div>  */
+      <div style="text-align:center;margin-top:28px"> 
+      <button class="hero-badge" onclick="goPage('instructor')">강사 프로필 보기 →</button>
+    </div>
     </div>
   </div>
 </div>
