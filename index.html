@@ -32,11 +32,13 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 .page {
   display:none;
   opacity:0;
-  transition:opacity .3s ease;
+  transform:translateY(10px);
+  transition:all .3s ease;
 }
 .page.active {
   display:block;
   opacity:1;
+  transform:translateY(0);
 }
 
 /* ===== SECTION ===== */
@@ -194,5 +196,3 @@ function goPage(page, el){
 
   window.scrollTo(0,0);
 }
-
-
