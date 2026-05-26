@@ -332,6 +332,139 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
           <p>기술과 디자인을 연결하는 에듀케이터</p>
           <p>디자이너 출신으로 융합교육 석사를 전공하였으며, 7년 동안 AI 교육을 학교와 센터에서 병행하고 있습니다. 디자인적 사고를 바탕으로 기술과 창의성을 연결하는 융합 커리큘럼을 설계합니다.</p>
         </div>
+
+                         <!-- ✅ 강사 소개 카드 -->
+<div id="instructorCard" class="instructor-card"></div>
+
+<script>
+const instructor = {
+  avatar:"🎨",
+  name:"deviolet",
+  role:"융합강사",
+  bio:"디자이너 출신으로 융합교육 석사를 전공하였으며, 7년 동안 AI 교육을 학교와 센터에서 병행하고 있습니다. 디자인적 사고를 바탕으로 기술과 창의성을 연결하는 융합 커리큘럼을 설계합니다.",
+  tags:["교육과정 설계","Teachable Machine","코딩 교육","피지컬 컴퓨팅","프롬프트 엔지니어링"],
+  stats:{courses:6,career:"7년+",rating:"준비중"},
+  courses:[
+    "이미지 인식 AI 만들기",
+    "AI 마케팅 카피 자동 생성 실습",
+    "Scratch로 피하기 게임 만들기",
+    "Canva로 나만의 로고 만들기",
+    "마이크로비트 IoT 온도 알림",
+    "업무 자동화 — 반복 메일 AI로 처리하기"
+  ]
+};
+
+/* ===== 렌더링 ===== */
+const container = document.getElementById("instructorCard");
+
+container.innerHTML = `
+  <div class="card">
+    <div class="top">
+      <div class="avatar">${instructor.avatar}</div>
+      <div>
+        <h2>${instructor.name}</h2>
+        <p class="role">${instructor.role}</p>
+      </div>
+    </div>
+
+    <p class="bio">${instructor.bio}</p>
+
+    <div class="tags">
+      ${instructor.tags.map(tag => `<span>#${tag}</span>`).join("")}
+    </div>
+
+    <div class="stats">
+      <div>📚 ${instructor.stats.courses}개 과정</div>
+      <div>⏳ ${instructor.stats.career}</div>
+      <div>⭐ ${instructor.stats.rating}</div>
+    </div>
+
+    <h4>강의 리스트</h4>
+    <ul class="course-list">
+      ${instructor.courses.map(c => `<li>${c}</li>`).join("")}
+    </ul>
+  </div>
+`;
+</script>
+
+<style>
+.instructor-card {
+  padding: 20px;
+}
+
+.card {
+  background: #111;
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* 상단 */
+.top {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.avatar {
+  font-size: 40px;
+  background: #222;
+  width: 60px;
+  height: 60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius: 50%;
+}
+
+.role {
+  color: #aaa;
+  margin-top: -8px;
+}
+
+/* 내용 */
+.bio {
+  margin: 15px 0;
+  line-height: 1.5;
+}
+
+/* 태그 */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tags span {
+  background: #222;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* 통계 */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+/* 강의 */
+.course-list {
+  margin-top: 10px;
+  padding-left: 18px;
+}
+
+.course-list li {
+  margin-bottom: 5px;
+}
+</style>
+         <!-- ✅ 강사 소개 끝-->
+        
       </div>
     </section>
   </div>
