@@ -144,8 +144,28 @@
     }
 
     @media (max-width:768px) {
-      .nav ul { display:none; }
-    }
+  body {
+    text-align:center;
+  }
+  .container {
+    padding:15px;
+  }
+  .nav ul {
+    display:none;
+  }
+  .site-header .container {
+    justify-content:center;
+  }       /*헤더 로고 중앙 배치*/
+    .projects-grid {
+    grid-template-columns:1fr;
+    justify-items:center;
+  }
+  .project-card {
+    max-width:300px;
+    width:100%;
+  }     /*카드형 레이아웃도 중앙 정렬*/
+}
+
   </style>
 </head>
 
