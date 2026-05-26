@@ -95,7 +95,8 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 .site-footer{text-align:center;padding:30px;background:#111827;color:#ccc;margin-top:80px;}
 </style>
 </head>
-<body>
+  
+<body>   <!--body start -->
 
 <header class="site-header">
   <div class="container nav">
@@ -140,11 +141,46 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
   <div class="container">
     <section class="section">
       <h2>수업 안내</h2>
-      <div class="projects-grid">
-        <div class="project-card"><h3>업무 자동화</h3></div>
-        <div class="project-card"><h3>피지컬 컴퓨팅</h3></div>
-        <div class="project-card"><h3>포트폴리오</h3></div>
-      </div>
+                  <!-- ✅ 프로젝트 영역 -->
+<div class="projects-grid">
+  <div class="project-card" id="auto">
+    <h3>업무 자동화</h3>
+    <div class="items"></div>
+  </div>
+
+  <div class="project-card" id="physical">
+    <h3>피지컬 컴퓨팅</h3>
+    <div class="items"></div>
+  </div>
+
+  <div class="project-card" id="portfolio">
+    <h3>포트폴리오</h3>
+    <div class="items"></div>
+  </div>
+</div>
+
+                   <!-- ✅ 상세 팝업 -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="closeBtn">&times;</span>
+    <h2 id="modalTitle"></h2>
+    <p id="modalDesc"></p>
+
+    <h4>📘 개념</h4>
+    <p id="modalConcept"></p>
+
+    <h4>🛠️ 단계</h4>
+    <ul id="modalSteps"></ul>
+
+    <h4>💻 코드</h4>
+    <pre id="modalCode"></pre>
+
+    <h4>✅ 결과</h4>
+    <p id="modalResult"></p>
+  </div>
+</div>
+
+      
     </section>
   </div>
 </div>
@@ -171,7 +207,8 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
   <div class="container">
     <section class="section">
       <h2>문의하기</h2>
-      <ul class="contact-list">
+      <ul class="contact-list"> 
+        <li>Contact:<a href="https://naver.me/5OltuzOE">About Lecture & Partnership </a></li>
         <li>Email: <a href="mailto:pnoa79@naver.com">pnoa79@naver.com</a></li>
         <li>GitHub: https://github.com/noapark</li>
       </ul>
@@ -180,7 +217,7 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 </div>
 
 <footer class="site-footer">
-  © 2026 Noa Park. All rights reserved.
+  © 2026 All rights reserved.
 </footer>
 
 <div id="toast"></div>
