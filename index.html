@@ -116,7 +116,7 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
     color: var(--gray-text);
   }
 
-  /* ===== CONTACT ===== */
+   /* ===== CONTACT ===== */
   .contact-list {
     list-style: none;
     margin-top: 30px;
@@ -343,69 +343,28 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
   </div>
 </div>
 
-<script>
-const instructor = {
-  avatar: "🎨",
-  name: "de violet : Noa Park",
-  role: "기술과 디자인을 연결하는 융합 강사",
-  bio: "디자이너 출신으로 융합교육 석사를 전공하였으며, 7년 동안 AI 교육을 학교와 센터에서 병행하고 있습니다. 디자인적 사고를 바탕으로 기술과 창의성을 연결하는 융합 커리큘럼을 설계합니다.",
-  tags: ["교육과정 설계", "코딩 교육", "피지컬 컴퓨팅", "현장형 AX"],
-  stats: { courses: 6, career: "7년+", rating: "준비중" },
-  courses: [
-    "절차적 사고 프로그래밍 수업",
-    "블로그 자동 생성 실습 및 적용",
-    "블록코딩으로 게임 만들기",
-    "생성형 AI 나만의 포트폴리오 만들기",
-    "피지컬 컴퓨팅 환경 프로젝트 IoT",
-    "업무 자동화 — 생성형 AI 에이전트 활용"
-  ]
-};
 
-/* ===== 렌더링 ===== */
-const container = document.getElementById("instructorCard");
-const instructorColor = instructorColors[instructor.name] || "#FFFFFF";
-  
-// 에러 방지: instructorColors가 없거나 해당 이름의 컬러가 없을 경우 기본 투명/기본값 처리
-const instructorColor = (typeof instructorColors !== 'undefined' && instructorColors[instructor.name]) || "rgba(79, 70, 229, 0.05)";
-
-container.innerHTML = `
-  <div class="card" style="background: var(--card-bg); border-radius: 24px; padding: 35px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); text-align: left; max-width: 750px; margin: 0 auto;">
-    
-    <!-- 상단 프로필 헤더 -->
-    <div class="top" style="display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 25px; margin-bottom: 25px;">
-      <div class="avatar" style="font-size: 40px; background: ${instructorColor}; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">${instructor.avatar}</div>
-      <div>
-        <h2 style="font-size: 24px; color: var(--dark); margin-bottom: 4px;">${instructor.name}</h2>
-        <p class="role" style="color: var(--primary); font-weight: 600; font-size: 15px;">${instructor.role}</p>
-      </div>
-    </div>
-
-    <!-- 소개글 -->
-    <p class="bio" style="font-size: 15px; line-height: 1.7; color: #4b5563; margin-bottom: 20px;">${instructor.bio}</p>
-
-    <!-- 태그 -->
-    <div class="tags" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px;">
-      ${instructor.tags.map(tag => `<span style="background: var(--primary-light); color: var(--primary); font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 30px;">#${tag}</span>`).join("")}
-    </div>
-
-    <div class="stats">
-      <div>📚 ${instructor.stats.courses}개 과정</div>
-      <div>⏳ ${instructor.stats.career}</div>
-      <div>⭐ ${instructor.stats.rating}</div>
-    </div>
-
-<!-- 강의 리스트 -->
-    <h4 style="font-size: 16px; color: var(--dark); margin-bottom: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px;">📖 담당 교육 과정</h4>
-    <ul class="course-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; list-style: none; padding: 0;">
-      ${instructor.courses.map(c => `
-        <li style="background: #f8fafc; border-left: 3px solid var(--primary); padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 14px; color: #374151; font-weight: 600; transition: transform 0.2s ease;">
-          ${c}
-        </li>
-      `).join("")}
-    </ul>
+<!-- 문의 페이지 -->
+<!-- ✅ 스탠드얼론 백틱(``) 제거 — HTML 파싱 오류 원인 -->
+<div class="page" id="page-contact">
+  <div class="container">
+    <section class="section">
+      <h2>문의하기</h2>
+      <ul class="contact-list"> 
+        <li>Contact : <a href="https://naver.me/5OltuzOE">About Lecture & Partnership </a></li>
+        <li>Email : <a href="mailto:pnoa79@naver.com">pnoa79@naver.com</a></li>
+        <li>GitHub : https://github.com/noapark</li>
+      </ul>
+    </section>
   </div>
-`;
-</script>
+</div>
+
+    <div id="toast"></div>
+
+<footer class="site-footer">
+  © 2026 All rights reserved.
+</footer>
+
 
 <style>
 .instructor-card {
@@ -478,27 +437,71 @@ container.innerHTML = `
   margin-bottom: 5px;
 }
 </style>
+  
 
-<!-- 문의 페이지 -->
-<div class="page" id="page-contact">
-  <div class="container">
-    <section class="section">
-      <h2>문의하기</h2>
-      <ul class="contact-list"> 
-        <li>Contact : <a href="https://naver.me/5OltuzOE">About Lecture & Partnership </a></li>
-        <li>Email : <a href="mailto:pnoa79@naver.com">pnoa79@naver.com</a></li>
-        <li>GitHub : https://github.com/noapark</li>
-      </ul>
-    </section>
+<script>
+/* ===== 강사 데이터 ===== */
+const instructor = {
+  avatar: "🎨",
+  name: "de violet : Noa Park",
+  role: "기술과 디자인을 연결하는 융합 강사",
+  bio: "디자이너 출신으로 융합교육 석사를 전공하였으며, 7년 동안 AI 교육을 학교와 센터에서 병행하고 있습니다. 디자인적 사고를 바탕으로 기술과 창의성을 연결하는 융합 커리큘럼을 설계합니다.",
+  tags: ["교육과정 설계", "코딩 교육", "피지컬 컴퓨팅", "현장형 AX"],
+  stats: { courses: 6, career: "7년+", rating: "준비중" },
+  courses: [
+    "절차적 사고 프로그래밍 수업",
+    "블로그 자동 생성 실습 및 적용",
+    "블록코딩으로 게임 만들기",
+    "생성형 AI 나만의 포트폴리오 만들기",
+    "피지컬 컴퓨팅 환경 프로젝트 IoT",
+    "업무 자동화 — 생성형 AI 에이전트 활용"
+  ]
+};
+
+/* ===== 렌더링 ===== */
+const container = document.getElementById("instructorCard");
+
+// ✅ 오류 수정 1: instructorColors 미선언 + const 중복 선언 → 단일 fallback 상수로 통합
+const instructorColor = "rgba(79, 70, 229, 0.05)";
+  
+container.innerHTML = `
+  <div class="card" style="background: var(--card-bg); border-radius: 24px; padding: 35px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); text-align: left; max-width: 750px; margin: 0 auto;">
+    
+    <!-- 상단 프로필 헤더 -->
+    <div class="top" style="display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 25px; margin-bottom: 25px;">
+      <div class="avatar" style="font-size: 40px; background: ${instructorColor}; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">${instructor.avatar}</div>
+      <div>
+        <h2 style="font-size: 24px; color: var(--dark); margin-bottom: 4px;">${instructor.name}</h2>
+        <p class="role" style="color: var(--primary); font-weight: 600; font-size: 15px;">${instructor.role}</p>
+      </div>
+    </div>
+
+    <!-- 소개글 -->
+    <p class="bio" style="font-size: 15px; line-height: 1.7; color: #4b5563; margin-bottom: 20px;">${instructor.bio}</p>
+
+    <!-- 태그 -->
+    <div class="tags" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px;">
+      ${instructor.tags.map(tag => `<span style="background: var(--primary-light); color: var(--primary); font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 30px;">#${tag}</span>`).join("")}
+    </div>
+
+    <div class="stats">
+      <div>📚 ${instructor.stats.courses}개 과정</div>
+      <div>⏳ ${instructor.stats.career}</div>
+      <div>⭐ ${instructor.stats.rating}</div>
+    </div>
+
+<!-- 강의 리스트 -->
+    <h4 style="font-size: 16px; color: var(--dark); margin-bottom: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px;">📖 담당 교육 과정</h4>
+    <ul class="course-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; list-style: none; padding: 0;">
+      ${instructor.courses.map(c => `
+        <li style="background: #f8fafc; border-left: 3px solid var(--primary); padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 14px; color: #374151; font-weight: 600; transition: transform 0.2s ease;">
+          ${c}
+        </li>
+      `).join("")}
+    </ul>
   </div>
-</div>
-``
-
-  <div id="toast"></div>
-
-<footer class="site-footer">
-  © 2026 All rights reserved.
-</footer>
+`;
+</script>
 
 <script>
                      /* 팝업주석 시작 */
@@ -619,30 +622,9 @@ function showToast(msg) {
   }, 2500);
 }
                    /* 팝업주석 끝 */
-  
-  function goPage(page, el) {
-    // 1. 모든 페이지 숨기기
-    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-    
-    // 2. 선택된 페이지 보이기
-    const targetPage = document.getElementById("page-" + page);
-    if (targetPage) {
-      targetPage.classList.add("active");
-    }
 
-    // 3. 네비게이션 버튼 활성화(색상 변경) 처리
-    document.querySelectorAll(".nav a").forEach(a => a.classList.remove("active"));
-    if(el) el.classList.add("active");
-
-    // 4. 페이지 상단으로 스크롤 이동
-    window.scrollTo(0,0);
-  }
-
-  function showToast(msg) {
-    // 간단한 알림창(alert)으로 작동하게 추가해 두었습니다.
-    // 추후 예쁜 UI로 수정하셔도 좋습니다.
-    alert(msg);
-  }
+// ✅ 오류 수정 3: goPage · showToast 중복 선언 제거
+// (alert 버전이 토스트 UI를 덮어씌우던 문제 해결 — 위 함수가 유일한 정의로 동작)
 </script>
 
 </body>
