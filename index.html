@@ -41,11 +41,27 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
   transform:translateY(0);
 }
 
-/* ===== SECTION ===== */
-.section{margin:80px 0;text-align:center;}
-.section h2{font-size:32px;margin-bottom:20px;}
-.section p{color:#666;}
-.section-head {margin-bottom:40px;}
+  /* ===== SECTION ===== */
+  .section {
+    margin: 60px 0;
+    text-align: center;
+  }
+  .section h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: var(--dark);
+  }
+  .section p {
+    color: var(--gray-text);
+  }
+  .section-head {
+    margin: 50px 0 30px 0;
+  }
+  .section-head h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
 
 /* ===== FEATURES ===== */
 .features-grid{
@@ -58,11 +74,11 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
   box-shadow:0 8px 20px rgba(0,0,0,0.05);
   transition:.3s;
 }
-.feat-card:hover{transform:translateY(-6px);}
-.feat-icon{font-size:32px;margin-bottom:10px;}
-.feat-card h3{color:#4f46e5;margin-bottom:8px;}
+.feat-icon {font-size: 32px;margin-bottom: 10px;display: inline-block;}
+.feat-card h3 {color: var(--primary);margin-bottom: 8px;font-size: 18px;}
+.feat-card p {font-size: 14px;color: var(--gray-text);}
 
-/* ===== COURSES ===== */
+  /* ===== COURSES (PROJECTS) ===== */
 .projects-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -75,113 +91,147 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 }
 .project-card:hover{transform:translateY(-8px);}
 
-/* ===== BUTTON ===== */
-.btn-primary {
-  display:inline-block;
-  background:#4F46E5;
-  color:white;
-  padding:12px 24px;
-  border-radius:8px;
-  text-decoration:none;
-  margin-top:20px;
-  border:none;
-  cursor:pointer;
-}
-
-/* ===== CONTACT ===== */
-.contact-list{list-style:none;margin-top:20px;}
-.contact-list li{margin:10px 0;}
-
-/* ===== FOOTER ===== */
-.site-footer{text-align:center;padding:30px;background:#111827;color:#ccc;margin-top:80px;}
-
-  /* ===== MINI CARD ===== */
-.mini-card{
-  background:#f8fafc;
-  border:1px solid #e5e7eb;
-  border-radius:12px;
-  padding:16px;
-  margin-top:15px;
-  cursor:pointer;
-  transition:.25s;
-}
-
-.mini-card:hover{
-  transform:translateY(-4px);
-  background:white;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
-
-.mini-card h4{
-  color:#4F46E5;
-  margin-bottom:8px;
-}
-
-/* ===== MODAL ===== */
-.modal{
-  display:none;
-  position:fixed;
-  z-index:999;
-  left:0;
-  top:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,.5);
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-}
-
-.modal-content{
-  background:white;
-  width:100%;
-  max-width:700px;
-  border-radius:20px;
-  padding:30px;
-  position:relative;
-  overflow-y:auto;
-  max-height:90vh;
-  text-align:left;
-  animation:popup .25s ease;
-}
-
-@keyframes popup{
-  from{
-    opacity:0;
-    transform:translateY(10px);
+ /* ===== MINI CARD ===== */
+  .mini-card {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: .25s ease;
   }
-  to{
-    opacity:1;
-    transform:translateY(0);
+  .mini-card:hover {
+    transform: translateY(-4px);
+    background: var(--card-bg);
+    border-color: var(--primary);
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.08);
   }
-}
+  .mini-card h4 {
+    color: var(--primary);
+    margin-bottom: 4px;
+    font-size: 16px;
+  }
+  .mini-card p {
+    font-size: 13px;
+    color: var(--gray-text);
+  }
 
-#closeBtn{
-  position:absolute;
-  right:20px;
-  top:15px;
-  font-size:28px;
-  cursor:pointer;
-  color:#666;
-}
+  /* ===== CONTACT ===== */
+  .contact-list {
+    list-style: none;
+    margin-top: 30px;
+    display: inline-block;
+    text-align: left;
+  }
+  .contact-list li {
+    margin: 14px 0;
+    font-size: 16px;
+  }
+  .contact-list a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .contact-list a:hover {
+    text-decoration: underline;
+  }
 
-.modal h2{
-  margin-bottom:10px;
-  color:#4F46E5;
-}
+  /* ===== MODAL ===== */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.4);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .modal-content {
+    background: var(--card-bg);
+    width: 100%;
+    max-width: 600px;
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    overflow-y: auto;
+    max-height: 90vh;
+    text-align: left;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    animation: popup .25s ease forwards;
+  }
 
-.modal h4{
-  margin-top:20px;
-  margin-bottom:10px;
-}
+  @keyframes popup {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-.modal pre{
-  background:#111827;
-  color:#f9fafb;
-  padding:16px;
-  border-radius:10px;
-  overflow:auto;
-}
+  #closeBtn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.2s;
+  }
+  #closeBtn:hover { color: #333; }
+
+  .modal h2 { margin-bottom: 6px; color: var(--primary); font-size: 24px; }
+  .modal #modalDesc { color: var(--gray-text); margin-bottom: 20px; font-size: 15px; }
+  .modal h4 { margin-top: 20px; margin-bottom: 8px; font-size: 16px; color: var(--dark); display: flex; align-items: center; gap: 6px;}
+  .modal p, .modal ul { font-size: 14px; color: #4b5563; padding-left: 4px; }
+  .modal ul { padding-left: 20px; }
+  .modal li { margin-bottom: 4px; }
+  .modal pre {
+    background: var(--dark);
+    color: #f9fafb;
+    padding: 14px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    margin-top: 5px;
+  }
+
+  /* ===== TOAST NOTIFICATION ===== */
+  #toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: var(--dark);
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 14px 24px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+  }
+  #toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ===== FOOTER ===== */
+  .site-footer {
+    text-align: center;
+    padding: 30px;
+    background: var(--dark);
+    color: #9ca3af;
+    margin-top: 80px;
+    font-size: 14px;
+  }
 </style>
 </head>
   
@@ -202,14 +252,9 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 <div class="page active" id="page-home">
   <div class="container">
     <section class="section">
-      <div>2026 최신 커리큘럼</div>
-      <br>
-      <h1>Learn Smarter, Build Faster 🚀</h1>
-      <br>
-      <p> AI · 코딩 · 디자인까지 실습 중심 교육<br>
-        누구나 쉽게 성장할 수 있는 수업을 제공합니다 </p>
-      
-      <br><br>
+      <div style="color: var(--primary); font-weight: 600; font-size: 14px; letter-spacing: 1px;">2026 최신 커리큘럼</div>
+      <h1 style="font-size: 42px; margin-top: 10px; letter-spacing: -1px;">Learn Smarter, Build Faster 🚀</h1>
+      <p style="margin-top: 15px; font-size: 18px;"> AI · 코딩 · 디자인까지 실습 중심 교육<br>누구나 쉽게 성장할 수 있는 수업을 제공합니다 </p>
       
       <div class="section-head">
         <h3>실습 없는 교육은 없습니다</h3>
@@ -225,54 +270,54 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
     </section>
   </div>
 </div>
+                  <!-- ✅ 프로젝트 영역 -->
 
 <div class="page" id="page-courses">
   <div class="container">
     <section class="section">
       <h2>수업 안내</h2>
-                  <!-- ✅ 프로젝트 영역 -->
-<div class="projects-grid">
-  <div class="project-card" id="auto">
-    <h3>업무 자동화</h3>
-    <div class="items"></div>
-  </div>
-
-  <div class="project-card" id="physical">
-    <h3>피지컬 컴퓨팅</h3>
-    <div class="items"></div>
-  </div>
-
-  <div class="project-card" id="portfolio">
-    <h3>포트폴리오</h3>
-    <div class="items"></div>
-  </div>
-</div>
-
-                   <!-- ✅ 상세 팝업 -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span id="closeBtn">&times;</span>
-    <h2 id="modalTitle"></h2>
-    <p id="modalDesc"></p>
-
-    <h4>📘 개념</h4>
-    <p id="modalConcept"></p>
-
-    <h4>🛠️ 단계</h4>
-    <ul id="modalSteps"></ul>
-
-    <h4>💻 코드</h4>
-    <pre id="modalCode"></pre>
-
-    <h4>✅ 결과</h4>
-    <p id="modalResult"></p>
-  </div>
-</div>
-
+      <p>카드를 클릭하시면 상세 커리큘럼 정보를 확인하실 수 있습니다.</p>
       
+      <div class="projects-grid">
+        <div class="project-card" id="auto">
+          <h3>업무 자동화</h3>
+          <div class="items"></div>
+        </div>
+
+        <div class="project-card" id="physical">
+          <h3>피지컬 컴퓨팅</h3>
+          <div class="items"></div>
+        </div>
+
+        <div class="project-card" id="portfolio">
+          <h3>포트폴리오</h3>
+          <div class="items"></div>
+        </div>
+      </div>
+                   <!-- ✅ 상세 팝업 -->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span id="closeBtn">&times;</span>
+          <h2 id="modalTitle"></h2>
+          <p id="modalDesc"></p>
+
+          <h4>📘 개념</h4>
+          <p id="modalConcept"></p>
+
+          <h4>🛠️ 단계</h4>
+          <ul id="modalSteps"></ul>
+
+          <h4>💻 코드</h4>
+          <pre id="modalCode"></pre>
+
+          <h4>✅ 결과</h4>
+          <p id="modalResult"></p>
+        </div>
+      </div>
     </section>
   </div>
 </div>
+ 
 
 <div class="page" id="page-instructors">
   <div class="container">
@@ -305,6 +350,8 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
   </div>
 </div>
 
+  <div id="toast"></div>
+
 <footer class="site-footer">
   © 2026 All rights reserved.
 </footer>
@@ -313,45 +360,43 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
                      /* 팝업주석 시작 */
 /* ===== DATA ===== */
 const posts = [
-  {id:1,cat:"ai",title:"이미지 인식 AI 만들기",desc:"Teachable Machine으로 AI 제작",
+  {id:1, cat:"ai", title:"이미지 인식 AI 만들기", desc:"Teachable Machine으로 AI 제작",
    concept:"이미지 분류 모델이 학습 후 예측함",
    steps:["사이트 접속","데이터 수집","학습","테스트"],
    code:"const model = await tmImage.load(...);",
    result:"고양이 94%"},
-  {id:2,cat:"ai",title:"업무 자동화 메일",desc:"AI 이메일 자동화",
+  {id:2, cat:"ai", title:"업무 자동화 메일", desc:"AI 이메일 자동화",
    concept:"LLM으로 텍스트 생성",
    steps:["API 발급","환경 세팅","자동화 연결"],
    code:"client.chat.completions.create()",
    result:"0.87초 생성"},
-  {id:3,cat:"block",title:"Scratch 게임",desc:"피하기 게임 만들기",
+  {id:3, cat:"block", title:"Scratch 게임", desc:"피하기 게임 만들기",
    concept:"조건 + 반복 구조",
    steps:["캐릭터 추가","이벤트 연결","충돌 처리"],
    code:"if touching => game over",
    result:"287점"},
-  {id:4,cat:"design",title:"로고 만들기",desc:"Canva 로고 디자인",
+  {id:4, cat:"design", title:"로고 만들기", desc:"Canva 로고 디자인",
    concept:"단순 + 기억성",
    steps:["템플릿 선택","색상 설정","내보내기"],
    code:":root { --color: #000 }",
    result:"PNG 완료"}
 ];
 
-/* ===== 컨테이너 ===== */
+/* ===== 컨테이너 매핑 ===== */
 const containers = {
   ai: document.querySelector("#auto .items"),
   block: document.querySelector("#physical .items"),
   design: document.querySelector("#portfolio .items")
 };
 
-/* ===== 카드 생성 ===== */
+/* ===== 카드 동적 생성 ===== */
 posts.forEach(post => {
   const card = document.createElement("div");
   card.className = "mini-card";
-
   card.innerHTML = `
     <h4>${post.title}</h4>
     <p>${post.desc}</p>
   `;
-
   card.addEventListener("click", () => openModal(post));
 
   if (containers[post.cat]) {
@@ -359,7 +404,7 @@ posts.forEach(post => {
   }
 });
 
-/* ===== 모달 ===== */
+/* ===== 모달 로직 ===== */
 const modal = document.getElementById("modal");
 const closeBtn = document.getElementById("closeBtn");
 
@@ -380,7 +425,8 @@ function openModal(post) {
 
   modal.style.display = "flex";
 }
-                /* java script */
+
+// 모달 닫기 이벤트들
 closeBtn.onclick = () => modal.style.display = "none";
 
 window.onclick = e => {
@@ -394,6 +440,40 @@ document.addEventListener("keydown", e => {
     modal.style.display = "none";
   }
 });
+  
+/* ===== 네비게이션 페이지 전환 ===== */
+function goPage(page, el) {
+  // 1. 모든 페이지 숨기기
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  
+  // 2. 선택된 페이지 보이기
+  const targetPage = document.getElementById("page-" + page);
+  if (targetPage) {
+    targetPage.classList.add("active");
+  }
+
+  // 3. 네비게이션 링크 활성화 상태 변경
+  document.querySelectorAll(".nav a").forEach(a => a.classList.remove("active"));
+  if(el) el.classList.add("active");
+
+  // 4. 페이지 상단으로 스크롤 이동
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+/* ===== 세련된 커스텀 토스트 시스템 ===== */
+let toastTimeout;
+function showToast(msg) {
+  const toast = document.getElementById("toast");
+  toast.innerText = msg;
+  toast.classList.add("show");
+  
+  // 기존 타이머 초기화 (연속 클릭 대응)
+  clearTimeout(toastTimeout);
+  
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+}
                    /* 팝업주석 끝 */
   
   function goPage(page, el) {
