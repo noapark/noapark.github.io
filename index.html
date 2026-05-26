@@ -535,13 +535,13 @@ const posts = [
    code:"const model = await tmImage.load(...);",
    result:"품질 상 제품 94% 수집"},
   
-{id:1, cat:"ai", title:"AI 기반 업무 자동화 시스템", desc:"이메일, 보고서, 일정 관리 등 반복 업무를 LLM과 API로 자동화",
+{id:2, cat:"ai", title:"AI 기반 업무 자동화 시스템", desc:"이메일, 보고서, 일정 관리 등 반복 업무를 LLM과 API로 자동화",
    concept:"자연어 처리 + 워크플로우 자동화",
    steps:["API 키 발급 및 환경 설정","자동화 시나리오 설계","학습","LLM 연결 및 테스트"],
    code:"const response = await client.chat.completions.create({ model: "gpt-4", messages: [{ role: "user", content: "보고서 요약해줘" }] });",
    result:"반복 업무 처리 시간 70% 단축"},
   
-  {id:2, cat:"ai", title:"업무 자동화 메일", desc:"AI 이메일 자동화",
+  {id:3, cat:"ai", title:"업무 자동화 메일", desc:"AI 이메일 자동화",
    concept:"LLM으로 텍스트 생성",
    steps:["API 발급","환경 세팅","자동화 연결"],
    code:"if (distance < 10) { motor.stop();digitalWrite(LED, HIGH);}",
@@ -553,7 +553,7 @@ const posts = [
    code:"if (distance < 10) { motor.stop();digitalWrite(LED, HIGH);}",
    result:"장애물 회피 로봇 완성"},
   
-  {id:4, cat:"blockcording", title:"알고리즘 게임", desc:"조건·반복 구조를 활용한 학습형 게임 제작",
+  {id:4, cat:"cording", title:"알고리즘 게임", desc:"조건·반복 구조를 활용한 학습형 게임 제작",
    concept:"이벤트 기반 프로그래밍","조건 + 반복 구조",
    steps:["캐릭터 추가","이벤트 연결","점수 및 게임 오버 구현"],
    code:"if <touching [enemy]> then stop all",
@@ -570,6 +570,7 @@ const posts = [
 const containers = {
   ai: document.querySelector("#auto .items"),
   block: document.querySelector("#physical .items"),
+  cording: document.querySelector("#blockcording .items"),
   design: document.querySelector("#portfolio .items")
 };
 
