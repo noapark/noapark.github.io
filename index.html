@@ -170,8 +170,15 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 </footer>
 
 <script>
-function goPage(page){
-  // 페이지 변경
+
+function goPage(page, el){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById("page-"+page).classList.add("active");
+
+  document.querySelectorAll(".nav a").forEach(a=>a.classList.remove("active"));
+  if(el) el.classList.add("active");
+
+  window.scrollTo(0,0);
+}
+
 
