@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,16 +19,15 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 .container{max-width:1100px;margin:auto;padding:20px;}
 
 /* ===== NAV ===== */
-.site-header{background:white;box-shadow:0 2px 10px rgba(0,0,0,0.05);position:sticky;top:0;}
+.site-header{background:white;box-shadow:0 2px 10px rgba(0,0,0,0.05);position:sticky;top:0; z-index: 100;}
 .site-header .container{display:flex;justify-content:space-between;align-items:center;}
-.logo{font-weight:700;font-size:22px;color:#4f46e5;}
+.logo{font-weight:700;font-size:22px;color:#4f46e5;cursor:pointer;}
 
 .nav ul{display:flex;gap:20px;list-style:none;}
-.nav a{cursor:pointer;text-decoration:none;color:#555;}
+.nav a{cursor:pointer;text-decoration:none;color:#555;font-size:16px;background:none;border:none;padding:5px 10px;}
 .nav a.active{color:#4f46e5;font-weight:700;}
 
-  
-                 /* ===== PAGE SYSTEM ===== */
+/* ===== PAGE SYSTEM ===== */
 .page {
   display:none;
   opacity:0;
@@ -46,6 +44,7 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 .section{margin:80px 0;text-align:center;}
 .section h2{font-size:32px;margin-bottom:20px;}
 .section p{color:#666;}
+.section-head {margin-bottom:40px;}
 
 /* ===== FEATURES ===== */
 .features-grid{
@@ -76,15 +75,17 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 .project-card:hover{transform:translateY(-8px);}
 
 /* ===== BUTTON ===== */
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(181,136,74,.15);
-  border:1px solid rgba(181,136,74,.35);
-  color:#d4a96a;border-radius:99px;
-  padding:11px 28px;font-size:.88rem;
-  font-weight:700;cursor:pointer;
+.btn-primary {
+  display:inline-block;
+  background:#4F46E5;
+  color:white;
+  padding:12px 24px;
+  border-radius:8px;
+  text-decoration:none;
+  margin-top:20px;
+  border:none;
+  cursor:pointer;
 }
-.hero-badge:hover{transform:translateY(-2px);}
 
 /* ===== CONTACT ===== */
 .contact-list{list-style:none;margin-top:20px;}
@@ -92,49 +93,34 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 
 /* ===== FOOTER ===== */
 .site-footer{text-align:center;padding:30px;background:#111827;color:#ccc;margin-top:80px;}
-
 </style>
 </head>
 <body>
-<!-- NAV -->
 
-<nav>
-  <div>
-    <div onclick="showToast('만나서 반갑습니다!')">[ ]</div>
-
-    <div>
-      <button onclick="goPage('home')" data-page="home">소개</button>
-      <button onclick="goPage('courses')" data-page="courses">강의</button>
-      <button onclick="goPage('instructors')" data-page="instructors">강사</button>
-      <button onclick="goPage('instructors')" data-page="contact">문의</button>
-    </div>
+<header class="site-header">
+  <div class="container nav">
+    <div class="logo" onclick="showToast('만나서 반갑습니다!')">[ ]</div>
+    <ul>
+      <li><a class="active" onclick="goPage('home', this)">소개</a></li>
+      <li><a onclick="goPage('courses', this)">강의</a></li>
+      <li><a onclick="goPage('instructors', this)">강사</a></li>
+      <li><a onclick="goPage('contact', this)">문의</a></li>
+    </ul>
   </div>
-</nav>
+</header>
 
-
-<!-- ===== HOME ===== -->
 <div class="page active" id="page-home">
-  
   <div class="container">
-
     <section class="section">
-          <div>2026 최신 커리큘럼</div>
+      <div>2026 최신 커리큘럼</div>
+      <br>
       <h1>Learn Smarter, Build Faster 🚀</h1>
+      <br>
       <p> AI · 코딩 · 디자인까지 실습 중심 교육<br>
         누구나 쉽게 성장할 수 있는 수업을 제공합니다 </p>
-
-    <div>
-      <div>
-        <div>4개</div>
-        <div>핵심 분야</div>
-      </div>
-      <div>
-        <div>🌱</div>
-        <div>수강생 모집중</div>
-      </div>
-    </div>
-
-  <!-- FEATURES -->
+      
+      <br><br>
+      
       <div class="section-head">
         <h3>실습 없는 교육은 없습니다</h3>
         <p>모든 강의는 이론과 실습을 1:1 비율로 설계합니다</p>
@@ -147,62 +133,46 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
         <div class="feat-card"><span class="feat-icon">🎨</span><h3>디자인 × 기술 융합</h3><p>디자이너 출신 강사가 설계한 시각적 사고 + 기술 융합 커리큘럼을 경험하세요.</p></div>
       </div>
     </section>
-
   </div>
 </div>
 
-<!-- ===== COURSES ===== -->
-<div class="page" id="courses">
+<div class="page" id="page-courses">
   <div class="container">
     <section class="section">
       <h2>수업 안내</h2>
-
       <div class="projects-grid">
         <div class="project-card"><h3>업무 자동화</h3></div>
         <div class="project-card"><h3>피지컬 컴퓨팅</h3></div>
         <div class="project-card"><h3>포트폴리오</h3></div>
       </div>
-
     </section>
   </div>
 </div>
 
-  <!-- INSTRUCTOR PREVIEW -->
-<div class="page" id="instructor">
+<div class="page" id="page-instructors">
   <div class="container">
-
-  <section>
-    <h2>강사 소개</h2>
-    <div id="homeInstGrid"></div>
-    <button onclick="goPage('instructors')">강사 프로필 보기</button>
-  </section>
-
+    <section class="section">
+      <div>강사 소개</div>
+      <h2>현직 전문가와 만나세요</h2>
+      <p>7년 이상 경험의 융합 강사</p>
+      
+      <div class="projects-grid">
+        <div class="project-card">
+          <h3>Noa Park</h3>
+          <p>디자인과 기술을 연결하는 에듀케이터</p>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
-
-
-<!-- ===== INSTRUCTORS ===== -->
-<div class="page" id="page-instructors">
-
-  <section>
-    <div>강사 소개</div>
-    <h1>현직 전문가와 만나세요</h1>
-    <p>7년 이상 경험 강사</p>
-  </section>
-
-  <section>
-    <div id="instructorsGrid"></div>
-  </section>
-
-</div>
   
-<!-- ===== CONTACT ===== -->
-<div class="page" id="contact">
+<div class="page" id="page-contact">
   <div class="container">
     <section class="section">
       <h2>문의하기</h2>
       <ul class="contact-list">
-        <li><a href="https://naver.me/5OltuzOE">문의하기</a></li>
+        <li><a href="https://naver.me/5OltuzOE" target="_blank" class="btn-primary">수강 문의 폼 작성하기</a></li>
+        <br>
         <li>Email: pnoa79@naver.com</li>
       </ul>
     </section>
@@ -210,22 +180,36 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 </div>
 
 <footer class="site-footer">
-  © 2026 . All rights reserved.
+  © 2026 Noa Park. All rights reserved.
 </footer>
 
-<script>
-
-function goPage(page, el){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById("page-"+page).classList.add("active");
-
-  document.querySelectorAll(".nav a").forEach(a=>a.classList.remove("active"));
-  if(el) el.classList.add("active");
-
-  window.scrollTo(0,0);
-}
-
 <div id="toast"></div>
+
+<script>
+  function goPage(page, el) {
+    // 1. 모든 페이지 숨기기
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    
+    // 2. 선택된 페이지 보이기
+    const targetPage = document.getElementById("page-" + page);
+    if (targetPage) {
+      targetPage.classList.add("active");
+    }
+
+    // 3. 네비게이션 버튼 활성화(색상 변경) 처리
+    document.querySelectorAll(".nav a").forEach(a => a.classList.remove("active"));
+    if(el) el.classList.add("active");
+
+    // 4. 페이지 상단으로 스크롤 이동
+    window.scrollTo(0,0);
+  }
+
+  function showToast(msg) {
+    // 간단한 알림창(alert)으로 작동하게 추가해 두었습니다.
+    // 추후 예쁜 UI로 수정하셔도 좋습니다.
+    alert(msg);
+  }
+</script>
 
 </body>
 </html>
