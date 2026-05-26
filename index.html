@@ -223,6 +223,83 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 <div id="toast"></div>
 
 <script>
+                     /* 팝업주석 시작 */
+/* ===== DATA ===== */
+const posts = [
+  {id:1,cat:"ai",title:"이미지 인식 AI 만들기",desc:"Teachable Machine으로 AI 제작",
+   concept:"이미지 분류 모델이 학습 후 예측함",
+   steps:["사이트 접속","데이터 수집","학습","테스트"],
+   code:"const model = await tmImage.load(...);",
+   result:"고양이 94%"},
+  {id:2,cat:"ai",title:"업무 자동화 메일",desc:"AI 이메일 자동화",
+   concept:"LLM으로 텍스트 생성",
+   steps:["API 발급","환경 세팅","자동화 연결"],
+   code:"client.chat.completions.create()",
+   result:"0.87초 생성"},
+  {id:3,cat:"block",title:"Scratch 게임",desc:"피하기 게임 만들기",
+   concept:"조건 + 반복 구조",
+   steps:["캐릭터 추가","이벤트 연결","충돌 처리"],
+   code:"if touching => game over",
+   result:"287점"},
+  {id:4,cat:"design",title:"로고 만들기",desc:"Canva 로고 디자인",
+   concept:"단순 + 기억성",
+   steps:["템플릿 선택","색상 설정","내보내기"],
+   code:":root { --color: #000 }",
+   result:"PNG 완료"}
+];
+
+/* ===== 컨테이너 ===== */
+const containers = {
+  ai: document.querySelector("#auto .items"),
+  block: document.querySelector("#physical .items"),
+  design: document.querySelector("#portfolio .items")
+};
+
+/* ===== 카드 생성 ===== */
+posts.forEach(post => {
+  const card = document.createElement("div");
+  card.className = "mini-card";
+
+  card.innerHTML = `
+    <h4>${post.title}</h4>
+    <p>${post.desc}</p>
+  `;
+
+  card.addEventListener("click", () => openModal(post));
+
+  if (containers[post.cat]) {
+    containers[post.cat].appendChild(card);
+  }
+});
+
+/* ===== 모달 ===== */
+const modal = document.getElementById("modal");
+const closeBtn = document.getElementById("closeBtn");
+
+function openModal(post) {
+  document.getElementById("modalTitle").innerText = post.title;
+  document.getElementById("modalDesc").innerText = post.desc;
+  document.getElementById("modalConcept").innerText = post.concept;
+  document.getElementById("modalCode").innerText = post.code;
+  document.getElementById("modalResult").innerText = post.result;
+
+  const stepsEl = document.getElementById("modalSteps");
+  stepsEl.innerHTML = "";
+  post.steps.forEach(step => {
+    const li = document.createElement("li");
+    li.textContent = step;
+    stepsEl.appendChild(li);
+  });
+
+  modal.style.display = "flex";
+}
+
+closeBtn.onclick = () => modal.style.display = "none";
+window.onclick = e => {
+  if (e.target === modal) modal.style.display = "none";
+};
+                   /* 팝업주석 끝 */
+  
   function goPage(page, el) {
     // 1. 모든 페이지 숨기기
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
