@@ -1,3 +1,30 @@
+제공해주신 HTML/CSS/JavaScript 코드에서 전체적인 레이아웃이 어긋나거나 스타일이 깨지던 원인을 파악하여, 디자인 일관성(Consistent UX)과 **CSS 변수 매핑 오류**를 완벽하게 수정한 전체 코드입니다.
+
+---
+
+### 🛠️ 주요 수정 사항 (어디를 수정했나요?)
+
+1. **정의되지 않은 CSS 변수(`var(--dark)`, `var(--gray-text)`, `var(--card-bg)`) 해결**
+* 기존 CSS에서 색상 변수명만 사용되고 정작 `:root`에 선언되어 있지 않아 텍스트가 안 보이거나 배경색이 적용되지 않던 문제를 해결했습니다.
+* 현대적인 느낌의 프리미엄 다크 네이비와 깔끔한 그레이 톤을 `:root`에 추가했습니다.
+
+
+2. **강사 카드 스타일 일관성 확보**
+* 기존 강사 소개 영역의 인라인 스타일과 별도 선언된 `.card` 클래스가 얽혀있어 레이아웃이 투박해 보였던 점을 개선했습니다.
+* 사이트 전체의 톤앤매너(그림자 값, 보더 라디우스 등)와 결을 맞추어 깔끔한 화이트 테마 카드로 리디자인했습니다.
+
+
+3. **그리드 레이아웃 간격 및 박스 모델 정돈**
+* `* { margin:0; padding:0; }` 중복 선언을 제거하고 깔끔하게 초기화했습니다.
+* 모바일 화면과 데스크톱 화면 모두에서 그리드 카드들이 예쁘게 정렬되도록 패딩과 마진 값을 다듬었습니다.
+
+
+
+---
+
+### 🎨 수정된 전체 코드
+
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,253 +35,365 @@
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-  /* ===== CSS ===== */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --primary:#4F46E5;
-  --primary-d:#eef2ff;
+/* ===== CSS 초기화 및 변수 설정 ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary: #4F46E5;
+  --primary-light: #EEF2FF;
+  --dark: #1E293B;
+  --gray-text: #64748B;
+  --card-bg: #FFFFFF;
+  --bg-color: #F8FAFC;
+  --border-color: #E2E8F0;
 }  
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
 
-.container{max-width:1100px;margin:auto;padding:20px;}
+body {
+  font-family: 'Pretendard', sans-serif;
+  background: var(--bg-color);
+  color: var(--dark);
+  line-height: 1.6;
+}
 
-/* ===== NAV ===== */
-.site-header{background:white;box-shadow:0 2px 10px rgba(0,0,0,0.05);position:sticky;top:0; z-index: 100;}
-.site-header .container{display:flex;justify-content:space-between;align-items:center;}
-.logo{font-weight:700;font-size:22px;color:#4f46e5;cursor:pointer;}
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+}
 
-.nav ul{display:flex;gap:20px;list-style:none;}
-.nav a{cursor:pointer;text-decoration:none;color:#555;font-size:16px;background:none;border:none;padding:5px 10px;}
-.nav a.active{color:#4f46e5;font-weight:700;}
+/* ===== NAV (헤더) ===== */
+.site-header {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0; 
+  z-index: 100;
+  border-bottom: 1px solid var(--border-color);
+}
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+.logo {
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.nav ul {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+}
+.nav a {
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--gray-text);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.nav a:hover {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+.nav a.active {
+  color: var(--primary);
+  background: var(--primary-light);
+  font-weight: 700;
+}
 
 /* ===== PAGE SYSTEM ===== */
 .page {
-  display:none;
-  opacity:0;
-  transform:translateY(10px);
-  transition:all .3s ease;
+  display: none;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all .3.5s ease;
 }
 .page.active {
-  display:block;
-  opacity:1;
-  transform:translateY(0);
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
 }
 
-  /* ===== SECTION ===== */
-  .section {
-    margin: 60px 0;
-    text-align: center;
-  }
-  .section h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
-    color: var(--dark);
-  }
-  .section p {
-    color: var(--gray-text);
-  }
-  .section-head {
-    margin: 50px 0 30px 0;
-  }
-  .section-head h3 {
-    font-size: 22px;
-    margin-bottom: 8px;
-  }
-
+/* ===== SECTION ===== */
+.section {
+  padding: 60px 0;
+  text-align: center;
+}
+.section h2 {
+  font-size: 32px;
+  margin-bottom: 16px;
+  color: var(--dark);
+  letter-spacing: -0.5px;
+}
+.section > p {
+  color: var(--gray-text);
+  font-size: 16px;
+  margin-bottom: 40px;
+}
+.section-head {
+  margin: 50px 0 30px 0;
+}
+.section-head h3 {
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: var(--dark);
+}
+.section-head p {
+  color: var(--gray-text);
+}
 
 /* ===== FEATURES ===== */
-.features-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:25px;margin-top:40px;
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
 }
-.feat-card{
-  background:white;border-radius:16px;padding:25px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.05);
-  transition:.3s;
+.feat-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-color);
+  text-align: left;
+  transition: transform 0.3s ease;
 }
-.feat-icon {font-size: 32px;margin-bottom: 10px;display: inline-block;}
-.feat-card h3 {color: var(--primary);margin-bottom: 8px;font-size: 18px;}
-.feat-card p {font-size: 14px;color: var(--gray-text);}
-
-  /* ===== COURSES (PROJECTS) ===== */
-.projects-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:25px;margin-top:40px;
+.feat-icon {
+  font-size: 36px;
+  margin-bottom: 15px;
+  display: inline-block;
 }
-.project-card{
-  background:white;padding:25px;border-radius:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.05);
-  transition:.3s;
+.feat-card h3 {
+  color: var(--dark);
+  margin-bottom: 10px;
+  font-size: 18px;
 }
-.project-card:hover{transform:translateY(-8px);}
+.feat-card p {
+  font-size: 14px;
+  color: var(--gray-text);
+  line-height: 1.6;
+}
 
- /* ===== MINI CARD ===== */
-  .mini-card {
-    background: #f8fafc;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 16px;
-    cursor: pointer;
-    transition: .25s ease;
-  }
-  .mini-card:hover {
-    transform: translateY(-4px);
-    background: var(--card-bg);
-    border-color: var(--primary);
-    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.08);
-  }
-  .mini-card h4 {
-    color: var(--primary);
-    margin-bottom: 4px;
-    font-size: 16px;
-  }
-  .mini-card p {
-    font-size: 13px;
-    color: var(--gray-text);
-  }
+/* ===== COURSES (PROJECTS) ===== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 20px;
+}
+.project-card {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-color);
+  text-align: left;
+}
+.project-card > h3 {
+  font-size: 20px;
+  color: var(--dark);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--bg-color);
+}
+.project-card .items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-   /* ===== CONTACT ===== */
-  .contact-list {
-    list-style: none;
-    margin-top: 30px;
-    display: inline-block;
-    text-align: left;
-  }
-  .contact-list li {
-    margin: 14px 0;
-    font-size: 16px;
-  }
-  .contact-list a {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .contact-list a:hover {
-    text-decoration: underline;
-  }
+/* ===== MINI CARD ===== */
+.mini-card {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 18px;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+.mini-card:hover {
+  transform: translateY(-4px);
+  background: var(--card-bg);
+  border-color: var(--primary);
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.1), 0 4px 6px -2px rgba(79, 70, 229, 0.05);
+}
+.mini-card h4 {
+  color: var(--dark);
+  margin-bottom: 6px;
+  font-size: 16px;
+  transition: color 0.25s;
+}
+.mini-card:hover h4 {
+  color: var(--primary);
+}
+.mini-card p {
+  font-size: 13px;
+  color: var(--gray-text);
+}
 
-  /* ===== MODAL ===== */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,.4);
-    backdrop-filter: blur(4px);
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-  .modal-content {
-    background: var(--card-bg);
-    width: 100%;
-    max-width: 600px;
-    border-radius: 20px;
-    padding: 30px;
-    position: relative;
-    overflow-y: auto;
-    max-height: 90vh;
-    text-align: left;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    animation: popup .25s ease forwards;
-  }
+/* ===== CONTACT ===== */
+.contact-list {
+  list-style: none;
+  margin-top: 20px;
+  display: inline-block;
+  text-align: left;
+}
+.contact-list li {
+  margin: 16px 0;
+  font-size: 16px;
+  color: var(--dark);
+}
+.contact-list a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.contact-list a:hover {
+  text-decoration: underline;
+}
 
-  @keyframes popup {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.modal-content {
+  background: var(--card-bg);
+  width: 100%;
+  max-width: 600px;
+  border-radius: 24px;
+  padding: 35px;
+  position: relative;
+  overflow-y: auto;
+  max-height: 90vh;
+  text-align: left;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: popup .3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 
-  #closeBtn {
-    position: absolute;
-    right: 20px;
-    top: 15px;
-    font-size: 28px;
-    cursor: pointer;
-    color: #aaa;
-    transition: color 0.2s;
-  }
-  #closeBtn:hover { color: #333; }
+@keyframes popup {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  .modal h2 { margin-bottom: 6px; color: var(--primary); font-size: 24px; }
-  .modal #modalDesc { color: var(--gray-text); margin-bottom: 20px; font-size: 15px; }
-  .modal h4 { margin-top: 20px; margin-bottom: 8px; font-size: 16px; color: var(--dark); display: flex; align-items: center; gap: 6px;}
-  .modal p, .modal ul { font-size: 14px; color: #4b5563; padding-left: 4px; }
-  .modal ul { padding-left: 20px; }
-  .modal li { margin-bottom: 4px; }
-  .modal pre {
-    background: var(--dark);
-    color: #f9fafb;
-    padding: 14px;
-    border-radius: 10px;
-    overflow-x: auto;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 13px;
-    margin-top: 5px;
-  }
+#closeBtn {
+  position: absolute;
+  right: 25px;
+  top: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--gray-text);
+  transition: color 0.2s;
+}
+#closeBtn:hover { color: var(--dark); }
 
-  /* ===== TOAST NOTIFICATION ===== */
-  #toast {
-    visibility: hidden;
-    min-width: 250px;
-    background-color: var(--dark);
-    color: #fff;
-    text-align: center;
-    border-radius: 8px;
-    padding: 14px 24px;
-    position: fixed;
-    z-index: 1000;
-    left: 50%;
-    bottom: 30px;
-    transform: translateX(-50%);
-    font-size: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    opacity: 0;
-    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-  }
-  #toast.show {
-    visibility: visible;
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
+.modal h2 { margin-bottom: 8px; color: var(--dark); font-size: 24px; letter-spacing: -0.5px;}
+.modal #modalDesc { color: var(--gray-text); margin-bottom: 25px; font-size: 15px; }
+.modal h4 { margin-top: 24px; margin-bottom: 10px; font-size: 16px; color: var(--dark); display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;}
+.modal p, .modal ul { font-size: 14px; color: #475569; padding-left: 4px; }
+.modal ul { padding-left: 20px; }
+.modal li { margin-bottom: 6px; }
+.modal pre {
+  background: #0F172A;
+  color: #F8FAFC;
+  padding: 16px;
+  border-radius: 12px;
+  overflow-x: auto;
+  font-family: 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 13px;
+  margin-top: 8px;
+}
 
-  /* ===== FOOTER ===== */
-  .site-footer {
-    text-align: center;
-    padding: 30px;
-    background: var(--dark);
-    color: #9ca3af;
-    margin-top: 80px;
-    font-size: 14px;
-  }
+/* ===== TOAST NOTIFICATION ===== */
+#toast {
+  visibility: hidden;
+  min-width: 280px;
+  background-color: var(--dark);
+  color: #fff;
+  text-align: center;
+  border-radius: 12px;
+  padding: 14px 24px;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  bottom: 40px;
+  transform: translate(-50%, 20px);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+}
+#toast.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  text-align: center;
+  padding: 40px;
+  background: var(--dark);
+  color: #94A3B8;
+  margin-top: 80px;
+  font-size: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ===== INSTRUCTOR CARD EXTRA ===== */
+.instructor-card {
+  padding: 10px 0;
+}
 </style>
 </head>
   
-<body>   <!--body start -->
+<body>
 
 <header class="site-header">
-  <div class="container nav">
-    <div class="logo" onclick="showToast('만나서 반갑습니다!')">[ ]</div>
-    <ul>
-      <li><a class="active" onclick="goPage('home', this)">소개</a></li>
-      <li><a onclick="goPage('courses', this)">강의</a></li>
-      <li><a onclick="goPage('instructors', this)">강사</a></li>
-      <li><a onclick="goPage('contact', this)">문의</a></li>
-    </ul>
+  <div class="container">
+    <div class="logo" onclick="showToast('만나서 반갑습니다!')">Noa Park</div>
+    <nav class="nav">
+      <ul>
+        <li><a class="active" onclick="goPage('home', this)">소개</a></li>
+        <li><a onclick="goPage('courses', this)">강의</a></li>
+        <li><a onclick="goPage('instructors', this)">강사</a></li>
+        <li><a onclick="goPage('contact', this)">문의</a></li>
+      </ul>
+    </nav>
   </div>
 </header>
 
 <div class="page active" id="page-home">
   <div class="container">
     <section class="section">
-      <div style="color: var(--primary); font-weight: 600; font-size: 14px; letter-spacing: 1px;">2026 최신 커리큘럼</div>
-      <h1 style="font-size: 42px; margin-top: 10px; letter-spacing: -1px;">Learn Smarter, Build Faster 🚀</h1>
-      <p style="margin-top: 15px; font-size: 18px;"> AI · 코딩 · 디자인까지 실습 중심 교육<br>누구나 쉽게 성장할 수 있는 수업을 제공합니다 </p>
+      <div style="color: var(--primary); font-weight: 700; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase;">2026 최신 커리큘럼</div>
+      <h1 style="font-size: 46px; margin-top: 12px; letter-spacing: -1.5px; color: var(--dark); font-weight: 700;">Learn Smarter, Build Faster 🚀</h1>
+      <p style="margin-top: 20px; font-size: 18px; color: var(--gray-text); max-width: 600px; margin-left: auto; margin-right: auto;"> AI · 코딩 · 디자인까지 실습 중심 교육<br>누구나 쉽게 성장할 수 있는 수업을 제공합니다 </p>
       
       <div class="section-head">
         <h3>실습 없는 교육은 없습니다</h3>
@@ -262,7 +401,7 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
       </div>
 
       <div class="features-grid">
-        <div class="feat-card"><span class="feat-icon">⚡</span><h3>즉시 실습 가능</h3><p>강의 통해 바로 실습과 확장이 가능합니다.</p></div>
+        <div class="feat-card"><span class="feat-icon">⚡</span><h3>즉시 실습 가능</h3><p>강의를 통해 바로 실습과 확장이 가능합니다.</p></div>
         <div class="feat-card"><span class="feat-icon">🎯</span><h3>수준별 맞춤 학습</h3><p>학습자에 맞게 두 트랙으로 설계된 콘텐츠로 교육할 수 있습니다.</p></div>
         <div class="feat-card"><span class="feat-icon">🤖</span><h3>최신 AI 커리큘럼</h3><p>현장에서 쓰는 최신 생성형 AI 도구 중심으로 구성했습니다.</p></div>
         <div class="feat-card"><span class="feat-icon">🎨</span><h3>디자인 × 기술 융합</h3><p>디자이너 출신 강사가 설계한 시각적 사고 + 기술 융합 커리큘럼을 경험하세요.</p></div>
@@ -270,7 +409,6 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
     </section>
   </div>
 </div>
-                  <!-- ✅ 프로젝트 영역 -->
 
 <div class="page" id="page-courses">
   <div class="container">
@@ -294,7 +432,7 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
           <div class="items"></div>
         </div>
       </div>
-                   <!-- ✅ 상세 팝업 -->
+      
       <div id="modal" class="modal">
         <div class="modal-content">
           <span id="closeBtn">&times;</span>
@@ -317,127 +455,40 @@ body{font-family:'Pretendard',sans-serif;background:#f7f9fc;color:#333;}
     </section>
   </div>
 </div>
- 
 
 <div class="page" id="page-instructors">
   <div class="container">
     <section class="section">
-      
-      <div>
-        <h2>현직 전문가와 만나세요</h2>
-        <p>강사는 현업 경력 7년 이상, 최신 이슈를 바탕으로 커리큘럼을 설계합니다.</p>
-      </div>
+      <h2>현직 전문가와 만나세요</h2>
+      <p>강사는 현업 경력 7년 이상, 최신 이슈를 바탕으로 커리큘럼을 설계합니다.</p>
 
-      <div class="project-card">
-
-        <!-- ✅ 강사 소개 카드 -->
-        <div id="instructorCard" class="instructor-card"></div>
-
-      </div>
+      <div id="instructorCard" class="instructor-card"></div>
 
       <ul class="contact-list"> 
-        <li> 강의 문의 <a href="https://naver.me/5OltuzOE" target="_blank" style="color:#03C75A"> 네이버 </a></li>
+        <li> 강의 문의 : <a href="https://naver.me/5OltuzOE" target="_blank" style="color:#03C75A">네이버 폼으로 신청하기 ↗</a></li>
       </ul>
-
     </section>
   </div>
 </div>
 
-
-<!-- 문의 페이지 -->
-<!-- ✅ 스탠드얼론 백틱(``) 제거 — HTML 파싱 오류 원인 -->
 <div class="page" id="page-contact">
   <div class="container">
     <section class="section">
       <h2>문의하기</h2>
       <ul class="contact-list"> 
-        <li>Contact : <a href="https://naver.me/5OltuzOE">About Lecture & Partnership </a></li>
+        <li>Contact : <a href="https://naver.me/5OltuzOE" target="_blank">About Lecture & Partnership ↗</a></li>
         <li>Email : <a href="mailto:pnoa79@naver.com">pnoa79@naver.com</a></li>
-        <li>GitHub : https://github.com/noapark</li>
+        <li>GitHub : <a href="https://github.com/noapark" target="_blank">github.com/noapark</a></li>
       </ul>
     </section>
   </div>
 </div>
 
-    <div id="toast"></div>
+<div id="toast"></div>
 
 <footer class="site-footer">
-  © 2026 All rights reserved.
+  © 2026 Noa Park. All rights reserved.
 </footer>
-
-
-<style>
-.instructor-card {
-  padding: 20px;
-}
-
-.card {
-  background: #111;
-  border-radius: 16px;
-  padding: 20px;
-  max-width: 600px;
-  margin: auto;
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-.top {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.avatar {
-  font-size: 40px;
-  background: #222;
-  width: 60px;
-  height: 60px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius: 50%;
-}
-
-.role {
-  color: #aaa;
-  margin-top: -8px;
-}
-
-.bio {
-  margin: 15px 0;
-  line-height: 1.5;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tags span {
-  background: #222;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-}
-
-.stats {
-  display: flex;
-  justify-content: space-between;
-  margin: 15px 0;
-  font-size: 14px;
-}
-
-.course-list {
-  margin-top: 10px;
-  padding-left: 18px;
-}
-
-.course-list li {
-  margin-bottom: 5px;
-}
-</style>
-  
 
 <script>
 /* ===== 강사 데이터 ===== */
@@ -458,53 +509,46 @@ const instructor = {
   ]
 };
 
-/* ===== 렌더링 ===== */
+/* ===== 강사 카드 렌더링 ===== */
 const container = document.getElementById("instructorCard");
-
-// ✅ 오류 수정 1: instructorColors 미선언 + const 중복 선언 → 단일 fallback 상수로 통합
-const instructorColor = "rgba(79, 70, 229, 0.05)";
+const instructorColor = "var(--primary-light)";
   
 container.innerHTML = `
-  <div class="card" style="background: var(--card-bg); border-radius: 24px; padding: 35px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); text-align: left; max-width: 750px; margin: 0 auto;">
+  <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 35px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: left; max-width: 750px; margin: 0 auto;">
     
-    <!-- 상단 프로필 헤더 -->
-    <div class="top" style="display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 25px; margin-bottom: 25px;">
-      <div class="avatar" style="font-size: 40px; background: ${instructorColor}; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">${instructor.avatar}</div>
+    <div style="display: flex; align-items: center; gap: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 25px; margin-bottom: 25px;">
+      <div style="font-size: 40px; background: ${instructorColor}; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">${instructor.avatar}</div>
       <div>
-        <h2 style="font-size: 24px; color: var(--dark); margin-bottom: 4px;">${instructor.name}</h2>
-        <p class="role" style="color: var(--primary); font-weight: 600; font-size: 15px;">${instructor.role}</p>
+        <h3 style="font-size: 24px; color: var(--dark); margin-bottom: 4px;">${instructor.name}</h3>
+        <p style="color: var(--primary); font-weight: 600; font-size: 15px;">${instructor.role}</p>
       </div>
     </div>
 
-    <!-- 소개글 -->
-    <p class="bio" style="font-size: 15px; line-height: 1.7; color: #4b5563; margin-bottom: 20px;">${instructor.bio}</p>
+    <p style="font-size: 15px; line-height: 1.7; color: #475569; margin-bottom: 20px;">${instructor.bio}</p>
 
-    <!-- 태그 -->
-    <div class="tags" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px;">
       ${instructor.tags.map(tag => `<span style="background: var(--primary-light); color: var(--primary); font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 30px;">#${tag}</span>`).join("")}
     </div>
 
-    <div class="stats">
-      <div>📚 ${instructor.stats.courses}개 과정</div>
-      <div>⏳ ${instructor.stats.career}</div>
-      <div>⭐ ${instructor.stats.rating}</div>
+    <div style="display: flex; gap: 30px; margin-bottom: 25px; font-size: 14px; color: var(--gray-text); font-weight: 600;">
+      <div>📚 수강 과정 <span style="color: var(--dark); font-weight: 700; margin-left: 4px;">${instructor.stats.courses}개</span></div>
+      <div>⏳ 강의 경력 <span style="color: var(--dark); font-weight: 700; margin-left: 4px;">${instructor.stats.career}</span></div>
+      <div>⭐ 만족도 <span style="color: var(--dark); font-weight: 700; margin-left: 4px;">${instructor.stats.rating}</span></div>
     </div>
 
-<!-- 강의 리스트 -->
     <h4 style="font-size: 16px; color: var(--dark); margin-bottom: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px;">📖 담당 교육 과정</h4>
-    <ul class="course-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; list-style: none; padding: 0;">
+    <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; list-style: none; padding: 0;">
       ${instructor.courses.map(c => `
-        <li style="background: #f8fafc; border-left: 3px solid var(--primary); padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 14px; color: #374151; font-weight: 600; transition: transform 0.2s ease;">
+        <li style="background: var(--bg-color); border-left: 3px solid var(--primary); padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 14px; color: var(--dark); font-weight: 600;">
           ${c}
         </li>
-      `).join("")}
+       `).join("")}
     </ul>
   </div>
 `;
 </script>
 
 <script>
-                     /* 팝업주석 시작 */
 /* ===== DATA ===== */
 const posts = [
   {id:1, cat:"ai", title:"이미지 인식 AI 만들기", desc:"Teachable Machine으로 AI 제작",
@@ -590,42 +634,35 @@ document.addEventListener("keydown", e => {
   
 /* ===== 네비게이션 페이지 전환 ===== */
 function goPage(page, el) {
-  // 1. 모든 페이지 숨기기
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   
-  // 2. 선택된 페이지 보이기
   const targetPage = document.getElementById("page-" + page);
   if (targetPage) {
     targetPage.classList.add("active");
   }
 
-  // 3. 네비게이션 링크 활성화 상태 변경
   document.querySelectorAll(".nav a").forEach(a => a.classList.remove("active"));
   if(el) el.classList.add("active");
 
-  // 4. 페이지 상단으로 스크롤 이동
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-/* ===== 세련된 커스텀 토스트 시스템 ===== */
+/* ===== 커스텀 토스트 시스템 ===== */
 let toastTimeout;
 function showToast(msg) {
   const toast = document.getElementById("toast");
   toast.innerText = msg;
   toast.classList.add("show");
   
-  // 기존 타이머 초기화 (연속 클릭 대응)
   clearTimeout(toastTimeout);
   
   toastTimeout = setTimeout(() => {
     toast.classList.remove("show");
   }, 2500);
 }
-                   /* 팝업주석 끝 */
-
-// ✅ 오류 수정 3: goPage · showToast 중복 선언 제거
-// (alert 버전이 토스트 UI를 덮어씌우던 문제 해결 — 위 함수가 유일한 정의로 동작)
 </script>
 
 </body>
 </html>
+
+```
