@@ -133,6 +133,74 @@ body {
   font-weight: 600;
 }
 
+/* ================= CAREER (TIMELINE) ================= */
+    .timeline {
+      max-width: 850px;
+      margin: auto;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 70px;
+      margin-bottom: 45px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 10px;
+      top: 6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    .timeline-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .timeline-card h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .timeline-card p {
+      color: var(--sub);
+      font-size: 15px;
+      white-space: pre-line; /* 가독성을 위한 줄바꿈 허용 */
+    }
+
+    .badge-list {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .badge {
+      background: #ECFDF5;
+      color: #047857;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  
+
 /* FEATURES */
 .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-top: 40px; }
 .feat-card {
