@@ -1,14 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Noa Park | 융합 강사</title>
-<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght=400;600;700&display=swap" rel="stylesheet">
 <style>
-/*     =     global 전역 및 리셋     =     */
-
+/* ==========================================================================
+   1. Global Reset & Variables
+   ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -19,12 +19,9 @@
   --card-bg: #FFFFFF;
   --bg-color: #F8FAFC;
   --border-color: #E2E8F0;
-
-  --border: #E2E8F0;
   --sub: #64748B;
   --card: #FFFFFF;
 }
-
 
 body {
   font-family: 'Pretendard', sans-serif;
@@ -39,10 +36,11 @@ body {
   padding: 0 20px;
 }
 
-/*     =     header 헤더 및 내비게이션     =     */
-
+/* ==========================================================================
+   2. Header & Navigation
+   ========================================================================== */
 .site-header {
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -57,61 +55,52 @@ body {
   font-size: 15px; font-weight: 600; padding: 8px 16px;
   border-radius: 8px; transition: all 0.2s ease;
 }
-.nav a:hover { color: var(--primary); background: var(--primary-light); }
-.nav a.active { color: var(--primary); background: var(--primary-light); font-weight: 700; }
+.nav a:hover, .nav a.active { color: var(--primary); background: var(--primary-light); }
+.nav a.active { font-weight: 700; }
 
-/* 페이지 시스템 트랜지션 */
+/* ==========================================================================
+   3. Page Transiton System & Common Sections
+   ========================================================================== */
 .page { display: none; opacity: 0; transform: translateY(15px); transition: all 0.35s ease; }
 .page.active { display: block; opacity: 1; transform: translateY(0); }
 
-/* 섹션 공통 스타일 */
 .section { padding: 60px 0; text-align: center; }
 .section h2 { font-size: 32px; margin-bottom: 16px; color: var(--dark); letter-spacing: -0.5px; }
 .section > p { color: var(--gray-text); font-size: 16px; margin-bottom: 40px; }
 .section-head { margin: 50px 0 30px 0; }
-.section-head h3 { font-size: 24px; margin-bottom: 8px; color: var(--dark); }
-.section-head p { color: var(--gray-text); }
+.section-head p { color: var(--gray-text); margin-bottom: 4px; }
 
-/*     =     hero 히어로 카드 스타일     =     */
+/* ==========================================================================
+   4. Hero Card & Animations
+   ========================================================================== */
 .hero-card {
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-color);
   border-radius: 28px;
-  overflow:hidden;
-  padding:0; 
+  overflow: hidden;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
   margin: 40px 0;
 }
 
-/* 프로필 배경 이미지 */
-
-.profile-image{
-  width:100%;
-  height:380px;
-  background:
-    linear-gradient(rgba(15,23,42,0.6), rgba(15,23,42,0.6)),
-    url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80');
-  background-size:cover;
-  background-position:center;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
+.profile-image {
+  width: 100%;
+  height: 380px;
+  background: linear-gradient(rgba(15,23,42,0.6), rgba(15,23,42,0.6)),
+              url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .profile-image::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: -150%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.3) 50%,
-    rgba(255,255,255,0) 100%
-  );
+  top: 0; left: -150%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
   transform: skewX(-25deg);
   animation: shine 4s ease-in-out infinite;
 }
@@ -121,157 +110,60 @@ body {
   30%, 100% { left: 150%; }
 }
 
-.profile-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.tag {
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: var(--primary-light);
-  color: var(--primary);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-/*     =     title 타이틀 애니메이션     =     */
+.main-title-wrap { text-align: center; margin-top: 14px; }
 .main-title {
-  font-size: 54px;
-  font-weight: 800;
-  margin-top: 14px;
-  letter-spacing: -2px;
-  line-height: 1.25;
-  text-align: center;
-  display: inline-block;
-  
-  /* 그라데이션 텍스트 */
-  background: linear-gradient(
-    -45deg, 
-    #4f46e5, #818cf8, #ec4899, #3b82f6, #4f46e5
-  );
+  font-size: 54px; font-weight: 800; letter-spacing: -2px; line-height: 1.25;
+  display: inline-block; cursor: default;
+  background: linear-gradient(-45deg, #4f46e5, #818cf8, #ec4899, #3b82f6, #4f46e5);
   background-size: 400% 400%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  
-  /* 타이틀 인터랙션 및 애니메이션 */
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   animation: gradientFlow 8s ease infinite;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: default;
 }
-
-.main-title:hover {
-  transform: scale(1.03);
-}
-
-.main-title:hover .rocket-emoji {
-  display: inline-block;
-  animation: rocketLaunch 0.5s ease infinite alternate;
-}
-
-.mobile-br {
-  display: none;
-}
+.main-title:hover { transform: scale(1.03); }
+.main-title:hover .rocket-emoji { display: inline-block; animation: rocketLaunch 0.5s ease infinite alternate; }
 
 @keyframes gradientFlow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
 @keyframes rocketLaunch {
   from { transform: translate(0, 0) scale(1); }
   to { transform: translate(4px, -6px) scale(1.15); }
 }
-  
 
-/*     =     career 타임라인 경력     =     */
-    .timeline {
-      max-width: 850px;
-      margin: auto;
-      position: relative;
-    }
+.hero-subtitle { margin-top: 20px; font-size: 18px; color: var(--gray-text); max-width: 600px; margin-left: auto; margin-right: auto; }
+.curriculum-tag { color: var(--primary); font-weight: 700; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; }
 
-    .timeline::before {
-      content: "";
-      position: absolute;
-      left: 18px;
-      top: 0;
-      width: 2px;
-      height: 100%;
-      background: var(--border);
-    }
-
-    .timeline-item {
-      position: relative;
-      padding-left: 70px;
-      margin-bottom: 45px;
-    }
-
-    .timeline-dot {
-      position: absolute;
-      left: 10px;
-      top: 6px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--primary);
-    }
-
-    .timeline-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 28px;
-    }
-
-    .timeline-card h3 {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .timeline-card p {
-      color: var(--sub);
-      font-size: 15px;
-      white-space: pre-line; /* 가독성을 위한 줄바꿈 허용 *//* 가독성 줄바꿈 허용 */
-    }
-
-    .badge-list {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    .badge {
-      background: #ECFDF5;
-      color: #047857;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-  
-
-/* 특장점 그리드 */
+/* ==========================================================================
+   5. Features & Timeline
+   ========================================================================== */
 .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-top: 40px; }
 .feat-card {
   background: var(--card-bg); border-radius: 20px; padding: 30px;
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
   border: 1px solid var(--border-color); text-align: left; transition: transform 0.3s ease;
 }
-  
-.feat-card:hover{
-  transform:translateY(-6px);
-}
-  
+.feat-card:hover { transform: translateY(-6px); }
 .feat-icon { font-size: 36px; margin-bottom: 15px; display: inline-block; }
 .feat-card h3 { color: var(--dark); margin-bottom: 10px; font-size: 18px; }
 .feat-card p { font-size: 14px; color: var(--gray-text); line-height: 1.6; }
 
-/* 강의 그리드 */
+.timeline { max-width: 850px; margin: auto; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 18px; top: 0; width: 2px; height: 100%; background: var(--border-color); }
+.timeline-item { position: relative; padding-left: 70px; margin-bottom: 45px; }
+.timeline-dot { position: absolute; left: 10px; top: 6px; width: 18px; height: 18px; border-radius: 50%; background: var(--primary); }
+.timeline-card { background: #fff; border: 1px solid var(--border-color); border-radius: 20px; padding: 28px; text-align: left; }
+.timeline-card h4 { font-size: 20px; margin-bottom: 8px; }
+.timeline-card p { color: var(--sub); font-size: 15px; white-space: pre-line; }
+
+.badge-list { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.badge { background: #ECFDF5; color: #047857; padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+
+/* ==========================================================================
+   6. Course Grids & Cards
+   ========================================================================== */
 .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px; }
 .project-card {
   background: var(--card-bg); padding: 30px; border-radius: 24px;
@@ -280,16 +172,8 @@ body {
 }
 .project-card > h3 { font-size: 20px; color: var(--dark); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-color); }
 .project-card .items { display: flex; flex-direction: column; gap: 12px; }
+.project-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 16px; margin-bottom: 18px; }
 
-  .project-card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  border-radius:16px;
-  margin-bottom:18px;
-}
-
-/* 미니 카드 */
 .mini-card {
   background: var(--bg-color); border: 1px solid var(--border-color);
   border-radius: 14px; padding: 18px; cursor: pointer; transition: all 0.25s ease;
@@ -302,103 +186,57 @@ body {
 .mini-card:hover h4 { color: var(--primary); }
 .mini-card p { font-size: 13px; color: var(--gray-text); }
 
-/*     =     instructor 강사 프로필     =     */
+/* ==========================================================================
+   7. Instructor Profile
+   ========================================================================== */
 .instructor-profile {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
-  padding: 35px;
+  background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 35px;
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-  text-align: left;
-  max-width: 750px;
-  margin: 0 auto 40px;
+  text-align: left; max-width: 750px; margin: 0 auto 40px;
 }
-.instructor-profile-header {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 25px;
-  margin-bottom: 25px;
-}
+.instructor-profile-header { display: flex; align-items: center; gap: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 25px; margin-bottom: 25px; }
 .instructor-avatar {
-  font-size: 40px;
-  background: var(--primary-light);
-  width: 80px; height: 80px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  flex-shrink: 0;
+  font-size: 40px; background: var(--primary-light); width: 80px; height: 80px;
+  display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;
 }
 .instructor-name { font-size: 24px; color: var(--dark); margin-bottom: 4px; }
 .instructor-role { color: var(--primary); font-weight: 600; font-size: 15px; }
 .instructor-bio { font-size: 15px; line-height: 1.7; color: #475569; margin-bottom: 20px; }
 
-/* 태그 */
 .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; }
-.tag {
-  background: var(--primary-light); color: var(--primary);
-  font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 30px;
-}
+.tag { background: var(--primary-light); color: var(--primary); font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 30px; }
 
-/* 강사 통계 지표 */
-.instructor-stats {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 25px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid var(--bg-color);
-  font-size: 14px;
-  color: var(--gray-text);
-  font-weight: 600;
-}
+.instructor-stats { display: flex; gap: 30px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid var(--bg-color); font-size: 14px; color: var(--gray-text); font-weight: 600; }
 .stat-value { color: var(--dark); font-weight: 700; margin-left: 4px; }
+.stat-value a { cursor: pointer; text-decoration: none; color: inherit; }
 
-/* 담당 강의 목록 */
-.instructor-courses-title {
-  font-size: 16px; color: var(--dark); margin-bottom: 15px;
-  font-weight: 700; display: flex; align-items: center; gap: 6px;
-}
-.instructor-courses-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 10px;
-  list-style: none;
-  padding: 0;
-}
-.instructor-course-item {
-  background: var(--bg-color);
-  border: 1px solid var(--border-color);
-  border-left: 3px solid var(--primary);
-  padding: 12px 14px;
-  border-radius: 0 8px 8px 0;
-  font-size: 14px;
-  color: var(--dark);
-  font-weight: 600;
-}
+.instructor-courses-title { font-size: 16px; color: var(--dark); margin-bottom: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.instructor-courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; list-style: none; padding: 0; }
+.instructor-course-item { background: var(--bg-color); border: 1px solid var(--border-color); border-left: 3px solid var(--primary); padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 14px; color: var(--dark); font-weight: 600; }
 
-/* 문의 링크 */
 .contact-list { list-style: none; margin-top: 20px; display: inline-block; text-align: left; }
 .contact-list li { margin: 16px 0; font-size: 16px; color: var(--dark); }
 .contact-list a { color: var(--primary); text-decoration: none; font-weight: 600; }
 .contact-list a:hover { text-decoration: underline; }
+.naver-form-link { color: #03C75A !important; }
 
-/*     =     modal 모달창     =     */
+/* ==========================================================================
+   8. Modals, Toasts & Banners
+   ========================================================================== */
 .modal {
-  display: none; position: fixed; z-index: 999; left: 0; top: 0;
-  width: 100%; height: 100%; background: rgba(15,23,42,0.6);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%;
+  background: rgba(15,23,42,0.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   justify-content: center; align-items: center; padding: 20px;
 }
 .modal-content {
-  background: var(--card-bg); width: 100%; max-width: 600px;
-  border-radius: 24px; padding: 35px; position: relative;
-  overflow-y: auto; max-height: 90vh; text-align: left;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  background: var(--card-bg); width: 100%; max-width: 600px; border-radius: 24px; padding: 35px; position: relative;
+  overflow-y: auto; max-height: 90vh; text-align: left; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
   animation: popup 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
 }
 @keyframes popup { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 #closeBtn { position: absolute; right: 25px; top: 20px; font-size: 28px; cursor: pointer; color: var(--gray-text); transition: color 0.2s; }
 #closeBtn:hover { color: var(--dark); }
+
 .modal h2 { margin-bottom: 8px; color: var(--dark); font-size: 24px; letter-spacing: -0.5px; }
 .modal #modalDesc { color: var(--gray-text); margin-bottom: 25px; font-size: 15px; }
 .modal h4 { margin-top: 24px; margin-bottom: 10px; font-size: 16px; color: var(--dark); display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; }
@@ -407,107 +245,35 @@ body {
 .modal li { margin-bottom: 6px; }
 .modal pre {
   background: #0F172A; color: #F8FAFC; padding: 16px; border-radius: 12px;
-  overflow-x: auto; font-family: 'Fira Code', Consolas, Monaco, monospace;
-  font-size: 13px; margin-top: 8px;
+  overflow-x: auto; font-family: 'Fira Code', Consolas, Monaco, monospace; font-size: 13px; margin-top: 8px;
 }
 
-/*     =     toast 토스트     =     */
 #toast {
   visibility: hidden; min-width: 280px; background-color: var(--dark); color: #fff;
-  text-align: center; border-radius: 12px; padding: 14px 24px;
-  position: fixed; z-index: 1000; left: 50%; bottom: 40px;
-  transform: translate(-50%, 20px); font-size: 14px; font-weight: 600;
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
+  text-align: center; border-radius: 12px; padding: 14px 24px; position: fixed; z-index: 1000; left: 50%; bottom: 40px;
+  transform: translate(-50%, 20px); font-size: 14px; font-weight: 600; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
   opacity: 0; transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
 }
 #toast.show { visibility: visible; opacity: 1; transform: translate(-50%, 0); }
 
-/*     =     footer 푸터     =     */
-.site-footer {
-  text-align: center; padding: 40px; background: var(--dark);
-  color: #94A3B8; margin-top: 80px; font-size: 14px;
-  border-top: 1px solid rgba(255,255,255,0.05);
-}
+.site-footer { text-align: center; padding: 40px; background: var(--dark); color: #94A3B8; margin-top: 80px; font-size: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
 
-/*     =     contact 하단 배너 이미지     =     */
+.contact-image-wrap { margin-top: 50px; display: flex; justify-content: center; }
+.contact-banner { position: relative; width: 100%; max-width: 900px; overflow: hidden; border-radius: 28px; }
+.contact-image { width: 100%; display: block; object-fit: cover; box-shadow: 0 10px 30px rgba(15,23,42,0.08); transition: transform .5s ease; }
+.contact-banner:hover .contact-image { transform: scale(1.03); }
+.contact-overlay { position: absolute; inset: 0; background: linear-gradient(rgba(15,23,42,0.2), rgba(15,23,42,0.55)); display: flex; flex-direction: column; justify-content: flex-end; padding: 40px; color: white; text-align: left; }
+.contact-overlay h3 { font-size: 32px; margin-bottom: 8px; font-weight: 700; }
+.contact-overlay p { font-size: 16px; opacity: 0.9; }
 
-.contact-image-wrap{
-  margin-top:50px;
-  display:flex;
-  justify-content:center;
-}
-
-.contact-banner{
-  position:relative;
-  width:100%;
-  max-width:900px;
-  overflow:hidden;
-  border-radius:28px;
-}
-
-.contact-image{
-  width:100%;
-  display:block;
-  object-fit:cover;
-
-  box-shadow:
-    0 10px 30px rgba(15,23,42,0.08);
-
-  transition:
-    transform .5s ease;
-}
-
-.contact-banner:hover .contact-image{
-  transform:scale(1.03);
-}
-
-.contact-overlay{
-  position:absolute;
-  inset:0;
-
-  background:
-    linear-gradient(
-      rgba(15,23,42,0.2),
-      rgba(15,23,42,0.55)
-    );
-
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-
-  padding:40px;
-
-  color:white;
-  text-align:left;
-}
-
-.contact-overlay h3{
-  font-size:32px;
-  margin-bottom:8px;
-  font-weight:700;
-}
-
-.contact-overlay p{
-  font-size:16px;
-  opacity:0.9;
-}
-
-/*     =     mobile 미디어 쿼리     =     */
-
+/* ==========================================================================
+   9. Media Queries
+   ========================================================================== */
 @media(max-width:768px){
-
-  .contact-overlay{
-    padding:24px;
-  }
-
-  .contact-overlay h3{
-    font-size:24px;
-  }
-
-  .contact-image{
-    min-height:260px;
-  }
-
+  .contact-overlay { padding: 24px; }
+  .contact-overlay h3 { font-size: 24px; }
+  .contact-image { min-height: 260px; }
+  .mobile-br { display: block; }
 }  
 </style>
 </head>
@@ -528,54 +294,36 @@ body {
   </div>
 </header>
 
-<!--     =     home 소개 페이지 시작     =     -->
+<!-- HOME PAGE -->
 <div class="page active" id="page-home">
   <div class="container">
     <section class="section">
-      <div style="color:var(--primary);font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase; text-align: center;"> AI · 코딩 · 융합 교육 2026 최신 커리큘럼</div>
-      
-      <div style="text-align: center;">
-        <h1 class="main-title">
-          Learn Smarter, <br class="mobile-br">Build Faster <span class="rocket-emoji">🚀</span>
-        </h1>
+      <div class="curriculum-tag">AI · 코딩 · 융합 교육 2026 최신 커리큘럼</div>
+      <div class="main-title-wrap">
+        <h1 class="main-title">Learn Smarter, <br class="mobile-br">Build Faster <span class="rocket-emoji">🚀</span></h1>
       </div>
-      
-      
-      <p style="margin-top:20px;font-size:18px;color:var(--gray-text);max-width:600px;margin-left:auto;margin-right:auto; text-align: center;">AI · 코딩 · 디자인까지 실습 중심 교육<br>누구나 쉽게 성장할 수 있는 수업을 제공합니다</p>
+      <p class="hero-subtitle">AI · 코딩 · 디자인까지 실습 중심 교육<br>누구나 쉽게 성장할 수 있는 수업을 제공합니다</p>
 
-      <!-- 히어로 메인 카드 -->
       <div class="hero-card">
-
         <div class="profile-image">
-
-          <!-- 메인 비주얼 이미지 -->
-          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80"
-            alt="AX 융합 교육"/>
-          
           <div class="contact-overlay">
             <h3>새로운 경험을 설계하는 AX <br> 융합 교육 <strong> Noa Park</strong></h3>
-
             <div style="margin-top:10px;">
               <span class="tag">AI</span>
               <span class="tag">피지컬 컴퓨팅</span>
               <span class="tag">융합</span>
             </div>
           </div>
-      
         </div>
       </div>
-
     </section>    
       
-    <!-- 히어로 메인 카드 종료 -->
     <section class="section">
-
       <div class="section-head">
-        <p style="margin-bottom: 4px;">모든 강의는 ✔ <strong>이론 → 실습 → 결과물</strong>의 구조로 설계됩니다.</p>
+        <p>모든 강의는 ✔ <strong>이론 → 실습 → 결과물</strong>의 구조로 설계됩니다.</p>
         <p>실습 없는 교육은 없습니다.</p>
       </div>
 
-      <!-- 특장점 섹션 -->
       <div class="features-grid">
         <div class="feat-card"><span class="feat-icon">⚡</span><h3>즉시 실습 가능</h3><p>강의를 통해 바로 실습과 확장이 가능합니다.</p></div>
         <div class="feat-card"><span class="feat-icon">🎯</span><h3>수준별 맞춤 학습</h3><p>학습자에 맞게 두 트랙으로 설계된 콘텐츠로 교육할 수 있습니다.</p></div>
@@ -583,23 +331,19 @@ body {
         <div class="feat-card"><span class="feat-icon">💡</span><h3>디자인 × 기술 융합</h3><p>디자이너 출신 강사가 설계한 시각적 사고 + 기술 융합 커리큘럼을 경험하세요.</p></div>
       </div>
     </section>
-  
-  <!-- 백업용 특장점 그리드 -->
 
-    <!--     =     career 경력 섹션 시작     =     -->
     <section class="section" id="career">
-      <div class="section-title" style="margin-bottom: 40px;">
+      <div style="margin-bottom: 40px;">
         <h2>경력 & 이력</h2>
-        <p style="color: var(--gray-text); font-size: 16px;">학교 · 기관 · 교육센터 기반의 현장형 교육 경험</p>
+        <p>학교 · 기관 · 교육센터 기반의 현장형 교육 경험</p>
       </div>
 
       <div class="timeline">
-        <!-- 경력 항목 1 -->
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-card">
-            <h4 style="text-align:left;">2025 – 현재 | 현장형 AX 강사</h4>
-            <p style="text-align:left;">AI 프로젝트 기반 수업 진행 및 교육 운영</p>
+            <h4>2025 – 현재 | 현장형 AX 강사</h4>
+            <p>AI 프로젝트 기반 수업 진행 및 교육 운영</p>
             <div class="badge-list">
               <span class="badge">생성형 AI</span>
               <span class="badge">AX 교육</span>
@@ -608,12 +352,11 @@ body {
           </div>
         </div>
 
-        <!-- 경력 항목 2 -->
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-card">
-            <h4 style="text-align:left;">2022 – 2026 | 창의융합 교육 설계</h4>
-            <p style="text-align:left;">창의성과 융합적 사고를 통한 미래 역량 강화 프로젝트 기반의 창의융합 수업 설계 및 운영</p>
+            <h4>2022 – 2026 | 창의융합 교육 설계</h4>
+            <p>창의성과 융합적 사고를 통한 미래 역량 강화 프로젝트 기반의 창의융합 수업 설계 및 운영</p>
             <div class="badge-list">
               <span class="badge">STEAM</span>
               <span class="badge">융합연계 진로 프로젝트</span>
@@ -621,12 +364,11 @@ body {
           </div>
         </div>
 
-        <!-- 경력 항목 3 -->
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-card">
-            <h4 style="text-align:left;">2019 – 현재 | 코딩 강사</h4>
-            <p style="text-align:left;">블록코딩, 피지컬 컴퓨팅, 메이커 교육</p>
+            <h4>2019 – 현재 | 코딩 강사</h4>
+            <p>블록코딩, 피지컬 컴퓨팅, 메이커 교육</p>
             <div class="badge-list">
               <span class="badge">블록코딩</span>
               <span class="badge">마이크로비트, 할로코드</span>
@@ -634,18 +376,13 @@ body {
               <span class="badge">메이커 교육</span>
             </div>
           </div>
-
         </div>
+      </div>
+    </section>
+  </div>
+</div>
 
-      </div><!-- 타임라인 종료 -->
-
-    </section> <!-- 경력 섹션 종료 -->
-
-  </div><!-- 컨테이너 종료 -->
-</div> <!-- 소개 페이지 종료 -->
-
-
-<!--     =     courses 강의 페이지 시작     =     -->
+<!-- COURSES PAGE -->
 <div class="page" id="page-courses">
   <div class="container">
     <section class="section">
@@ -653,21 +390,19 @@ body {
       <p>카드를 클릭하시면 상세 커리큘럼 정보를 확인하실 수 있습니다.</p>
       <div class="projects-grid">
         <div class="project-card" id="auto"><h3>업무 자동화</h3><div class="items"></div></div>
-             
-        <div class="project-card" id="physical">  <!-- 피지컬 컴퓨팅 카드 이미지 -->
-          <img src="https://images.unsplash.com/photo-1517055729445-fa7d27394b48?auto=format&fit=crop&w=500&q=80" alt="블록코딩 강의">
-          <h3>피지컬 컴퓨팅</h3><div class="items"></div></div>
-        
-        <div class="project-card" id="blockcoding">
-          
-          <h3>블록코딩</h3><div class="items"></div></div>
-        
+        <div class="project-card" id="physical">
+          <img src="https://images.unsplash.com/photo-1517055729445-fa7d27394b48?auto=format&fit=crop&w=500&q=80" alt="피지컬 컴퓨팅 강의">
+          <h3>피지컬 컴퓨팅</h3><div class="items"></div>
+        </div>
+        <div class="project-card" id="blockcoding"><h3>블록코딩</h3><div class="items"></div></div>
         <div class="project-card" id="portfolio">
           <h3>포트폴리오</h3>
           <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=500&q=80" alt="브랜드 디자인">
-          <div class="items"></div></div>
+          <div class="items"></div>
+        </div>
       </div>
 
+      <!-- 상세정보 모달 창 -->
       <div id="modal" class="modal">
         <div class="modal-content">
           <span id="closeBtn">&times;</span>
@@ -683,7 +418,7 @@ body {
   </div>
 </div>
 
-<!--     =     instructor 강사 페이지 시작     =     -->
+<!-- INSTRUCTOR PAGE -->
 <div class="page" id="page-instructors">
   <div class="container">
     <section class="section">
@@ -694,13 +429,12 @@ body {
         <div class="instructor-profile-header">
           <div class="instructor-avatar">🗃</div>
           <div>
-            <h3 class="instructor-name"> <strong>박노아</strong> <small>Noa Park</small> </h3>
+            <h3 class="instructor-name"><strong>박노아</strong> <small>Noa Park</small></h3>
             <p class="instructor-role">새로운 경험을 설계하는 AX 융합 교육 강사</p>
           </div>
         </div>
 
-        <p class="instructor-bio">디지털융합교육 전공으로, 현장 경험을 통한 AI 교육의·기술 통합 커리큘럼 커리큘럼을 설계합니다.</p>
-
+        <p class="instructor-bio">디지털융합교육 전공으로, 현장 경험을 통한 AI 교육의 기술 통합 커리큘럼을 설계합니다.</p>
         <div class="tag-list" id="instructorTags"></div>
 
         <div class="instructor-stats">
@@ -714,13 +448,13 @@ body {
       </div>
 
       <ul class="contact-list">
-        <li>강의 문의 : <a href="https://naver.me/5OltuzOE" target="_blank" style="color:#03C75A">네이버 폼으로 신청하기 ↗</a></li>
+        <li>강의 문의 : <a href="https://naver.me/5OltuzOE" target="_blank" class="naver-form-link">네이버 폼으로 신청하기 ↗</a></li>
       </ul>
     </section>
   </div>
 </div>
 
-<!--     =     contact 문의 페이지 시작     =     -->
+<!-- CONTACT PAGE -->
 <div class="page" id="page-contact">
   <div class="container">
     <section class="section">
@@ -728,37 +462,32 @@ body {
       <p style="color: var(--gray-text); margin-bottom: 20px;">강의 · 협업 · 파트너십 관련 문의를 남겨주세요</p>
 
       <ul class="contact-list">
-        <li>Contact :   <a href="https://naver.me/5OltuzOE" target="_blank">About Lecture & Partnership ↗</a></li>
-        <li>Email :     <a href="mailto:pnoa79@naver.com">pnoa79@naver.com</a></li>
-        <li>GitHub :    <a href="https://github.com" target="_blank">github.com</a></li>
-        <li>         📚 <a  href="https://blog.naver.com/pnoa79" target="_blank" style="color:#03C75A" >네이버 블로그</a> / 인스타그램 채널 준비 중</a></li>
-
+        <li>Contact : <a href="https://naver.me/5OltuzOE" target="_blank">About Lecture & Partnership ↗</a></li>
+        <li>Email : <a href="mailto:pnoa79@naver.com">pnoa79@naver.com</a></li>
+        <li>GitHub : <a href="https://github.com" target="_blank">github.com</a></li>
+        <li>📚 <a href="https://blog.naver.com/pnoa79" target="_blank" class="naver-form-link">네이버 블로그</a> / 인스타그램 채널 준비 중</li>
       </ul>
       
-      <!-- 문의 이미지 -->
       <div class="contact-image-wrap">
         <div class="contact-banner">
-
           <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="강의 문의 및 협업 이미지" class="contact-image">
-
           <div class="contact-overlay">
-          <h3>    </h3>  <!-- 문구 삽입 오버레이 -->
-          <p>     </p>  <!-- 문구 삽입 오버레이 -->
+            <h3>Connect & Grow Together</h3>
+            <p>언제든 편하게 협업 및 커리큘럼 제안 문의를 보내주세요.</p>
           </div>
-
         </div>
       </div>
-      
     </section>
   </div>
 </div>
 
 <div id="toast"></div>
-
 <footer class="site-footer">© 2026 All rights reserved.</footer>
 
 <script>
-/*     =     instructor 강사 데이터     =     */
+/* ==========================================================================
+   1. Data Initialization
+   ========================================================================== */
 const instructor = {
   tags: ["교육과정 설계", "코딩 교육", "피지컬 컴퓨팅", "현장형 AX"],
   courses: [
@@ -771,81 +500,32 @@ const instructor = {
   ]
 };
 
-/* 태그 */
-document.getElementById("instructorTags").innerHTML =
-  instructor.tags.map(t => `<span class="tag">#${t}</span>`).join("");
-
-/* 담당 강의 */
-document.getElementById("instructorCourses").innerHTML =
-  instructor.courses.map(c => `<li class="instructor-course-item">${c}</li>`).join("");
-
-/*     =     courses 강의 데이터     =     */
-/* 강의 포스트 데이터셋 */
 const posts = [
-  {id:1, cat:"ai", title:"이미지 인식 AI 만들기", desc:"Machine으로 AI 제작",
-   concept:"이미지 분류 모델이 학습 후 예측함",
-   steps:["사이트 접속","데이터 수집","학습","테스트"],
-   code:`const model = await tmImage.load(...);`,
-   result:"품질 상 제품 94% 수집"},
-
-  {id:2, cat:"ai", title:"AI 활용 업무 자동화", desc:"반복 업무를 LLM과 API로 자동화",
-   concept:"ChatGPT 활용 기초 + 워크플로우 자동화",
-   steps:["API 키 발급 및 환경 설정","자동화 시나리오 설계","학습","LLM 연결 및 테스트"],
-   /* 백틱 템플릿 수정 완료 */
-   code:`플렛폼에서 진행합니다.`,
-   result:"반복 업무 처리 시간 단축"},
-
-  {id:3, cat:"ai", title:"업무 자동화 메일", desc:"AI 활용 에이전트",
-   concept:"AI가 주어진 목표에 맞게 스스로 작업을 수행하도록 만드는 방식",
-   steps:["AI 도구 이해하기","결과 확인 및 수정하기"],
-   code:`중요한 내용을 요약해서 쉽게 설명해줘 / 정리해줘`,
-   result:"이메일 자동화 완성"},
-
-  {id:4, cat:"block", title:"센서 기반 로봇 제어", desc:"보드형 로봇을 제어하며 물리적 반응 학습, 학교 교육 · 총 6차시",
-   concept:"입력(센서) → 처리(조건문) → 출력(모터/LED)",
-   steps:["하드웨어 연결 (센서 + 모터)","조건문 작성 (예: 거리 감지)","동작 테스트 및 개선"],
-   code:`블록코딩을 진행합니다.`,
-   result:"장애물 회피 로봇 완성"},
-
-  {id:5-1, cat:"coding", title:"알고리즘 게임", desc:"조건·반복 구조를 활용한 학습형 게임 제작",
-   /* 컨셉 문자열 통합 완료 */
-   concept:"이벤트 기반 프로그래밍 · 조건 + 반복 구조",
-   steps:["캐릭터 추가","이벤트 연결","점수 및 게임 오버 구현"],
-   code:`if <touching [enemy]> then stop all`,
-   result:"학습자 평균 게임 완성"},
-
-
-  {id:5-2, cat:"coding", title:"데이터수집", desc:"반복 구조를 활용한 점수 게임 엔트",
-   /* 컨셉 문자열 통합 완료 */
-   concept:"반복문, 점수 변수, 랜덤 생성",
-   steps:["오브젝트 추가","랜덤 생성","점수 증가","일정 시간 반복 실행"],
-   code:`set [과일 위치] to random`,
-   result:"타이머 설정 게임 완성"},
-  
-  {id:5-3, cat:"coding", title:"인터랙티브 동화 만들기", desc:"이벤트, 장면전환 기능 활용",
-   /* 컨셉 문자열 통합 완료 */
-   concept:"순차 구조 · 이벤트 · 대화 · 장면 전환 · 조건문",
-   steps:["이야기의 구성","이야기 구조","선택과 결과 변화"],
-   code:`iswitch costume to [밤 장면]`,
-   result:"멀티엔딩 스토리 구조"},
-  
-
-  {id:6, cat:"design", title:"브랜드 아이덴티티", desc:"생성형 AI 활용 로고 디자인 실습",
-   concept:"단순성 + 추상화 + 확장성",
-   steps:["브랜드 키워드 분석","색상 팔레트 및 폰트 선정","아이디어 기반 로고 제작 및 내보내기"],
-   code:`result:"PNG + SVG 로고 파일 완성"`,
-   result:"PNG + SVG 로고 파일 완성"}
+  {id: 1, cat: "ai", title: "이미지 인식 AI 만들기", desc: "Machine으로 AI 제작", concept: "이미지 분류 모델이 학습 후 예측함", steps: ["사이트 접속", "데이터 수집", "학습", "테스트"], code: `const model = await tmImage.load(...);`, result: "품질 상 제품 94% 수집"},
+  {id: 2, cat: "ai", title: "AI 활용 업무 자동화", desc: "반복 업무를 LLM과 API로 자동화", concept: "ChatGPT 활용 기초 + 워크플로우 자동화", steps: ["API 키 발급 및 환경 설정", "자동화 시나리오 설계", "학습", "LLM 연결 및 테스트"], code: `플랫폼에서 진행합니다.`, result: "반복 업무 처리 시간 단축"},
+  {id: 3, cat: "ai", title: "업무 자동화 메일", desc: "AI 활용 에이전트", concept: "AI가 주어진 목표에 맞게 스스로 작업을 수행하도록 만드는 방식", steps: ["AI 도구 이해하기", "결과 확인 및 수정하기"], code: `중요한 내용을 요약해서 쉽게 설명해줘 / 정리해줘`, result: "이메일 자동화 완성"},
+  {id: 4, cat: "block", title: "센서 기반 로봇 제어", desc: "보드형 로봇을 제어하며 물리적 반응 학습, 학교 교육 · 총 6차시", concept: "입력(센서) → 처리(조건문) → 출력(모터/LED)", steps: ["하드웨어 연결 (센서 + 모터)", "조건문 작성 (예: 거리 감지)", "동작 테스트 및 개선"], code: `블록코딩을 진행합니다.`, result: "장애물 회피 로봇 완성"},
+  {id: 51, cat: "coding", title: "알고리즘 게임", desc: "조건·반복 구조를 활용한 학습형 게임 제작", concept: "이벤트 기반 프로그래밍 · 조건 + 반복 구조", steps: ["캐릭터 추가", "이벤트 연결", "점수 및 게임 오버 구현"], code: `if <touching [enemy]> then stop all`, result: "학습자 평균 게임 완성"},
+  {id: 52, cat: "coding", title: "데이터수집", desc: "반복 구조를 활용한 점수 게임 엔트", concept: "반복문, 점수 변수, 랜덤 생성", steps: ["오브젝트 추가", "랜덤 생성", "점수 증가", "일정 시간 반복 실행"], code: `set [과일 위치] to random`, result: "타이머 설정 게임 완성"},
+  {id: 53, cat: "coding", title: "인터랙티브 동화 만들기", desc: "이벤트, 장면전환 기능 활용", concept: "순차 구조 · 이벤트 · 대화 · 장면 전환 · 조건문", steps: ["이야기의 구성", "이야기 구조", "선택과 결과 변화"], code: `switch costume to [밤 장면]`, result: "멀티엔딩 스토리 구조"},
+  {id: 6, cat: "design", title: "브랜드 아이덴티티", desc: "생성형 AI 활용 로고 디자인 실습", concept: "단순성 + 추상화 + 확장성", steps: ["브랜드 키워드 분석", "색상 팔레트 및 폰트 선정", "아이디어 기반 로고 제작 및 내보내기"], code: `// 디자인 에셋 익스포트 구성`, result: "PNG + SVG 로고 파일 완성"}
 ];
 
-/*     =     mapping 컨테이너 매핑     =     */
 const containers = {
-  ai:      document.querySelector("#auto .items"),
-  block:   document.querySelector("#physical .items"),
-  coding: document.querySelector("#blockcoding .items"),   /* 카테고리 식별자 수정 */
+  ai: document.querySelector("#auto .items"),
+  block: document.querySelector("#physical .items"),
+  coding: document.querySelector("#blockcoding .items"),  
   design: document.querySelector("#portfolio .items")
 };
 
-/*     =     render 카드 동적 생성     =     */
+/* ==========================================================================
+   2. DOM Rendering
+   ========================================================================== */
+// 강사 정보 렌더링
+document.getElementById("instructorTags").innerHTML = instructor.tags.map(t => `<span class="tag">#${t}</span>`).join("");
+document.getElementById("instructorCourses").innerHTML = instructor.courses.map(c => `<li class="instructor-course-item">${c}</li>`).join("");
+
+// 강의 미니 카드 렌더링
 posts.forEach(post => {
   const card = document.createElement("div");
   card.className = "mini-card";
@@ -854,7 +534,9 @@ posts.forEach(post => {
   if (containers[post.cat]) containers[post.cat].appendChild(card);
 });
 
-/*     =     modal 모달 제어 함수     =     */
+/* ==========================================================================
+   3. Controller Functions (Modal, Navigation, Toast)
+   ========================================================================== */
 const modal = document.getElementById("modal");
 const closeBtn = document.getElementById("closeBtn");
 
@@ -864,27 +546,37 @@ function openModal(post) {
   document.getElementById("modalConcept").innerText = post.concept;
   document.getElementById("modalCode").innerText = post.code;
   document.getElementById("modalResult").innerText = post.result;
+  
   const stepsEl = document.getElementById("modalSteps");
   stepsEl.innerHTML = "";
-  post.steps.forEach(s => { const li = document.createElement("li"); li.textContent = s; stepsEl.appendChild(li); });
+  post.steps.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = s;
+    stepsEl.appendChild(li);
+  });
+  
   modal.style.display = "flex";
 }
 
-closeBtn.onclick = () => modal.style.display = "none";
-window.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
-document.addEventListener("keydown", e => { if (e.key === "Escape") modal.style.display = "none"; });
+// 모달 닫기 이벤트 핸들러 통합
+const closeModal = () => modal.style.display = "none";
+closeBtn.onclick = closeModal;
+window.onclick = e => { if (e.target === modal) closeModal(); };
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
 
-/*     =     navigation 페이지 전환 함수     =     */
+// 페이지 전환
 function goPage(page, el) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   const target = document.getElementById("page-" + page);
   if (target) target.classList.add("active");
+  
   document.querySelectorAll(".nav a").forEach(a => a.classList.remove("active"));
   if (el) el.classList.add("active");
+  
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-/*     =     toast 토스트 팝업 함수     =     */
+// 토스트 팝업
 let toastTimeout;
 function showToast(msg) {
   const toast = document.getElementById("toast");
@@ -896,4 +588,3 @@ function showToast(msg) {
 </script>
 </body>
 </html>
-
