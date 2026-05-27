@@ -85,8 +85,8 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
   position: absolute;
   top: -50%;
   left: -50%;
-  width: 200%;
-  height: 200%;
+  width: 400%;
+  height: 400%;
   background: linear-gradient(
     120deg,
     rgba(255,255,255,0.3) 0%,
@@ -97,7 +97,7 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
 }
 
 @keyframes shine {
-  0% { transform: translateX(-100%) rotate(25deg); }
+  0% { transform: translateX(-100%) rotate(45deg); }
   100% { transform: translateX(100%) rotate(25deg); }
   
   ]
@@ -108,15 +108,15 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
       gap: 10px;
     }
 
-    .tag {
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: var(--primary-light);
-      color: var(--primary);
-      font-size: 13px;
-      font-weight: 600;
-    }
-
+.tag {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+  
 
 /* FEATURES */
 .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-top: 40px; }
