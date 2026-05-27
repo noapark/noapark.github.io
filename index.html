@@ -135,6 +135,57 @@ body {
   font-weight: 600;
 }
 
+/* ================= NEW FUNCTION: ANIMATED GRADIENT TITLE ================= */
+.main-title {
+  font-size: 54px;
+  font-weight: 800;
+  margin-top: 14px;
+  letter-spacing: -2px;
+  line-height: 1.25;
+  text-align: center;
+  display: inline-block;
+  
+  /* 그라데이션 텍스트 베이스 */
+  background: linear-gradient(
+    -45deg, 
+    #4f46e5, #818cf8, #ec4899, #3b82f6, #4f46e5
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  /* 애니메이션 및 트랜지션 인터랙션 */
+  animation: gradientFlow 8s ease infinite;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.main-title:hover {
+  transform: scale(1.03);
+}
+
+.main-title:hover .rocket-emoji {
+  display: inline-block;
+  animation: rocketLaunch 0.5s ease infinite alternate;
+}
+
+.mobile-br {
+  display: none;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes rocketLaunch {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(4px, -6px) scale(1.15); }
+}
+  
+
 /* ================= CAREER (TIMELINE) ================= */
     .timeline {
       max-width: 850px;
