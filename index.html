@@ -66,7 +66,7 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
     .profile-image {
       width: 100%;
       border-radius: 22px;
-      aspect-ratio: 1/1;
+      aspect-ratio: 3/1; /* 가로로 길게: 가로 3, 세로 1 비율 */
       background: linear-gradient(135deg, #4F46E5, #7C3AED);
       display: flex;
       align-items: center;
@@ -74,7 +74,33 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
       font-size: 90px;
       color: #fff;
       margin-bottom: 24px;
+
+      /* 글로시 효과 */
+      position: relative;
+      overflow: hidden;
     }
+
+  .profile-image::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.3) 0%,
+    rgba(255,255,255,0) 60%
+  );
+  transform: rotate(25deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  100% { transform: translateX(100%) rotate(25deg); }
+  
+  ]
 
     .profile-meta {
       display: flex;
