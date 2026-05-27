@@ -376,6 +376,87 @@ body {
   color: #94A3B8; margin-top: 80px; font-size: 14px;
   border-top: 1px solid rgba(255,255,255,0.05);
 }
+
+/* ================= CONTACT IMAGE ================= */
+
+.contact-image-wrap{
+  margin-top:50px;
+  display:flex;
+  justify-content:center;
+}
+
+.contact-banner{
+  position:relative;
+  width:100%;
+  max-width:900px;
+  overflow:hidden;
+  border-radius:28px;
+}
+
+.contact-image{
+  width:100%;
+  display:block;
+  object-fit:cover;
+
+  box-shadow:
+    0 10px 30px rgba(15,23,42,0.08);
+
+  transition:
+    transform .5s ease;
+}
+
+.contact-banner:hover .contact-image{
+  transform:scale(1.03);
+}
+
+.contact-overlay{
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      rgba(15,23,42,0.2),
+      rgba(15,23,42,0.55)
+    );
+
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+
+  padding:40px;
+
+  color:white;
+  text-align:left;
+}
+
+.contact-overlay h3{
+  font-size:32px;
+  margin-bottom:8px;
+  font-weight:700;
+}
+
+.contact-overlay p{
+  font-size:16px;
+  opacity:0.9;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+  .contact-overlay{
+    padding:24px;
+  }
+
+  .contact-overlay h3{
+    font-size:24px;
+  }
+
+  .contact-image{
+    min-height:260px;
+  }
+
+}  
 </style>
 </head>
 
