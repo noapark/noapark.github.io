@@ -64,6 +64,54 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
 .feat-card h3 { color: var(--dark); margin-bottom: 10px; font-size: 18px; }
 .feat-card p { font-size: 14px; color: var(--gray-text); line-height: 1.6; }
 
+/* TIMELINE */
+.timeline{
+  max-width:850px;
+  margin:auto;
+  position:relative;
+}
+
+.timeline::before{
+  content:"";
+  position:absolute;
+  left:18px;
+  top:0;
+  width:2px;
+  height:100%;
+  background:var(--border);
+}
+
+.timeline-item{
+  position:relative;
+  padding-left:70px;
+  margin-bottom:45px;
+}
+
+.timeline-dot{
+  position:absolute;
+  left:10px;
+  top:6px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:var(--primary);
+}
+
+.timeline-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:28px;
+}
+
+.timeline-card h3{
+  margin-bottom:10px;
+}
+
+.timeline-card p{
+  color:var(--sub);
+}  
+  
 /* COURSES GRID */
 .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px; }
 .project-card {
@@ -257,10 +305,7 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
 
     <div class="section-title">
       <h2>경력 & 이력</h2>
-
-      <p>
-        학교 · 기관 · 교육센터 기반의 현장형 교육 경험
-      </p>
+      <p>학교 · 기관 · 교육센터 기반의 현장형 교육 경험</p>
     </div>
 
     <div class="timeline">
@@ -271,10 +316,7 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
 
         <div class="timeline-card">
 
-          <h3>
-            2022 – 현재 | AI 융합 교육 강사
-          </h3>
-
+          <h3>2022 – 현재 | AI 융합 교육 강사</h3>       
           <p>
             교육센터 · 학교 · 공공기관 대상
             AI · 코딩 · 자동화 교육 운영
@@ -299,10 +341,7 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
 
         <div class="timeline-card">
 
-          <h3>
-            2019 – 2022 | 방과후 코딩 강사
-          </h3>
-
+          <h3>2019 – 2022 | 방과후 코딩 강사</h3>
           <p>
             블록코딩 · 피지컬 컴퓨팅 · 메이커 교육 운영
             <br>
