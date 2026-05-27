@@ -53,6 +53,45 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
 .section-head h3 { font-size: 24px; margin-bottom: 8px; color: var(--dark); }
 .section-head p { color: var(--gray-text); }
 
+ /* ================= HERO ================= */
+
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 35px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .profile-image {
+      width: 100%;
+      border-radius: 22px;
+      aspect-ratio: 1/1;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 90px;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+
+    .profile-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+
 /* FEATURES */
 .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-top: 40px; }
 .feat-card {
@@ -304,8 +343,8 @@ body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); color
       <h1 style="font-size:55px;margin-top:12px;letter-spacing:-1.5px;color:var(--dark);font-weight:700;">Learn Smarter, Build Faster 🚀</h1>
       <p style="margin-top:20px;font-size:18px;color:var(--gray-text);max-width:600px;margin-left:auto;margin-right:auto;">AI · 코딩 · 디자인까지 실습 중심 교육<br>누구나 쉽게 성장할 수 있는 수업을 제공합니다</p>
 
-        <!-- ================= hero-card ================= -->
-          <div class="hero-card">
+   <!-- ================= hero-card ================= -->
+        <div class="hero-card">
           <div class="profile-image" aria-label="강사 프로필 이미지">🎨</div>
 
           <h3 style="font-size:26px; margin-bottom:8px;">de violet : Noa Park</h3>
