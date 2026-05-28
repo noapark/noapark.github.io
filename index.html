@@ -37,38 +37,37 @@
  
 
 /* 딥 포레스트 & 아이보리 
---primary: #2E5E4E;
---primary-light: #EDF5F1;
---dark: #1F2D27;
---gray-text: #5F6D67;
---card-bg: #FFFFFF;
---bg-color: #F6FAF8;
---border-color: #D9E6DF;
---sub: #88958F;
---card: #FFFFFF; */
+  --primary: #245647;
+  --primary-light: #E8F3EE;
+  --dark: #111827;
+  --gray-text: #475569;
+  --card-bg: #FFFFFF;
+  --bg-color: #F4F8F6;
+  --border-color: #CBD9D3;
+  --sub: #64748B;
+  --card: #FFFFFF; */
 
-/* Teal */
+/* Teal  */
   --primary: #0F766E;
-  --primary-light: #ECFEFF;
-  --dark: #1F2937;
-  --gray-text: #64748B;
+  --primary-light: #D1FAF5;
+  --dark: #0F172A;
+  --gray-text: #475569;
   --card-bg: #FFFFFF;
   --bg-color: #F8FAFC;
-  --border-color: #DDE7E7;
-  --sub: #7A8C8B;
-  --card: #FFFFFF;  
-
+  --border-color: #E2E8F0;
+  --sub: #64748B;
+  --card: #FFFFFF;
 
 /* 쪽빛(indigo) 
-  --primary: #4F5FAF;
-  --primary-light: #EEF2FF;
-  --dark: #1E2740;
-  --gray-text: #667085;
+  --primary: #4453B8;
+  --primary-light: #E8EDFF;
+  --dark: #111827;
+  --gray-text: #4B5563;
   --card-bg: #FFFFFF;
-  --bg-color: #F7F9FD;
-  --border-color: #DCE4F2;
-  --sub: #8A94A6;
-  --card: #FFFFFF;  */
+  --bg-color: #F5F7FD;
+  --border-color: #D5DCF0;
+  --sub: #6B7280;
+  --card: #FFFFFF; */
 
 }
 
@@ -268,6 +267,7 @@ body {
 .instructor-bio { font-size: 15px; line-height: 1.7; color: #475569; margin-bottom: 20px; }
 
 .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; }
+
 .tag { background: var(--primary-light); color: var(--primary); font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 30px; }
 
 .instructor-stats { display: flex; gap: 30px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid var(--bg-color); font-size: 14px; color: var(--gray-text); font-weight: 600; }
@@ -329,6 +329,14 @@ body {
 .contact-overlay { position: absolute; inset: 0; background: linear-gradient(rgba(15,23,42,0.2), rgba(15,23,42,0.55)); display: flex; flex-direction: column; justify-content: flex-end; padding: 40px; color: white; text-align: left; }
 .contact-overlay h3 { font-size: 32px; margin-bottom: 8px; font-weight: 700; }
 .contact-overlay p { font-size: 16px; opacity: 0.9; }
+
+.contact-overlay .tag {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #ffffff;
+  padding: 4px 10px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
 
 /* ==========================================================================
    9. Media Queries
