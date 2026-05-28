@@ -4,71 +4,26 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Noa Park | Education Design</title>
-<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght=400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght=400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ===========================
-   1. Global Reset & Variables
-   =========================== */
+/* ==========================================================================
+   1. Global Reset & Modern Variables
+   ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-
-/* 디지털 톤으로 변경 
-  --primary: #4F46E5;
-  --primary-light: #EEF2FF;
-  --dark: #1E293B;
-  --gray-text: #64748B;
-  --card-bg: #FFFFFF;
-  --bg-color: #F8FAFC;
-  --border-color: #E2E8F0;
-  --sub: #64748B;
-  --card: #FFFFFF;  */
-
-  /* 아날로그 톤으로 변경 
-   --primary: #A67C52;          /*차분한 우드 브라운 */
-   --primary-light: #EBE6E0;  /* 따뜻한 베이지 배경 */
-  --dark: #4A4440;             /* 다크 브라운 텍스트 */
-  --gray-text: #7D756D;        /* 차분한 회색조 */
-  --card-bg: #FDFBFA;         /* 거의 흰색에 가까운 미색 */
-  --bg-color: #F5F2ED;         /* 전체 배경: 크라프트지 느낌 */
-  --border-color: #D6D0C8;     /* 부드러운 테두리 */
-  --sub: #7D756D;
-  --card: #FDFBFA;  */
- 
-
-/* 딥 포레스트 & 아이보리 
-  --primary: #245647;
-  --primary-light: #E8F3EE;
-  --dark: #111827;
+  /* Teal & Slate Palette (신뢰감과 지적인 느낌을 주는 전문가용 톤) */
+  --primary: #0b6b63;
+  --primary-light: #e6f6f4;
+  --primary-dark: #074742;
+  --dark: #0f172a;
   --gray-text: #475569;
-  --card-bg: #FFFFFF;
-  --bg-color: #F4F8F6;
-  --border-color: #CBD9D3;
-  --sub: #64748B;
-  --card: #FFFFFF; */
-
-/* Teal  */
-  --primary: #0B6B63;
-  --primary-light: #CFFAF2;
-  --dark: #0B1220;
-  --gray-text: #334155;
-  --card-bg: #FFFFFF;
-  --bg-color: #F3F8F7;
-  --border-color: #CBD5E1;
-  --sub: #475569;
-  --card: #FFFFFF;
-
-/* 쪽빛(indigo) 
-  --primary: #4453B8;
-  --primary-light: #E8EDFF;
-  --dark: #111827;
-  --gray-text: #4B5563;
-  --card-bg: #FFFFFF;
-  --bg-color: #F5F7FD;
-  --border-color: #D5DCF0;
-  --sub: #6B7280;
-  --card: #FFFFFF; */
-
+  --gray-light: #94a3b8;
+  --card-bg: #ffffff;
+  --bg-color: #f8fafc;
+  --border-color: #e2e8f0;
+  --sub: #64748b;
+  --card: #ffffff;
 }
 
 body {
@@ -76,96 +31,115 @@ body {
   background: var(--bg-color);
   color: var(--dark);
   line-height: 1.7;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 0 20px;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-/* ===========================
+/* ==========================================================================
    2. Header & Navigation
-   =========================== */
+   ========================================================================== */
 .site-header {
-  position:sticky;
-  top:0;
-
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  position: sticky; top: 0; z-index: 100;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-color);
+  transition: all 0.3s ease;
 }
-.site-header .container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
 
-.logo { font-weight: 700; font-size: 22px; color: var(--primary); cursor: pointer; }
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 76px;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--primary);
+  cursor: pointer;
+  letter-spacing: -0.05em;
+  transition: transform 0.2s;
+}
+.logo:hover { transform: scale(1.05); }
 
 .nav ul { display: flex; gap: 10px; list-style: none; }
 
 .nav a {
-  cursor: pointer; text-decoration: none; color: var(--gray-text);
-  font-size: 15px; font-weight: 600; padding: 8px 16px;
-  border-radius: 8px; transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--gray-text);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 10px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.nav a:hover, .nav a.active { color: var(--primary); background: var(--primary-light); }
-.nav a.active { font-weight: 700; }
+.nav a:hover, .nav a.active {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+.nav a.active {
+  font-weight: 700;
+}
 
-/* ==========================================================================
-   3. Page Transiton System & Common Sections
-   ========================================================================== */
+/* ====    3. Page Transition & Common Sections     ==== */
 /* ── 페이지 전환: display 없이 opacity+transform만 사용 ── */
 
-.page { display: none; opacity: 0; transform: translateY(15px); transition: all 0.35s ease; }
-.page.active { display: block; opacity: 1; transform: translateY(0); }
+.page {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.page.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
 
-.section { padding: 60px 0; text-align: center; }
-.section h2 { font-size: 32px; margin-bottom: 16px; color: var(--dark); letter-spacing: -0.5px; }
-.section > p { color: var(--gray-text); font-size: 16px; margin-bottom: 40px; }
-.section-head { margin: 50px 0 30px 0; }
-.section-head p { color: var(--gray-text); margin-bottom: 4px; }
-
+.section {
+  padding: 80px 0 40px;
+  text-align: center;
+}
+.section h2 {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--dark);
+  letter-spacing: -0.03em;
+}
+.section > p {
+  color: var(--gray-text);
+  font-size: 18px;
+  max-width: 640px;
+  margin: 0 auto 48px;
+  font-weight: 400;
+}
 
 /* ===========================
    Hero Card & Animations
 =========================== */
 
-.hero-card {
-  background: var(--card);
-  border: 1px solid var(--border-color);
-  border-radius: 28px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-  margin: 40px 0;
-}
-
-.profile-image {
-  width: 100%;
-  height: 380px;
-  background: linear-gradient(rgba(15,23,42,0.6), rgba(15,23,42,0.6)),
-              url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.profile-image::after {
-  content: "";
-  position: absolute;
-  top: 0; left: -150%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-  transform: skewX(-25deg);
-  animation: shine 4s ease-in-out infinite;
-}
-
-@keyframes shine {
-  0% { left: -150%; }
-  30%, 100% { left: 150%; }
+.curriculum-tag {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  margin-bottom: 16px;
+  background: var(--primary-light);
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 30px;
 }
 
 .main-title-wrap { text-align: center; margin-top: 14px; }
@@ -180,13 +154,7 @@ body {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 } 
 
-/* 그라데이션 대신 단색 혹은 톤 다운된 컬러 사용 추천 
-  background: linear-gradient(-45deg, #A67C52, #8D6E63);
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent; 
-}  */
-
-.main-title:hover { transform: scale(1.03); }
+.main-title:hover { transform: scale(1.02); }
 .main-title:hover .rocket-emoji { display: inline-block; animation: rocketLaunch 0.5s ease infinite alternate; }
 
 @keyframes gradientFlow {
@@ -199,173 +167,555 @@ body {
   to { transform: translate(4px, -6px) scale(1.15); }
 }
 
-.hero-subtitle { margin-top: 20px; font-size: 18px; color: var(--gray-text); max-width: 600px; margin-left: auto; margin-right: auto; }
-.curriculum-tag { color: var(--primary); font-weight: 700; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; }
 
-/* ==========================================================================
-   5. Features & Timeline
-   ========================================================================== */
-.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-top: 40px; }
+.hero-subtitle {
+  font-size: 19px;
+  color: var(--gray-text);
+  max-width: 650px;
+  margin: 0 auto 48px;
+  line-height: 1.6;
+}
+
+.hero-card {
+  background: var(--card);
+  border: 1px solid var(--border-color);
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.04);
+  margin-bottom: 60px;
+}
+
+.profile-image {
+  width: 100%;
+  height: 440px;
+  background: linear-gradient(180deg, rgba(15,23,42,0.1) 0%, rgba(15,23,42,0.75) 100%),
+              url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+
+.profile-image::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -150%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+  transform: skewX(-25deg);
+  animation: shine 4s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% { left: -250%; }
+  75%, 100% { left: 200%; }
+}
+
+/* ====   5. Features, Philosophy & Timeline     ==== */
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
 .feat-card {
-  background: var(--card-bg); border-radius: 20px; padding: 30px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-  border: 1px solid var(--border-color); text-align: left; transition: transform 0.3s ease;
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 36px 30px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 10px 15px -3px rgba(0,0,0,0.03);
+  border: 1px solid var(--border-color);
+  text-align: left;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.feat-card:hover { transform: translateY(-6px); }
-.feat-icon { font-size: 36px; margin-bottom: 15px; display: inline-block; }
-.feat-card h3 { color: var(--dark); margin-bottom: 10px; font-size: 18px; }
-.feat-card p { font-size: 14px; color: var(--gray-text); line-height: 1.6; }
+.feat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05);
+  border-color: #cbd5e1;
+}
+.feat-icon {
+  font-size: 38px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+.feat-card h3 {
+  color: var(--dark);
+  margin-bottom: 12px;
+  font-size: 19px;
+  font-weight: 700;
+}
+.feat-card p {
+  font-size: 15px;
+  color: var(--gray-text);
+  line-height: 1.6;
+}
 
-.timeline { max-width: 850px; margin: auto; position: relative; }
-.timeline::before { content: ""; position: absolute; left: 18px; top: 0; width: 2px; height: 100%; background: var(--border-color); }
-.timeline-item { position: relative; padding-left: 70px; margin-bottom: 45px; }
-.timeline-dot { position: absolute; left: 10px; top: 6px; width: 18px; height: 18px; border-radius: 50%; background: var(--primary); }
-.timeline-card { background: #fff; border: 1px solid var(--border-color); border-radius: 20px; padding: 28px; text-align: left; }
-.timeline-card h4 { font-size: 20px; margin-bottom: 8px; }
-.timeline-card p { color: var(--sub); font-size: 15px; white-space: pre-line; }
+/* 교육철학 레이아웃 수선 */
+#philosophy .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+#philosophy .features-grid {
+  margin-bottom: 0;
+}
+#philosophy .features-grid p {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 32px;
+  border-radius: 20px;
+  font-size: 15px;
+  color: var(--gray-text);
+  text-align: left;
+  line-height: 1.6;
+  width: 100%;
+}
+#philosophy .features-grid p strong {
+  display: block;
+  font-size: 20px;
+  color: var(--dark);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
 
-.badge-list { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
-.badge { background: #EBE6E0; color: #8D6E63; padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; } 
+/* Timeline */
+.timeline {
+  max-width: 800px;
+  margin: 40px auto 0;
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 8px;
+  width: 2px;
+  height: calc(100% - 20px);
+  background: var(--border-color);
+}
+.timeline-item {
+  position: relative;
+  padding-left: 60px;
+  margin-bottom: 40px;
+}
+.timeline-dot {
+  position: absolute;
+  left: 12px;
+  top: 28px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 4px solid var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-light);
+  z-index: 2;
+}
+.timeline-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 32px;
+  text-align: left;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+}
+.timeline-card h4 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+.timeline-card p {
+  color: var(--gray-text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.badge-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.badge {
+  background: var(--bg-color);
+  color: var(--gray-text);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+}
 
-/* .badge { 
-  background: #EBE6E0;  #ECFDF5 green
-  color: #8D6E63;          #047857 green
-} */
+/* ====      6. Course Grids & Dynamic Cards      ===== */
 
-/* ==========================================================================
-   6. Course Grids & Cards
-   ========================================================================== */
-.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px; }
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+  margin-top: 20px;
+}
 .project-card {
-  background: var(--card-bg); padding: 30px; border-radius: 24px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-  border: 1px solid var(--border-color); text-align: left;
-}
-.project-card > h3 { font-size: 20px; color: var(--dark); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-color); }
-.project-card .items { display: flex; flex-direction: column; gap: 12px; }
-.project-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 16px; margin-bottom: 18px; }
-
-.mini-card {
-  background: var(--bg-color); border: 1px solid var(--border-color);
-  border-radius: 14px; padding: 18px; cursor: pointer; transition: all 0.25s ease;
-}
-.mini-card:hover {
-  transform: translateY(-4px); background: var(--card-bg); border-color: var(--primary);
-  box-shadow: 0 10px 15px -3px rgba(79,70,229,0.1), 0 4px 6px -2px rgba(79,70,229,0.05);
-}
-.mini-card h4 { color: var(--dark); margin-bottom: 6px; font-size: 16px; transition: color 0.25s; }
-.mini-card:hover h4 { color: var(--primary); }
-.mini-card p { font-size: 13px; color: var(--gray-text); }
-
-.meta {
+  background: var(--card-bg);
+  border-radius: 28px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+  border: 1px solid var(--border-color);
+  text-align: left;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 16px;
+}
+.project-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.project-card .meta {
+  padding: 32px 32px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.project-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+.project-card p {
+  font-size: 14px;
+  color: var(--gray-text);
+  line-height: 1.6;
+}
+.project-card p strong {
+  color: var(--dark);
+  font-weight: 600;
+  display: inline-block;
+  width: 45px;
+}
+.project-card .items {
+  padding: 0 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.mini-card {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mini-card:hover {
+  transform: translateY(-3px);
+  background: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 10px 20px rgba(11, 107, 99, 0.06);
+}
+.mini-card h4 {
+  color: var(--dark);
+  margin-bottom: 4px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.mini-card:hover h4 { color: var(--primary); }
+.mini-card p {
   font-size: 13px;
-  color: #334155;
+  color: var(--sub);
 }
 
-/* ==========================================================================
-   7. Instructor Profile
-   ========================================================================== */
+/* ====  7. Instructor Profile   ===== */
+
 .instructor-profile {
-  background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 35px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-  text-align: left; max-width: 750px; margin: 0 auto 40px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 32px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.03);
+  text-align: left;
+  max-width: 800px;
+  margin: 0 auto 48px;
 }
-.instructor-profile-header { display: flex; align-items: center; gap: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 25px; margin-bottom: 25px; }
+.instructor-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 32px;
+  margin-bottom: 32px;
+}
 .instructor-avatar {
-  font-size: 40px; background: var(--primary-light); width: 80px; height: 80px;
-  display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;
+  font-size: 36px;
+  background: var(--primary-light);
+  color: var(--primary);
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  flex-shrink: 0;
 }
-.instructor-name { font-size: 24px; color: var(--dark); margin-bottom: 4px; }
-.instructor-role { color: var(--primary); font-weight: 600; font-size: 15px; }
-.instructor-bio { font-size: 15px; line-height: 1.7; color: #475569; margin-bottom: 20px; }
+.instructor-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+.instructor-name small {
+  font-size: 16px;
+  color: var(--sub);
+  font-weight: 500;
+  margin-left: 6px;
+}
+.instructor-role {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 16px;
+}
+.instructor-bio {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--gray-text);
+  margin-bottom: 28px;
+}
 
-.tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; }
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.tag {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 30px;
+}
 
-.tag { background: var(--primary-light); color: var(--primary); font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 30px; }
+.instructor-stats {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 15px;
+  color: var(--gray-text);
+}
+.stat-value {
+  color: var(--dark);
+  font-weight: 700;
+  margin-left: 6px;
+}
+.stat-value a {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
 
-.instructor-stats { display: flex; gap: 30px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid var(--bg-color); font-size: 14px; color: var(--gray-text); font-weight: 600; }
-.stat-value { color: var(--dark); font-weight: 700; margin-left: 4px; }
-.stat-value a { cursor: pointer; text-decoration: none; color: inherit; }
+.instructor-courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+}
+.instructor-course-item {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--primary);
+  padding: 14px 18px;
+  border-radius: 0 12px 12px 0;
+  font-size: 14px;
+  color: var(--dark);
+  font-weight: 600;
+}
 
-.instructor-courses-title { font-size: 16px; color: var(--dark); margin-bottom: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-.instructor-courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; list-style: none; padding: 0; }
-.instructor-course-item { background: var(--bg-color); border: 1px solid var(--border-color); border-left: 3px solid var(--primary); padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 14px; color: var(--dark); font-weight: 600; }
+/* Contact List */
+.contact-list {
+  list-style: none;
+  margin-top: 20px;
+  display: inline-block;
+  text-align: left;
+}
+.contact-list li {
+  margin: 16px 0;
+  font-size: 16px;
+  color: var(--gray-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.contact-list a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px dashed var(--primary);
+}
+.contact-list a:hover {
+  color: var(--primary-dark);
+  border-bottom-style: solid;
+}
+.naver-form-link {
+  color: #03c75a !important;
+  border-bottom-color: #03c75a !important;
+}
 
-.contact-list { list-style: none; margin-top: 20px; display: inline-block; text-align: left; }
-.contact-list li { margin: 16px 0; font-size: 16px; color: var(--dark); }
-.contact-list a { color: var(--primary); text-decoration: none; font-weight: 600; }
-.contact-list a:hover { text-decoration: underline; }
-.naver-form-link { color: #03C75A !important; }
+/* ====  8. Modals, Toasts & Banners     ==== */
 
-/* ==========================================================================
-   8. Modals, Toasts & Banners
-   ========================================================================== */
 .modal {
-  display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%;
-  background: rgba(15,23,42,0.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  justify-content: center; align-items: center; padding: 20px;
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
 }
 .modal-content {
-  background: var(--card-bg); width: 100%; max-width: 600px; border-radius: 24px; padding: 35px; position: relative;
-  overflow-y: auto; max-height: 90vh; text-align: left; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-  animation: popup 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
+  background: var(--card-bg);
+  width: 100%;
+  max-width: 640px;
+  border-radius: 28px;
+  padding: 40px;
+  position: relative;
+  overflow-y: auto;
+  max-height: 85vh;
+  text-align: left;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.2);
+  animation: popup 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-@keyframes popup { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-#closeBtn { position: absolute; right: 25px; top: 20px; font-size: 28px; cursor: pointer; color: var(--gray-text); transition: color 0.2s; }
+@keyframes popup { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+#closeBtn {
+  position: absolute;
+  right: 32px;
+  top: 28px;
+  font-size: 32px;
+  cursor: pointer;
+  color: var(--gray-light);
+  line-height: 1;
+  transition: color 0.2s;
+}
 #closeBtn:hover { color: var(--dark); }
 
-.modal h2 { margin-bottom: 8px; color: var(--dark); font-size: 24px; letter-spacing: -0.5px; }
-.modal #modalDesc { color: var(--gray-text); margin-bottom: 25px; font-size: 15px; }
-.modal h4 { margin-top: 24px; margin-bottom: 10px; font-size: 16px; color: var(--dark); display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; }
-.modal p, .modal ul { font-size: 14px; color: #475569; padding-left: 4px; }
+.modal h2 { margin-bottom: 8px; color: var(--dark); font-size: 26px; font-weight: 800; }
+.modal #modalDesc { color: var(--gray-text); margin-bottom: 28px; font-size: 16px; }
+.modal h4 {
+  margin-top: 28px;
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 6px;
+}
+.modal p, .modal ul { font-size: 15px; color: var(--gray-text); line-height: 1.6; }
 .modal ul { padding-left: 20px; }
-.modal li { margin-bottom: 6px; }
+.modal li { margin-bottom: 8px; }
 .modal pre {
-  background: #0F172A; color: #F8FAFC; padding: 16px; border-radius: 12px;
-  overflow-x: auto; font-family: 'Fira Code', Consolas, Monaco, monospace; font-size: 13px; margin-top: 8px;
+  background: #0f172a;
+  color: #38bdf8;
+  padding: 18px;
+  border-radius: 14px;
+  overflow-x: auto;
+  font-family: 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 13.5px;
+  margin-top: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 #toast {
-  visibility: hidden; min-width: 280px; background-color: var(--dark); color: #fff;
-  text-align: center; border-radius: 12px; padding: 14px 24px; position: fixed; z-index: 1000; left: 50%; bottom: 40px;
-  transform: translate(-50%, 20px); font-size: 14px; font-weight: 600; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
-  opacity: 0; transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+  visibility: hidden;
+  min-width: 320px;
+  background-color: var(--dark);
+  color: #fff;
+  text-align: center;
+  border-radius: 14px;
+  padding: 16px 28px;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  bottom: 40px;
+  transform: translate(-50%, 20px);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
 }
 #toast.show { visibility: visible; opacity: 1; transform: translate(-50%, 0); }
 
-.site-footer { text-align: center; padding: 40px; background: var(--dark); color: #94A3B8; margin-top: 80px; font-size: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
-
-.contact-image-wrap { margin-top: 50px; display: flex; justify-content: center; }
-.contact-banner { position: relative; width: 100%; max-width: 900px; overflow: hidden; border-radius: 28px; }
-.contact-image { width: 100%; display: block; object-fit: cover; box-shadow: 0 10px 30px rgba(15,23,42,0.08); transition: transform .5s ease; }
-.contact-banner:hover .contact-image { transform: scale(1.03); }
-.contact-overlay { position: absolute; inset: 0; background: linear-gradient(rgba(15,23,42,0.2), rgba(15,23,42,0.55)); display: flex; flex-direction: column; justify-content: flex-end; padding: 40px; color: white; text-align: left; }
-.contact-overlay h3 { font-size: 32px; margin-bottom: 8px; font-weight: 700; }
-.contact-overlay p { font-size: 16px; opacity: 0.9; }
-
+/* Banners & Footer */
+.contact-image-wrap { margin-top: 60px; display: flex; justify-content: center; }
+.contact-banner { position: relative; width: 100%; max-width: 900px; overflow: hidden; border-radius: 32px; box-shadow: 0 20px 40px rgba(15,23,42,0.06); }
+.contact-image { width: 100%; display: block; height: 320px; object-fit: cover; transition: transform .6s cubic-bezier(0.16, 1, 0.3, 1); }
+.contact-banner:hover .contact-image { transform: scale(1.04); }
+.contact-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,23,42,0.1) 0%, rgba(15,23,42,0.8) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 48px;
+  color: white;
+  text-align: left;
+  width: 100%;
+}
+.contact-overlay h3 { font-size: 32px; margin-bottom: 12px; font-weight: 800; line-height: 1.3; }
+.contact-overlay p { font-size: 16px; opacity: 0.85; }
 .contact-overlay .tag {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  padding: 4px 10px;
-  font-weight: 400;
-  letter-spacing: 0.05em;
+  padding: 6px 14px;
+  font-weight: 500;
 }
 
-/* ===========================
-   9. Media Queries
-   =========================== */
+.site-footer {
+  text-align: center;
+  padding: 48px;
+  background: var(--dark);
+  color: #64748b;
+  margin-top: 100px;
+  font-size: 14px;
+  font-weight: 500;
+}
 
-@media(max-width:768px){
-  .contact-overlay { padding: 24px; }
-  .contact-overlay h3 { font-size: 24px; }
-  .contact-image { min-height: 260px; }
-  .mobile-br { display: block; }
-}  
+/* ====  9. Media Queries   ==== */
+
+@media(max-width: 768px) {
+  .site-header .container { height: 66px; }
+  .logo { font-size: 20px; }
+  .nav a { padding: 8px 12px; font-size: 14px; }
+  .main-title { font-size: 34px; }
+  .hero-subtitle { font-size: 16px; margin-bottom: 32px; }
+  .section { padding: 50px 0 30px; }
+  .section h2 { font-size: 28px; }
+  .profile-image { height: 320px; }
+  .contact-overlay { padding: 28px; }
+  .contact-overlay h3 { font-size: 22px; }
+  .contact-image { height: 240px; }
+  .timeline::before { left: 16px; }
+  .timeline-dot { left: 8px; }
+  .timeline-item { padding-left: 44px; }
+  .instructor-profile { padding: 24px; }
+  .instructor-profile-header { flex-direction: column; text-align: center; gap: 16px; }
+  .modal-content { padding: 24px; }
+}
 </style>
 </head>
 
@@ -395,13 +745,11 @@ body {
       </div>
       <p class="hero-subtitle">AI·바이브 코딩·피지컬 컴퓨팅을 통합한 프로젝트 기반 실습형 교육을 설계합니다.</p>
     
-       <!-- 수정: 끊어진 span 태그 및 중복 삽입된 HTML 제거 -->
-
       <div class="hero-card">
         <div class="profile-image">
           <div class="contact-overlay">
             <h3>새로운 경험을 설계하는 AX <br> 융합 교육 <strong> Noa Park</strong></h3>
-            <div style="margin-top:10px;">
+            <div style="margin-top:16px; display: flex; gap: 8px;">
               <span class="tag">AI</span>
               <span class="tag">피지컬 컴퓨팅</span>
               <span class="tag">융합 교육 </span>
@@ -411,8 +759,7 @@ body {
       </div>
     </section> 
        
-    
-<section>
+    <section>
       <div class="features-grid">
         <div class="feat-card"><span class="feat-icon">⚡</span><h3>즉시 실습 가능</h3><p>강의를 통해 바로 실습과 확장이 가능합니다.</p></div>
         <div class="feat-card"><span class="feat-icon">🎯</span><h3>수준별 맞춤 학습</h3><p>학습자에 맞게 두 트랙으로 설계된 콘텐츠로 교육할 수 있습니다.</p></div>
@@ -468,34 +815,23 @@ body {
         </div>
       </div>
     </section>
-  </div>
 
-<!-- PHILOSOPHY -->
+    <!-- PHILOSOPHY (Grid 버그 수선 완료) -->
     <section class="section" id="philosophy">
-  <div class="container">
-    <h2>교육 철학</h2>
-
-    <div class="grid">
-
-      <div class="features-grid">
-        <p><strong>Learning by Building</strong>
-        학습과 동시에 결과물을 생성합니다.</p>
+      <h2>교육 철학</h2>
+      <div class="grid">
+        <div class="features-grid">
+          <p><strong>Learning by Building</strong>학습과 동시에 결과물을 생성합니다.</p>
+        </div>
+        <div class="features-grid">
+          <p><strong>AI-Augmented Thinking</strong>AI를 사고 확장 도구로 활용합니다.</p>
+        </div>
+        <div class="features-grid">
+          <p><strong>Real-world Problem Solving</strong>실제 문제 해결 기반 프로젝트 설계</p>
+        </div>
       </div>
-
-      <div class="features-grid">
-        <p><strong>AI-Augmented Thinking</strong>
-        AI를 사고 확장 도구로 활용합니다.</p>
-      </div>
-
-      <div class="features-grid">
-        <p><strong>Real-world Problem Solving</strong>
-        실제 문제 해결 기반 프로젝트 설계</p>
-      </div>
-
-    </div>
+    </section>
   </div>
-</section>
-
 </div> <!--page END-->
 
 
@@ -504,48 +840,50 @@ body {
   <div class="container">
     <section class="section">
       <h2> 교육 프로그램 </h2>
-      <p> <small>학교 / 기관 / 연수용</small> 각 프로그램은 프로젝트형 수업으로 설계됩니다.</p>
+      <p> 각 프로그램은 학교 / 기관 / 연수용 프로젝트형 수업으로 설계됩니다.</p>
        
       <div class="projects-grid">
                  
          <div class="project-card" id="physical">
           <img src="https://images.unsplash.com/photo-1517055729445-fa7d27394b48?auto=format&fit=crop&w=500&q=80" alt="피지컬 컴퓨팅 강의">
-      <div class="meta">
-      <h3>피지컬 컴퓨팅 & IoT 융합</h3>
-      <p><strong>대상</strong> 초·중·고<br>
-      <strong>결과</strong> 프로토타입<br>
-      <strong>핵심</strong> 센서 · 데이터 · 피지컬 컴퓨팅</p>
-      </div>
-      <div class="items"></div></div>
+          <div class="meta">
+            <h3>피지컬 컴퓨팅 & IoT 융합</h3>
+            <p><strong>대상</strong> 초·중·고<br>
+            <strong>결과</strong> 프로토타입<br>
+            <strong>핵심</strong> 센서 · 데이터 · 피지컬 컴퓨팅</p>
+          </div>
+          <div class="items"></div>
+        </div>
          
-      <div class="project-card" id="blockcoding">
-      <div class="meta">
-      <h3>코딩 기초 & 알고리즘</h3>
-      <p><strong>대상</strong> 초~중등<br>
-      <strong>결과</strong> 게임 / 프로젝트 제작<br>
-      <strong>핵심</strong> 블록코딩, 절차적 사고</p>
-      </div>
-      <div class="items"></div></div>
+        <div class="project-card" id="blockcoding">
+          <div class="meta">
+            <h3>코딩 기초 & 알고리즘</h3>
+            <p><strong>대상</strong> 초~중등<br>
+            <strong>결과</strong> 게임 / 프로젝트 제작<br>
+            <strong>핵심</strong> 블록코딩, 절차적 사고</p>
+          </div>
+          <div class="items"></div>
+        </div>
         
-      <div class="project-card" id="auto">
-      <div class="meta">
-      <h3>AI 업무 자동화 교육</h3>
-      <p><strong>대상</strong> 교사 / 학생 / 기관<br>
-      <strong>결과</strong> 자동화 시스템 구축<br>
-      <strong>핵심</strong> 바이브 코딩, 에이전트, 워크플로우</p>
-      </div>
-     <div class="items"></div></div>
+        <div class="project-card" id="auto">
+          <div class="meta">
+            <h3>AI 업무 자동화 교육</h3>
+            <p><strong>대상</strong> 교사 / 학생 / 기관<br>
+            <strong>결과</strong> 자동화 시스템 구축<br>
+            <strong>핵심</strong> 바이브 코딩, 에이전트, 워크플로우</p>
+          </div>
+         <div class="items"></div>
+        </div>
 
         <div class="project-card" id="portfolio">
-       <div class="meta">
-       <h3>AI Portfolio</h3>
-        <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=500&q=80" alt="브랜드 디자인">
+          <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=500&q=80" alt="브랜드 디자인">
+          <div class="meta">
+            <h3>AI Portfolio</h3>
+            <p><strong>대상</strong> 고등 / 대학 / 성인<br>
+            <strong>결과</strong> 포트폴리오 제작<br>
+            <strong>핵심</strong> 생성형 AI + 디자인</p>
+          </div>
           <div class="items"></div>
-      <p><strong>대상</strong> 고등 / 대학 / 성인<br>
-      <strong>결과</strong> 포트폴리오 제작<br>
-      <strong>핵심</strong> 생성형 AI + 디자인</p>
-      </div>
-  
         </div>
       </div>
 
@@ -576,7 +914,7 @@ body {
         <div class="instructor-profile-header">
           <div class="instructor-avatar">🗃</div>
           <div>
-            <h3 class="instructor-name"><strong>박노아</strong> <small>Noa Park</small></h3>
+            <h3 class="instructor-name">박노아 <small>Noa Park</small></h3>
             <p class="instructor-role">새로운 경험을 설계하는 AI·코딩 융합교육 운영 강사</p>
           </div>
         </div>
@@ -590,7 +928,6 @@ body {
           <div>⭐ 만족도 <span class="stat-value"><a onclick="showToast('준비중입니다.')">...</a></span></div>
         </div>
 
-        <p class="instructor-courses-title">        </p>
         <ul class="instructor-courses-grid" id="instructorCourses"></ul>
       </div>
 
@@ -606,14 +943,14 @@ body {
   <div class="container">
     <section class="section">
       <h2>강의 문의</h2>
-      <p style="color: var(--gray-text); margin-bottom: 20px;">강의 · 협업 · 교육 프로그램 설계 관련 문의를 남겨주세요</p>
+      <p>강의 · 협업 · 교육 프로그램 설계 관련 문의를 남겨주세요</p>
 
       <ul class="contact-list">
         <li>강의 문의 : <a href="https://naver.me/5OltuzOE" target="_blank">About Lecture & Partnership ↗</a></li>
         <li>Email : <a href="mailto:pnoa79@naver.com">pnoa79@naver.com</a></li>
         <li>GitHub : <a href="https://github.com" target="_blank"> github.com</a></li>
          
-        <li>📄 <a onclick="showToast('준비중입니다.')" style="color: black;" >Notion</a> 교육 사례 및 자료 공유 </li> <!-- href="https://www.notion.com/ko" target="_blank" -->
+        <li>📄 <a onclick="showToast('준비중입니다.')" style="color: black; cursor:pointer;" >Notion</a> 교육 사례 및 자료 공유 </li>
         <li>📚 <a href="https://blog.naver.com/pnoa79" target="_blank" class="naver-form-link">네이버 블로그</a> / 인스타그램 채널 준비 중</li>
       </ul>
       
@@ -621,8 +958,8 @@ body {
         <div class="contact-banner">
           <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="강의 문의 및 협업 이미지" class="contact-image">
           <div class="contact-overlay">
-            <h3>  </h3> <!-- 문구삽입 -->
-            <p>   </p> <!-- 문구삽입  -->
+            <h3>     </h3> /* 나중에 추가 */
+            <p>       </p> /* 나중에 추가 */
           </div>
         </div>
       </div>
@@ -634,9 +971,7 @@ body {
 <footer class="site-footer">© 2026 All rights reserved.</footer>
 
 <script>
-/* ==========================================================================
-   1. Data Initialization
-   ========================================================================== */
+/* 데이터 핸들링 및 함수는 원본 파일과 완전 동일하게 유지됩니다. */
 const instructor = {
   tags: ["맞춤형 교육 설계", "프로젝트 기반 수업", "AI·코딩 융합 교육", "결과물 중심 수업","피지컬 컴퓨팅 활용 STEAM 수업이 과학긍정경험에 미치는 영향 연구","현장형 AX"],
   courses: [
@@ -668,9 +1003,6 @@ const containers = {
   design: document.querySelector("#portfolio .items")
 };
 
-/* ==========================================================================
-   2. DOM Rendering
-   ========================================================================== */
 // 강사 정보 렌더링
 document.getElementById("instructorTags").innerHTML = instructor.tags.map(t => `<span class="tag">#${t}</span>`).join("");
 document.getElementById("instructorCourses").innerHTML = instructor.courses.map(c => `<li class="instructor-course-item">${c}</li>`).join("");
@@ -684,9 +1016,6 @@ posts.forEach(post => {
   if (containers[post.cat]) containers[post.cat].appendChild(card);
 });
 
-/* ==========================================================================
-   3. Controller Functions (Modal, Navigation, Toast)
-   ========================================================================== */
 const modal = document.getElementById("modal");
 const closeBtn = document.getElementById("closeBtn");
 
@@ -708,13 +1037,11 @@ function openModal(post) {
   modal.style.display = "flex";
 }
 
-// 모달 닫기 이벤트 핸들러 통합
 const closeModal = () => modal.style.display = "none";
 closeBtn.onclick = closeModal;
 window.onclick = e => { if (e.target === modal) closeModal(); };
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
 
-// 페이지 전환
 function goPage(page, el) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   const target = document.getElementById("page-" + page);
@@ -726,7 +1053,6 @@ function goPage(page, el) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// 토스트 팝업
 let toastTimeout;
 function showToast(msg) {
   const toast = document.getElementById("toast");
