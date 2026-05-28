@@ -12,6 +12,8 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
+
+/* 디지털 톤으로 변경 
   --primary: #4F46E5;
   --primary-light: #EEF2FF;
   --dark: #1E293B;
@@ -20,7 +22,54 @@
   --bg-color: #F8FAFC;
   --border-color: #E2E8F0;
   --sub: #64748B;
-  --card: #FFFFFF;
+  --card: #FFFFFF;  */
+
+  /* 아날로그 톤으로 변경 
+   --primary: #A67C52;          /*차분한 우드 브라운 */
+   --primary-light: #EBE6E0;  /* 따뜻한 베이지 배경 */
+  --dark: #4A4440;             /* 다크 브라운 텍스트 */
+  --gray-text: #7D756D;        /* 차분한 회색조 */
+  --card-bg: #FDFBFA;         /* 거의 흰색에 가까운 미색 */
+  --bg-color: #F5F2ED;         /* 전체 배경: 크라프트지 느낌 */
+  --border-color: #D6D0C8;     /* 부드러운 테두리 */
+  --sub: #7D756D;
+  --card: #FDFBFA;  */
+ 
+
+/* 딥 포레스트 & 아이보리 
+--primary: #2E5E4E;
+--primary-light: #EDF5F1;
+--dark: #1F2D27;
+--gray-text: #5F6D67;
+--card-bg: #FFFFFF;
+--bg-color: #F6FAF8;
+--border-color: #D9E6DF;
+--sub: #88958F;
+--card: #FFFFFF; */
+
+/* Teal */
+  --primary: #0F766E;
+  --primary-light: #ECFEFF;
+  --dark: #1F2937;
+  --gray-text: #64748B;
+  --card-bg: #FFFFFF;
+  --bg-color: #F8FAFC;
+  --border-color: #DDE7E7;
+  --sub: #7A8C8B;
+  --card: #FFFFFF;  
+
+
+/* 쪽빛(indigo) 
+  --primary: #4F5FAF;
+  --primary-light: #EEF2FF;
+  --dark: #1E2740;
+  --gray-text: #667085;
+  --card-bg: #FFFFFF;
+  --bg-color: #F7F9FD;
+  --border-color: #DCE4F2;
+  --sub: #8A94A6;
+  --card: #FFFFFF;  */
+
 }
 
 body {
@@ -113,6 +162,7 @@ body {
 }
 
 .main-title-wrap { text-align: center; margin-top: 14px; }
+
 .main-title {
   font-size: 54px; font-weight: 800; letter-spacing: -2px; line-height: 1.25;
   display: inline-block; cursor: default;
@@ -121,7 +171,14 @@ body {
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   animation: gradientFlow 8s ease infinite;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
+} 
+
+/* 그라데이션 대신 단색 혹은 톤 다운된 컬러 사용 추천 
+  background: linear-gradient(-45deg, #A67C52, #8D6E63);
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent; 
+}  */
+
 .main-title:hover { transform: scale(1.03); }
 .main-title:hover .rocket-emoji { display: inline-block; animation: rocketLaunch 0.5s ease infinite alternate; }
 
@@ -161,7 +218,12 @@ body {
 .timeline-card p { color: var(--sub); font-size: 15px; white-space: pre-line; }
 
 .badge-list { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
-.badge { background: #ECFDF5; color: #047857; padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+.badge { background: #EBE6E0; color: #8D6E63; padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; } 
+
+/* .badge { 
+  background: #EBE6E0;  #ECFDF5 green
+  color: #8D6E63;          #047857 green
+} */
 
 /* ==========================================================================
    6. Course Grids & Cards
@@ -284,7 +346,7 @@ body {
 
 <header class="site-header">
   <div class="container">
-    <div class="logo" onclick="showToast('만나서 반갑습니다![]는 확장성을 표현하는 핵심 모티프입니다.')">[]</div>
+    <div class="logo" onclick="showToast('만나서 반갑습니다! [   ]는 확장성을 표현하는 핵심 모티프입니다.')">[]</div>
     <nav class="nav">
       <ul>
         <li><a class="active" onclick="goPage('home', this)">소개</a></li>
@@ -473,7 +535,7 @@ body {
       <ul class="contact-list">
         <li>강의 문의 : <a href="https://naver.me/5OltuzOE" target="_blank">About Lecture & Partnership ↗</a></li>
         <li>Email : <a href="mailto:pnoa79@naver.com">pnoa79@naver.com</a></li>
-        <li>GitHub : <a href="https://github.com" target="_blank">github.com</a></li>
+        <li>GitHub : <a href="https://github.com" target="_blank"> github.com</a></li>
          
         <li>📄 <a onclick="showToast('준비중입니다.')" style="color: black;" >Notion</a> 교육 사례 및 자료 공유 </li> <!-- href="https://www.notion.com/ko" target="_blank" -->
         <li>📚 <a href="https://blog.naver.com/pnoa79" target="_blank" class="naver-form-link">네이버 블로그</a> / 인스타그램 채널 준비 중</li>
