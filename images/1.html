@@ -184,8 +184,22 @@ textarea{height:80px;resize:none;font-family:inherit}
 .arr{color:var(--primary);font-weight:700;margin:0 2px}
 
 /* ── ROULETTE ── */
-.roulette-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:10px}
-#canvas{border-radius:50%;box-shadow:0 4px 24px rgba(0,0,0,.13)}
+.roulette-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+#canvas{
+  border-radius:50%;
+
+  background:white;
+
+  padding:10px;
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,.12);
+}
 .roulette-result,.guess-result{font-size:17px;font-weight:800;color:var(--primary);min-height:26px;text-align:center;margin-top:6px}
 
 /* ── GUESS GAME ── */
