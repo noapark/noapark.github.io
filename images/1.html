@@ -3,37 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>스마트 클래스 매니저</title>
+<title>스마트 운영 매니저 Dashboard </title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --primary:#6366f1;
-  --primary2:#8b5cf6;
-  --success:#10b981;
-  --warning:#f59e0b;
-  --danger:#ef4444;
-  --bg:#f4f7ff;
-  --card:#ffffffcc;
-  --text:#1e293b;
-  --muted:#64748b;
-  --shadow:
-    0 10px 30px rgba(99,102,241,.12),
-    0 4px 12px rgba(0,0,0,.05);
+:root {
+  /* Primary & Accent (Teal 계열로 변경하여 신뢰감 있고 지적인 느낌 강조) */
+  --primary: #14b8a6;      /* 메인 Teal (기존 --teal) */
+  --primary2: #0d9488;     /* 딥 Teal (기존 --teal2) */
+  --success: #10b981;      /* 에메랄드 그린 */
+  --warning: #f97316;      /* 명시성 높은 오렌지 (기존 --orange) */
+  --danger: #ef4444;       /* 선명한 레드 (기존 --red) */
 
-  --teal: #14b8a6;
-  --teal2: #0d9488;
-  --red: #ef4444;
+  /* Backgrounds & Surfaces (차분한 Slate 톤을 베이스로 정돈) */
+  --bg: #f8fafc;           /* Slate 50 기반의 아주 밝고 깨끗한 배경 */
+  --card: rgba(255, 255, 255, 0.85); /* 반투명 화이트 카드 효과 */
+  
+  /* Typography (Slate 계열로 깊이감과 가독성 확보) */
+  --text: #1e293b;         /* Slate 800 - 메인 텍스트 (기존 유지) */
+  --muted: #475569;        /* Slate 600 - 서브 텍스트 (기존보다 선명하게 조정) */
+  --faint: #94a3b8;        /* Slate 400 - 덜 중요한 텍스트/플레이스홀더 */
+
+  /* Borders & Dividers */
+  --border: #e2e8f0;       /* Slate 200 - 기본 경계선 */
+  --border2: #cbd5e1;      /* Slate 300 - 조금 더 짙은 경계선 */
+
+  /* Shadows (Teal 메인 컬러를 은은하게 반영한 세련된 그림자) */
+  --shadow: 
+    0 10px 30px rgba(20, 184, 166, 0.08), 
+    0 4px 12px rgba(71, 85, 105, 0.04);
+
+  /* 보조/확장용 컬러 (필요 시 활용할 수 있도록 유지) */
   --red2: #dc2626;
-  --orange: #f97316;
   --orange2: #ea580c;
   --purple: #a855f7;
   --purple2: #9333ea;
   --slate: #64748b;
   --slate2: #475569;
-  --border: #e2e8f0;
-  --border2: #cbd5e1;
-  --faint: #94a3b8;
 }
   
 body{
