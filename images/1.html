@@ -701,8 +701,9 @@ function buildTimelineStructure(){
     let ms=new Date(cur);cur.setMinutes(cur.getMinutes()+mMin);
     schedTL.push({type:'meal',period:totalPeriods,start:ms,end:new Date(cur)});
   }
-  function renderTL();
+
 }
+function renderTL(){
 
 function startFromBeginning(){
   if(!schedTL.length)buildTimelineStructure();
@@ -729,10 +730,17 @@ function syncWithCurrentTime() {
       startFromBeginning();
       return;
     } else {
-      renderTL();
-      return;
-    }
-  }
+  clearInterval(timerIv);
+
+  document.getElementById("statusBadge").className =
+    "status-badge done";
+
+  document.getElementById("statusBadge").innerText =
+    "🎉 모든 일정 종료";
+
+  renderTL();
+  return;
+}
 
   const s = schedTL[foundIndex];
   curPeriod = s.period;
@@ -744,7 +752,7 @@ function syncWithCurrentTime() {
   startSession();
 }
 
-unction renderTL(){
+function renderTL(){
   const area=document.getElementById("timelineVisual");area.innerHTML="";
   schedTL.forEach((item,idx)=>{
     const div=document.createElement("div");
@@ -808,7 +816,7 @@ function jumpTo(index){
       ? '쉬는시간'
       : '식사시간'} 시작`
   );
-}}
+}
 
 function setBadge(extra=""){
   const b=document.getElementById("statusBadge");
