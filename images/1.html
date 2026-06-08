@@ -703,13 +703,67 @@ function buildTimelineStructure(){
   }
 
 }
+
+renderTL();
+}
+
 function renderTL(){
+  const area=document.getElementById("timelineVisual");
+  area.innerHTML="";
+
+  schedTL.forEach((item,idx)=>{
+    const div=document.createElement("div");
+
+    let cls="tl-item";
+    if(item.type==="break") cls+=" tl-break";
+    if(item.type==="meal") cls+=" tl-meal";
+
+    const isCur =
+      item.period===curPeriod &&
+      item.type===curStage &&
+      remainSec>0;
+
+    const ci=schedTL.findIndex(
+      s=>s.period===curPeriod && s.type===curStage
+    );
+
+    if(idx<ci && ci>=0) cls+=" tl-done";
+    if(isCur) cls+=" tl-active";
+
+    div.className=cls;
+
+    const label =
+      item.type==="lecture"
+        ? item.period+" Class"
+        : item.type==="break"
+        ? "☕ 쉬는시간"
+        : "🍱 식사";
+
+    const ts=item.start.toLocaleTimeString([],{
+      hour:'2-digit',
+      minute:'2-digit'
+    });
+
+    div.innerHTML=`
+      <div class="tl-name">${label}</div>
+      <div class="tl-time">${ts}</div>
+    `;
+
+    div.onclick=()=>jumpTo(idx);
+
+    area.appendChild(div);
+  });
+}
+
+function startFromBeginning(){
+  
+/* function renderTL(){
 
 function startFromBeginning(){
   if(!schedTL.length)buildTimelineStructure();
   if(!schedTL.length)return;
   jumpTo(0);
-}
+} */
 
 function syncWithCurrentTime() {
   if (!schedTL.length) buildTimelineStructure();
