@@ -8,7 +8,6 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-/* 기존 변수 */
   --primary:#6366f1;
   --primary2:#8b5cf6;
   --success:#10b981;
@@ -22,7 +21,6 @@
     0 10px 30px rgba(99,102,241,.12),
     0 4px 12px rgba(0,0,0,.05);
 
-  /* 💡 [수정] 누락되었던 필수 CSS 변수 대거 추가 (버튼 및 테두리용) */
   --teal: #14b8a6;
   --teal2: #0d9488;
   --red: #ef4444;
@@ -45,10 +43,7 @@ body{
     #f6f8ff;
   min-height:100vh;
   color:var(--text);
-  font-family:
-    "Pretendard",
-    "Noto Sans KR",
-    sans-serif;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
 }
 
 .wrap{
@@ -96,7 +91,6 @@ body{
   transform:translateY(-3px);
 }
 
-/* 💡 [수정] 주사위 박스 외 카드 타이틀 스타일이 주석 처리되어 있던 것을 해제 및 보완 */
 .card-title{
   font-size:15px;
   font-weight:700;
@@ -159,7 +153,7 @@ textarea{height:80px;resize:none;font-family:inherit}
 .status-badge.break-mode{background:#f0f9ff;border-color:#bae6fd;color:#0369a1}
 .status-badge.meal-mode{background:#fefce8;border-color:#fef08a;color:#854d0e}
 .status-badge.paused{background:#fef3f2;border-color:#fecaca;color:#dc2626}
-.status-badge.done{background:#f0fdf4;border-color:#bbf7d0;color:#15803d}
+.status-badge.done{background:#f0df4;border-color:#bbf7d0;color:#15803d}
 .timer-display{font-size:84px;font-weight:800;letter-spacing:5px;line-height:1;font-variant-numeric:tabular-nums;color:var(--text);transition:color .4s}
 .timer-display.warn{color:var(--orange2)}
 .timer-display.urgent{color:#ef4444}
@@ -192,22 +186,8 @@ textarea{height:80px;resize:none;font-family:inherit}
 .arr{color:var(--primary);font-weight:700;margin:0 2px}
 
 /* ── ROULETTE ── */
-.roulette-wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-#canvas{
-  border-radius:50%;
-
-  background:white;
-
-  padding:10px;
-
-  box-shadow:
-    0 10px 40px rgba(0,0,0,.12);
-}
+.roulette-wrap{display:flex;flex-direction:column;align-items:center;}
+#canvas{border-radius:50%;background:white;padding:10px;box-shadow:0 10px 40px rgba(0,0,0,.12);}
 .roulette-result,.guess-result{font-size:17px;font-weight:800;color:var(--primary);min-height:26px;text-align:center;margin-top:6px}
 
 /* ── GUESS GAME ── */
@@ -229,12 +209,9 @@ textarea{height:80px;resize:none;font-family:inherit}
 .st-num{width:68px}
 .st-sel{min-width:150px;background:#fff}
 .st-display-area{display:flex;justify-content:center;align-items:center;padding:24px 16px;background:#fff;border:2px dashed #d1d5e8;border-radius:12px;min-height:150px;position:relative}
-/* digital */
 .st-digital{font-size:62px;font-weight:800;font-family:monospace;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:3px}
-/* analog */
 .st-clock{width:130px;height:130px;border:5px solid #334155;border-radius:50%;position:relative;background:#fff}
 .st-hand{position:absolute;bottom:50%;left:50%;width:4px;height:50px;background:#ef4444;border-radius:4px;transform-origin:bottom center;transform:translateX(-50%) rotate(0deg)}
-/* hourglass */
 .st-hg{display:flex;flex-direction:column;align-items:center;gap:0;width:70px}
 .st-hg-half{width:60px;height:48px;border:3px solid #475569;overflow:hidden;position:relative}
 .st-hg-top-half{border-radius:8px 8px 50% 50%;border-bottom:none}
@@ -245,7 +222,6 @@ textarea{height:80px;resize:none;font-family:inherit}
 .st-hg-flow{width:2px;height:14px;background:var(--orange2);animation:flow .3s infinite alternate}
 @keyframes flow{0%{opacity:.3}100%{opacity:1}}
 
-/* ── DIVIDER ── */
 .divider{border:none;border-top:1.5px dashed #eceef5;margin:14px 0}
 
 @media(max-width:600px){
@@ -259,18 +235,16 @@ textarea{height:80px;resize:none;font-family:inherit}
 <body>
 <div class="wrap">
 
-<!-- ── TOP BAR ── -->
 <div class="top-bar">
-  <div class="app-title"><span>[]</span>스마트 클래스 매니저</div>
+  <div class="app-title">스마트 클래스 매니저</div>
   <div class="pills">
     <div class="pill" id="weatherPill" onclick="getWeather()">🌤️ 날씨 불러오기</div>
     <div class="pill"><span class="clock-dot"></span><span id="realClock">00:00:00</span></div>
   </div>
 </div>
 
-<!-- ── 설정 & 타임라인 ── -->
 <div class="card">
-  <div class="card-title"><span class="ico">⚙️</span> 수업 시간표 및 알림 설정</div>
+  <div class="card-title"><span class="ico">⚙️</span> 시간설정 및 알림 설정</div>
   <div class="settings-grid">
     <div class="s-item"><label>시작 시각</label><input type="time" id="startTime" value="09:00"></div>
     <div class="s-item"><label>수업 시간(분)</label><input type="number" id="lectureTime" value="50" min="1"></div>
@@ -281,8 +255,9 @@ textarea{height:80px;resize:none;font-family:inherit}
     <div class="s-item"><label>🍱 식사 시간(분)</label><input type="number" id="mealDuration" value="60" min="1"></div>
   </div>
   <div class="btn-row">
-    <button class="btn btn-primary" onclick="initTimeline(false)">▶ 정시 시작</button>
-    <button class="btn btn-teal" onclick="initTimeline(true)">⚡ 현재 시각 동기화</button>
+    <button class="btn btn-purple" onclick="buildTimelineStructure()">⚙️ 시간표 세팅 완료</button>
+    <button class="btn btn-primary" onclick="startFromBeginning()">▶ 첫 교시 시작</button>
+    <button class="btn btn-teal" onclick="syncWithCurrentTime()">⚡ 현재 시각 동기화</button>
     <button class="btn btn-red" onclick="stopTimer()">⏸ 일시정지</button>
     <button class="btn btn-orange" onclick="resumeTimer()">▶ 재개</button>
     <button class="btn btn-slate" onclick="skipToNext()">⏭ 다음 단계</button>
@@ -290,7 +265,6 @@ textarea{height:80px;resize:none;font-family:inherit}
   <div class="timeline-wrap"><div class="timeline" id="timelineVisual"></div></div>
 </div>
 
-<!-- ── 타이머 ── -->
 <div class="card">
   <div class="card-title"><span class="ico">⏰</span> 실시간 강의 타이머</div>
   <div class="timer-wrap">
@@ -302,7 +276,6 @@ textarea{height:80px;resize:none;font-family:inherit}
   <div class="prog-label" id="progressLabel"></div>
 </div>
 
-<!-- ── 공지사항 ── -->
 <div class="card">
   <div class="card-title"><span class="ico">📢</span> 공지사항</div>
   <textarea id="noticeInput" placeholder="전달할 공지사항을 입력하고 아래 버튼을 누르세요."></textarea>
@@ -313,10 +286,9 @@ textarea{height:80px;resize:none;font-family:inherit}
   <div class="notice-board" id="notice-board">등록된 공지사항이 없습니다.</div>
 </div>
 
-<!-- ── 미니게임 ── -->
 <div class="card">
   <div class="card-title"><span class="ico">🎮</span> 집중도 향상 미니게임</div>
-  <input class="p-input" type="text" id="participants" value="홍길동, 김철수, 이영희, 박민수, 최수연" placeholder="참여자 이름 (쉼표 구분)">
+  <input class="p-input" type="text" id="participants" value="홍길동, 최철수, 우영희, 마민수" placeholder="참여자 이름 (쉼표 구분)"> 
   <div class="tab-row">
     <button class="tab-btn active" onclick="switchTab('dice',this)">🎲 주사위</button>
     <button class="tab-btn" onclick="switchTab('ladder',this)">🪜 사다리</button>
@@ -360,7 +332,6 @@ textarea{height:80px;resize:none;font-family:inherit}
   </div>
 </div>
 
-<!-- ── 공유 & 비주얼 타이머 ── -->
 <div class="card">
   <div class="card-title"><span class="ico">📱</span> 화면 실시간 공유</div>
   <div class="share-row">
@@ -398,9 +369,7 @@ textarea{height:80px;resize:none;font-family:inherit}
   </div>
 </div>
 
-</div><!-- /wrap -->
-
-<script>
+</div><script>
 // ═══════════════════════════════════════════
 // 전역 상태
 // ═══════════════════════════════════════════
@@ -422,7 +391,6 @@ async function getWeather(){
   const el=document.getElementById("weatherPill");
   el.innerHTML="⏳ 불러오는 중...";
   try{
-    // API key 없이 wttr.in 무료 API 사용
     const r=await fetch("https://wttr.in/Seoul?format=j1");
     const d=await r.json();
     const cur=d.current_condition[0];
@@ -472,161 +440,258 @@ function beep(urgent=false){
 }
 
 // ═══════════════════════════════════════════
-// 타임라인 빌드
+// 타임라인 빌드 및 동기화 엔진 복구 및 검증
 // ═══════════════════════════════════════════
-function initTimeline(syncNow=false){
-  totalPeriods=Math.max(1,+document.getElementById("totalPeriods").value);
-  const lMin=+document.getElementById("lectureTime").value;
-  const bMin=+document.getElementById("breakTime").value;
-  const mMin=+document.getElementById("mealDuration").value;
-  const mStr=document.getElementById("mealTime").value;
 
-  let base=new Date();
-  if(!syncNow){const sp=document.getElementById("startTime").value.split(":");base.setHours(+sp[0],+sp[1],0,0);}
+function buildTimelineStructure() {
+  totalPeriods = Math.max(1, +document.getElementById("totalPeriods").value);
+  const lMin = +document.getElementById("lectureTime").value;
+  const bMin = +document.getElementById("breakTime").value;
+  const mMin = +document.getElementById("mealDuration").value;
+  const mStr = document.getElementById("mealTime").value;
 
-  schedTL=[];
-  let cur=new Date(base);
-  let mealTarget=null, mealDone=false;
-  if(mStr){const mp=mStr.split(":");mealTarget=new Date(cur);mealTarget.setHours(+mp[0],+mp[1],0,0);}
+  let base = new Date();
+  const sp = document.getElementById("startTime").value.split(":");
+  base.setHours(+sp[0], +sp[1], 0, 0);
 
-  for(let i=1;i<=totalPeriods;i++){
-    // 점심 삽입 체크 (교시 앞)
-    if(mealTarget&&!mealDone&&cur>=mealTarget){
-      let ms=new Date(cur);cur.setMinutes(cur.getMinutes()+mMin);
-      schedTL.push({type:'meal',period:i-1,start:ms,end:new Date(cur)});mealDone=true;
-    }
-    let s=new Date(cur);cur.setMinutes(cur.getMinutes()+lMin);
-    schedTL.push({type:'lecture',period:i,start:s,end:new Date(cur)});
-    // 점심 삽입 체크 (교시 뒤)
-    if(mealTarget&&!mealDone&&cur>=mealTarget){
-      let ms=new Date(cur);cur.setMinutes(cur.getMinutes()+mMin);
-      schedTL.push({type:'meal',period:i,start:ms,end:new Date(cur)});mealDone=true;
-    }
-    if(i<totalPeriods){let bs=new Date(cur);cur.setMinutes(cur.getMinutes()+bMin);schedTL.push({type:'break',period:i,start:bs,end:new Date(cur)});}
+  schedTL = [];
+  let cur = new Date(base);
+  let mealTarget = null, mealDone = false;
+
+  if (mStr) {
+    const mp = mStr.split(":");
+    mealTarget = new Date(cur);
+    mealTarget.setHours(+mp[0], +mp[1], 0, 0);
+    mealTarget.setDate(cur.getDate());
   }
 
-  if(syncNow){
-    const now=new Date();let found=false;
-    for(const s of schedTL){
-      if(now>=s.start&&now<s.end){
-        curPeriod=s.period;curStage=s.type;
-        remainSec=Math.floor((s.end-now)/1000);
-        totalSec=Math.floor((s.end-s.start)/1000);
-        found=true;break;
+  for (let i = 1; i <= totalPeriods; i++) {
+    if (mealTarget && !mealDone && cur >= mealTarget) {
+      let ms = new Date(cur); cur.setMinutes(cur.getMinutes() + mMin);
+      schedTL.push({ type: 'meal', period: i - 1, start: ms, end: new Date(cur) });
+      mealDone = true;
+    }
+
+    let s = new Date(cur); cur.setMinutes(cur.getMinutes() + lMin);
+    schedTL.push({ type: 'lecture', period: i, start: s, end: new Date(cur) });
+
+    if (mealTarget && !mealDone && cur >= mealTarget) {
+      let ms = new Date(cur); cur.setMinutes(cur.getMinutes() + mMin);
+      schedTL.push({ type: 'meal', period: i, start: ms, end: new Date(cur) });
+      mealDone = true;
+    }
+
+    if (i < totalPeriods) {
+      if (mealTarget && !mealDone && cur >= mealTarget) {
+        let ms = new Date(cur); cur.setMinutes(cur.getMinutes() + mMin);
+        schedTL.push({ type: 'meal', period: i, start: ms, end: new Date(cur) });
+        mealDone = true;
       }
+      let bs = new Date(cur); cur.setMinutes(cur.getMinutes() + bMin);
+      schedTL.push({ type: 'break', period: i, start: bs, end: new Date(cur) });
     }
-    if(!found){
-      if(new Date()<schedTL[0].start){
-        alert("현재 시간이 시간표 시작 전입니다. 1교시 대기 상태로 준비합니다.");
-        curPeriod=1;curStage='lecture';remainSec=totalSec=Math.floor((schedTL[0].end-schedTL[0].start)/1000);
-      }else{alert("현재 시간이 시간표를 벗어났습니다. 시작 시각을 조절해주세요.");return;}
-    }
-  }else{curPeriod=1;curStage='lecture';remainSec=totalSec=lMin*60;}
+  }
 
-  isPaused=false;alarmPlayed=false;
-  renderTL();startSession();
+  if (mealTarget && !mealDone) {
+    let ms = new Date(cur); cur.setMinutes(cur.getMinutes() + mMin);
+    schedTL.push({ type: 'meal', period: totalPeriods, start: ms, end: new Date(cur) });
+    mealDone = true;
+  }
+
+  renderTL();
+  shareToStudents("🗓️ 새로운 수업 시간표 구조가 세팅되었습니다.");
 }
 
-function renderTL(){
-  const el=document.getElementById("timelineVisual");el.innerHTML="";
-  const ai=schedTL.findIndex(s=>s.period===curPeriod&&s.type===curStage);
-  schedTL.forEach((s,idx)=>{
-    const d=document.createElement("div");
-    let cls="tl-item";
-    if(s.type==='break')cls+=" tl-break";
-    if(s.type==='meal')cls+=" tl-meal";
-    if(idx<ai)cls+=" tl-done";
-    if(idx===ai)cls+=" tl-active";
-    d.className=cls;
-    const ts=`${s.start.toTimeString().slice(0,5)}~${s.end.toTimeString().slice(0,5)}`;
-    const label=s.type==='lecture'?`${s.period}교시`:s.type==='break'?'☕ 휴식':'🍱 식사';
-    d.innerHTML=`<span class="tl-name">${label}</span><span class="tl-time">${ts}</span>`;
-    d.onclick=()=>jumpTo(idx);
-    el.appendChild(d);
-  });
+function startFromBeginning() {
+  if (!schedTL.length) buildTimelineStructure();
+  if (!schedTL.length) return;
+  jumpTo(0);
 }
 
-function jumpTo(idx){
-  if(idx<0||idx>=schedTL.length)return;
-  clearInterval(timerIv);
-  const s=schedTL[idx];
-  curPeriod=s.period;curStage=s.type;isPaused=false;alarmPlayed=false;
-  const now=new Date();
-  if(now>=s.start&&now<s.end){remainSec=Math.floor((s.end-now)/1000);totalSec=Math.floor((s.end-s.start)/1000);}
-  else{remainSec=totalSec=Math.floor((s.end-s.start)/1000);}
+function syncWithCurrentTime() {
+  if (!schedTL.length) buildTimelineStructure();
+
+  const now = new Date();
+  let foundIndex = -1;
+
+  for (let i = 0; i < schedTL.length; i++) {
+    const s = schedTL[i];
+    if (now >= s.start && now < s.end) {
+      foundIndex = i;
+      break;
+    }
+  }
+
+  if (foundIndex === -1) {
+    if (now < schedTL[0].start) {
+      alert("현재 시간이 시간표 첫 교시 시작 전입니다. 1교시 대기 상태로 설정합니다.");
+      startFromBeginning();
+      return;
+    } else {
+      alert("현재 시간이 설정된 전체 시간표 범위를 벗어났습니다. 시작 시각이나 차시를 조절 후 다시 세팅해주세요.");
+      return;
+    }
+  }
+
+  const s = schedTL[foundIndex];
+  curPeriod = s.period;
+  curStage = s.type;
+  remainSec = Math.floor((s.end - now) / 1000);
+  totalSec = Math.floor((s.end - s.start) / 1000);
+
+  isPaused = false; alarmPlayed = false;
   startSession();
 }
 
-function startSession(){
-  setBadge();renderTL();
-  shareToStudents(document.getElementById("statusBadge").innerText);
-  updateDisp();updateProg();runTimer();
+// ═══════════════════════════════════════════
+// 누락되었던 필수 화면 제어 및 타임라인 렌더링 함수 구현
+// ═══════════════════════════════════════════
+function renderTL(){
+  const area = document.getElementById("timelineVisual");
+  area.innerHTML = "";
+
+  schedTL.forEach((item, index) => {
+    const div = document.createElement("div");
+    let cls = "tl-item";
+
+    if(item.type === "break") cls += " tl-break";
+    if(item.type === "meal") cls += " tl-meal";
+    
+    // 현재 활성화된 상태 표시
+    if(item.period === curPeriod && item.type === curStage) {
+      cls += " tl-active";
+    } else if (new Date() > item.end) {
+      cls += " tl-done"; // 지난 시간표 스타일링
+    }
+
+    div.className = cls;
+    div.onclick = () => jumpTo(index); // 클릭 시 해당 교시/시간으로 점프
+
+    let displayName = "";
+    if(item.type === "lecture") displayName = item.period + "교시";
+    else if(item.type === "break") displayName = "쉬는시간";
+    else if(item.type === "meal") displayName = "식사시간";
+
+    div.innerHTML = `
+      <div class="tl-name">${displayName}</div>
+      <div class="tl-time">${item.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+    `;
+    area.appendChild(div);
+  });
 }
 
-function setBadge(extra=''){
-  const el=document.getElementById("statusBadge");
-  if(isPaused){el.className='status-badge paused';el.innerText='⏸ 일시정지됨';return;}
-  if(curStage==='break'){el.className='status-badge break-mode';el.innerText=`☕ ${curPeriod}교시 후 — 쉬는 시간`;}
-  else if(curStage==='meal'){el.className='status-badge meal-mode';el.innerText='🍱 점심 식사 시간';}
-  else{el.className='status-badge';el.innerText=`📚 ${curPeriod}교시 — 수업 진행 중`;}
-  if(extra)el.innerText+=extra;
+function startSession(){
+  setBadge();
+  updateDisp();
+  updateProg();
+  renderTL();
+  runTimer();
+}
+
+function jumpTo(index){
+  const s = schedTL[index];
+  if(!s) return;
+
+  curPeriod = s.period;
+  curStage = s.type;
+  totalSec = Math.floor((s.end - s.start) / 1000);
+  remainSec = totalSec;
+  alarmPlayed = false;
+  isPaused = false;
+
+  setBadge();
+  renderTL();
+  updateDisp();
+  updateProg();
+  runTimer();
+  shareToStudents(`⏭️ ${curStage === 'lecture' ? curPeriod + '교시' : curStage === 'break' ? '쉬는시간' : '식사시간'} 가 시작되었습니다.`);
+}
+
+function setBadge(extra=""){
+  const badge = document.getElementById("statusBadge");
+  badge.className = "status-badge";
+
+  if(isPaused){
+    badge.classList.add("paused");
+    badge.innerText = "⏸ 일시정지";
+    return;
+  }
+
+  if(curStage === "lecture"){
+    badge.innerText = `📚 ${curPeriod}교시 진행중${extra}`;
+  }
+  else if(curStage === "break"){
+    badge.classList.add("break-mode");
+    badge.innerText = `☕ 쉬는시간${extra}`;
+  }
+  else if(curStage === "meal"){
+    badge.classList.add("meal-mode");
+    badge.innerText = `🍱 식사시간${extra}`;
+  }
 }
 
 // ═══════════════════════════════════════════
-// 타이머 엔진
+// 타이머 엔진 안정화
 // ═══════════════════════════════════════════
 function runTimer(){
   clearInterval(timerIv);
-  timerIv=setInterval(()=>{
-    if(isPaused)return;
-    if(remainSec<=0){
-      clearInterval(timerIv);beep(true);
-      const ci=schedTL.findIndex(s=>s.period===curPeriod&&s.type===curStage);
-      const ni=ci+1;
-      if(ni>=schedTL.length){
-        document.getElementById("statusBadge").className='status-badge done';
-        document.getElementById("statusBadge").innerText='🎉 모든 수업 종료!';
-        document.getElementById("timer").innerText="00:00";
-        document.getElementById("timerEndTime").innerText="";
-        document.getElementById("progressBar").style.width="0%";
-        document.getElementById("progressLabel").innerText="";
-        renderTL();shareToStudents("모든 수업 일정이 종료되었습니다! 수고하셨습니다 🎉");
-        alert("모든 수업 일정이 종료되었습니다!");return;
+  timerIv = setInterval(() => {
+    if(isPaused) return;
+    if(remainSec <= 0){
+      clearInterval(timerIv); beep(true);
+      const ci = schedTL.findIndex(s => s.period === curPeriod && s.type === curStage);
+      const ni = ci + 1;
+      if(ni >= schedTL.length){
+        document.getElementById("statusBadge").className = 'status-badge done';
+        document.getElementById("statusBadge").innerText = '🎉 모든 수업 종료!';
+        document.getElementById("timer").innerText = "00:00";
+        document.getElementById("timerEndTime").innerText = "";
+        document.getElementById("progressBar").style.width = "0%";
+        document.getElementById("progressLabel").innerText = "";
+        renderTL(); shareToStudents("모든 수업 일정이 종료되었습니다! 수고하셨습니다 🎉");
+        alert("모든 수업 일정이 종료되었습니다!"); return;
       }
-      const msgs={lecture:"수업 시간이 끝났습니다!",break:"쉬는 시간이 끝났습니다!",meal:"식사 시간이 끝났습니다!"};
-      alert(msgs[curStage]||"다음 단계로 이동합니다.");
-      jumpTo(ni);return;
+      const msgs = {lecture:"수업 시간이 끝났습니다!", break:"쉬는 시간이 끝났습니다!", meal:"식사 시간이 끝났습니다!"};
+      alert(msgs[curStage] || "다음 단계로 이동합니다.");
+      jumpTo(ni); return;
     }
-    const ab=+document.getElementById("alarmBefore").value*60;
-    if(!alarmPlayed&&ab>0&&remainSec===ab){beep();alarmPlayed=true;setBadge(" ⚠️ 종료 임박!");}
-    remainSec--;updateDisp();updateProg();
-  },1000);
+    const ab = +document.getElementById("alarmBefore").value * 60;
+    if(!alarmPlayed && ab > 0 && remainSec === ab){ beep(); alarmPlayed = true; setBadge(" ⚠️ 종료 임박!"); }
+    remainSec--; updateDisp(); updateProg();
+  }, 1000);
 }
 
 function updateDisp(){
-  const m=Math.floor(remainSec/60),s=remainSec%60;
-  const el=document.getElementById("timer");
-  el.innerText=String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
-  const end=new Date(Date.now()+remainSec*1000);
-  document.getElementById("timerEndTime").innerText=`종료 예정  ${String(end.getHours()).padStart(2,'0')}:${String(end.getMinutes()).padStart(2,'0')}`;
-  const ab=+document.getElementById("alarmBefore").value*60;
-  const r=totalSec>0?remainSec/totalSec:1;
-  el.className='timer-display'+(remainSec<=ab&&ab>0?(r<.18?' urgent':' warn'):'');
+  const m = Math.floor(remainSec / 60), s = remainSec % 60;
+  const el = document.getElementById("timer");
+  el.innerText = String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
+  const end = new Date(Date.now() + remainSec * 1000);
+  document.getElementById("timerEndTime").innerText = `종료 예정 ${String(end.getHours()).padStart(2, '0')}:${String(end.getMinutes()).padStart(2, '0')}`;
+  const ab = +document.getElementById("alarmBefore").value * 60;
+  const r = totalSec > 0 ? remainSec / totalSec : 1;
+  el.className = 'timer-display' + (remainSec <= ab && ab > 0 ? (r < .18 ? ' urgent' : ' warn') : '');
 }
+
 function updateProg(){
-  const r=totalSec>0?remainSec/totalSec:1,pct=Math.round(r*100);
-  const b=document.getElementById("progressBar");b.style.width=pct+"%";
-  b.className='prog-bar'+(pct<20?' urgent':pct<40?' warn':'');
-  const m=Math.floor(remainSec/60),s=remainSec%60;
-  document.getElementById("progressLabel").innerText=`남은 시간  ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}  (${pct}%)`;
+  const r = totalSec > 0 ? remainSec / totalSec : 1, pct = Math.round(r * 100);
+  const b = document.getElementById("progressBar"); b.style.width = pct + "%";
+  b.className = 'prog-bar' + (pct < 20 ? ' urgent' : pct < 40 ? ' warn' : '');
+  const m = Math.floor(remainSec / 60), s = remainSec % 60;
+  document.getElementById("progressLabel").innerText = `남은 시간 ${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} (${pct}%)`;
 }
-function stopTimer(){isPaused=true;setBadge();}
-function resumeTimer(){if(!isPaused)return;isPaused=false;setBadge();}
+
+function stopTimer(){ isPaused = true; setBadge(); }
+function resumeTimer(){ if(!isPaused) return; isPaused = false; setBadge(); }
 function skipToNext(){
-  const ci=schedTL.findIndex(s=>s.period===curPeriod&&s.type===curStage);
-  const ni=ci+1;
-  if(ni<schedTL.length)jumpTo(ni);
-  else{clearInterval(timerIv);document.getElementById("statusBadge").className='status-badge done';document.getElementById("statusBadge").innerText='🎉 모든 수업 종료!';document.getElementById("timer").innerText="00:00";}
+  const ci = schedTL.findIndex(s => s.period === curPeriod && s.type === curStage);
+  const ni = ci + 1;
+  if(ni < schedTL.length) jumpTo(ni);
+  else {
+    clearInterval(timerIv);
+    document.getElementById("statusBadge").className = 'status-badge done';
+    document.getElementById("statusBadge").innerText = '🎉 모든 수업 종료!';
+    document.getElementById("timer").innerText = "00:00";
+  }
 }
 
 // ═══════════════════════════════════════════
@@ -635,35 +700,39 @@ function skipToNext(){
 function switchTab(n,btn){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+n).classList.add('active');btn.classList.add('active');
+  document.getElementById('tab-'+n).classList.add('active'); btn.classList.add('active');
 }
-function getNames(){return document.getElementById("participants").value.split(",").map(n=>n.trim()).filter(Boolean);}
+function getNames(){ return document.getElementById("participants").value.split(",").map(n=>n.trim()).filter(Boolean); }
 
 // 주사위
 const DICE=['','⚀','⚁','⚂','⚃','⚄','⚅'];
 function rollDice(){
-  let c=0;const iv=setInterval(()=>{
+  let c=0; const iv=setInterval(()=>{
     document.getElementById("diceResult").innerText=DICE[Math.floor(Math.random()*6)+1];
-    if(++c>12){clearInterval(iv);const f=Math.floor(Math.random()*6)+1;
-      document.getElementById("diceResult").innerText=DICE[f]+"\n"+f;
-      shareToStudents(`🎲 주사위: ${DICE[f]} (${f})`);}
+    if(++c>12){
+      clearInterval(iv); const f=Math.floor(Math.random()*6)+1;
+      document.getElementById("diceResult").innerText=DICE[f] + "\n" + f;
+      shareToStudents(`🎲 주사위: ${DICE[f]} (${f})`);
+    }
   },75);
 }
 function rollMultiDice(){
-  let c=0;const iv=setInterval(()=>{
-    const r1=Math.floor(Math.random()*6)+1,r2=Math.floor(Math.random()*6)+1;
+  let c=0; const iv=setInterval(()=>{
+    const r1=Math.floor(Math.random()*6)+1, r2=Math.floor(Math.random()*6)+1;
     document.getElementById("diceResult").innerText=`${DICE[r1]} ${DICE[r2]}`;
-    if(++c>12){clearInterval(iv);const f1=Math.floor(Math.random()*6)+1,f2=Math.floor(Math.random()*6)+1;
+    if(++c>12){
+      clearInterval(iv); const f1=Math.floor(Math.random()*6)+1, f2=Math.floor(Math.random()*6)+1;
       document.getElementById("diceResult").innerText=`${DICE[f1]} ${DICE[f2]}\n합계: ${f1+f2}`;
-      shareToStudents(`🎲🎲 더블 주사위: ${DICE[f1]}${DICE[f2]} (합계 ${f1+f2})`);}
+      shareToStudents(`🎲🎲 더블 주사위: ${DICE[f1]}${DICE[f2]} (합계 ${f1+f2})`);
+    }
   },75);
 }
 
 // 사다리
 function makeLadder(){
-  const names=getNames();if(names.length<2){alert("최소 2명 이상 입력해주세요.");return;}
+  const names=getNames(); if(names.length<2){alert("최소 2명 이상 입력해주세요."); return;}
   const sh=[...names].sort(()=>Math.random()-.5);
-  const ul=document.getElementById("ladderArea");ul.innerHTML="";
+  const ul=document.getElementById("ladderArea"); ul.innerHTML="";
   names.forEach((n,i)=>{
     const li=document.createElement("li");
     li.innerHTML=`🙋 <b>${n}</b><span class="arr"> → </span>🎁 <b>${sh[i]}</b>`;
@@ -673,39 +742,39 @@ function makeLadder(){
 }
 
 // 룰렛
-const cv=document.getElementById("canvas"),cx=cv.getContext("2d");
-let rNames=[],spinning=false,curRot=0;
+const cv=document.getElementById("canvas"), cx=cv.getContext("2d");
+let rNames=[], spinning=false, curRot=0;
 const PAL=['#6c7ef8','#2dd4bf','#fb923c','#a78bfa','#f472b6','#34d399','#f59e0b','#38bdf8','#f87171','#4ade80'];
 function drawRoulette(rot=0){
-  rNames=getNames();if(!rNames.length)return;
-  const n=rNames.length,arc=(2*Math.PI)/n;
-  cx.clearRect(0,0,260,260);cx.save();cx.translate(130,130);cx.rotate(rot);cx.translate(-130,-130);
+  rNames=getNames(); if(!rNames.length) return;
+  const n=rNames.length, arc=(2*Math.PI)/n;
+  cx.clearRect(0,0,260,260); cx.save(); cx.translate(130,130); cx.rotate(rot); cx.translate(-130,-130);
   rNames.forEach((name,i)=>{
-    const angle=i*arc;cx.fillStyle=PAL[i%PAL.length];
-    cx.beginPath();cx.moveTo(130,130);cx.arc(130,130,122,angle,angle+arc);cx.lineTo(130,130);cx.fill();
-    cx.strokeStyle="rgba(255,255,255,.85)";cx.lineWidth=1.5;cx.stroke();
-    cx.save();cx.translate(130,130);cx.rotate(angle+arc/2);cx.textAlign="right";
-    cx.font=`700 ${n>8?10:13}px Arial`;cx.fillStyle="#fff";
-    cx.shadowColor="rgba(0,0,0,.25)";cx.shadowBlur=3;
-    cx.fillText(name.length>5?name.slice(0,4)+'…':name,116,5);cx.restore();
+    const angle=i*arc; cx.fillStyle=PAL[i%PAL.length];
+    cx.beginPath(); cx.moveTo(130,130); cx.arc(130,130,122,angle,angle+arc); cx.lineTo(130,130); cx.fill();
+    cx.strokeStyle="rgba(255,255,255,.85)"; cx.lineWidth=1.5; cx.stroke();
+    cx.save(); cx.translate(130,130); cx.rotate(angle+arc/2); cx.textAlign="right";
+    cx.font=`700 ${n>8?10:13}px Arial`; cx.fillStyle="#fff";
+    cx.shadowColor="rgba(0,0,0,.25)"; cx.shadowBlur=3;
+    cx.fillText(name.length>5?name.slice(0,4)+'…':name,116,5); cx.restore();
   });
   cx.restore();
-  cx.beginPath();cx.arc(130,130,12,0,2*Math.PI);cx.fillStyle="#fff";cx.fill();
-  cx.strokeStyle="#444";cx.lineWidth=2;cx.stroke();
-  cx.beginPath();cx.moveTo(254,124);cx.lineTo(238,133);cx.lineTo(238,115);cx.closePath();cx.fillStyle="#ef4444";cx.fill();
+  cx.beginPath(); cx.arc(130,130,12,0,2*Math.PI); cx.fillStyle="#fff"; cx.fill();
+  cx.strokeStyle="#444"; cx.lineWidth=2; cx.stroke();
+  cx.beginPath(); cx.moveTo(254,124); cx.lineTo(238,133); cx.lineTo(238,115); cx.closePath(); cx.fillStyle="#ef4444"; cx.fill();
 }
 function spinRoulette(){
-  if(spinning)return;
-  rNames=getNames();if(!rNames.length){alert("명단을 먼저 입력해주세요.");return;}
-  spinning=true;document.getElementById("rouletteResult").innerText="🎡 돌아가는 중...";
+  if(spinning) return;
+  rNames=getNames(); if(!rNames.length){alert("명단을 먼저 입력해주세요."); return;}
+  spinning=true; document.getElementById("rouletteResult").innerText="🎡 돌아가는 중...";
   const total=(Math.random()*360+720*(Math.floor(Math.random()*3)+3))*(Math.PI/180);
-  const dur=3800,t0=performance.now(),sa=curRot;
+  const dur=3800, t0=performance.now(), sa=curRot;
   const ease=t=>1-Math.pow(1-t,3);
   (function ani(now){
-    const t=Math.min((now-t0)/dur,1);curRot=sa+total*ease(t);drawRoulette(curRot);
+    const t=Math.min((now-t0)/dur,1); curRot=sa+total*ease(t); drawRoulette(curRot);
     if(t<1){requestAnimationFrame(ani);}
     else{
-      spinning=false;const n=rNames.length,arc=(2*Math.PI)/n;
+      spinning=false; const n=rNames.length, arc=(2*Math.PI)/n;
       const norm=((curRot%(2*Math.PI))+(2*Math.PI))%(2*Math.PI);
       const idx=Math.floor(((2*Math.PI-norm)%(2*Math.PI))/arc)%n;
       const w=rNames[idx];
@@ -717,12 +786,12 @@ function spinRoulette(){
 
 // 숫자 맞추기
 let secretNum=0, guessTries=0;
-function newRound(){secretNum=Math.floor(Math.random()*10)+1;guessTries=0;document.getElementById("guessResult").innerText="새 라운드 시작! 1~10 사이 숫자를 맞춰보세요.";document.getElementById("guessCount").innerText="";document.getElementById("guessInput").value="";}
+function newRound(){secretNum=Math.floor(Math.random()*10)+1; guessTries=0; document.getElementById("guessResult").innerText="새 라운드 시작! 1~10 사이 숫자를 맞춰보세요."; document.getElementById("guessCount").innerText=""; document.getElementById("guessInput").value="";}
 function playGuessGame(){
-  if(!secretNum)newRound();
+  if(!secretNum) newRound();
   const v=parseInt(document.getElementById("guessInput").value);
   const res=document.getElementById("guessResult");
-  if(isNaN(v)||v<1||v>10){alert("1~10 사이 숫자를 입력해주세요.");return;}
+  if(isNaN(v)||v<1||v>10){alert("1~10 사이 숫자를 입력해주세요."); return;}
   guessTries++;
   if(v===secretNum){
     res.innerHTML=`🎉 정답! <b>${secretNum}</b>이 맞습니다! (${guessTries}번 만에 성공)`;
@@ -739,7 +808,7 @@ function playGuessGame(){
 // QR & 공유
 // ═══════════════════════════════════════════
 function generateQR(){
-  const d=document.getElementById("qrcode");d.innerHTML="";
+  const d=document.getElementById("qrcode"); d.innerHTML="";
   new QRCode(d,{text:window.location.href||"https://smart-classroom.example.com",width:128,height:128,colorDark:"#1a1a2e",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});
 }
 function shareToStudents(msg){
@@ -753,7 +822,7 @@ function shareToStudents(msg){
 function renderShareTimerUI(){
   const type=document.getElementById("stType").value;
   const area=document.getElementById("stArea");
-  const m=Math.floor(stRemain/60),s=stRemain%60;
+  const m=Math.floor(stRemain/60), s=stRemain%60;
   const ts=String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
   const ratio=stTotal>0?stRemain/stTotal:1;
 
@@ -785,42 +854,45 @@ function startShareTimer(){
   const m=Math.max(0,parseInt(document.getElementById("stMin").value)||0);
   const s=Math.max(0,Math.min(59,parseInt(document.getElementById("stSec").value)||0));
   stRemain=stTotal=m*60+s;
-  if(!stTotal){alert("시간을 설정해 주세요.");return;}
+  if(!stTotal){alert("시간을 설정해 주세요."); return;}
   stPaused=false;
   renderShareTimerUI();
   shareToStudents(`⏳ 공유 타이머 시작: [${m}분 ${s}초]`);
   stIv=setInterval(()=>{
-    if(stPaused)return;
-    if(stRemain<=0){clearInterval(stIv);beep(false);shareToStudents("⏳ 공유 타이머 종료!");alert("공유용 타이머가 완료되었습니다!");return;}
-    stRemain--;renderShareTimerUI();
+    if(stPaused) return;
+    if(stRemain<=0){clearInterval(stIv); beep(false); shareToStudents("⏳ 공유 타이머 종료!"); alert("공유용 타이머가 완료되었습니다!"); return;}
+    stRemain--; renderShareTimerUI();
   },1000);
 }
 function toggleShareTimer(){
-  if(!stTotal)return;
+  if(!stTotal) return;
   stPaused=!stPaused;
   shareToStudents(`⏳ 공유 타이머 ${stPaused?'일시정지':'재개'}`);
   renderShareTimerUI();
 }
 function resetShareTimer(){
-  clearInterval(stIv);stRemain=stTotal=0;stPaused=true;
-  document.getElementById("stMin").value=5;document.getElementById("stSec").value=0;
-  stRemain=300;stTotal=300;
+  clearInterval(stIv); stRemain=stTotal=0; stPaused=true;
+  document.getElementById("stMin").value=5; document.getElementById("stSec").value=0;
+  stRemain=300; stTotal=300;
   renderShareTimerUI();
   shareToStudents("⏳ 공유 타이머 초기화");
 }
 
 // ═══════════════════════════════════════════
-// 초기 실행
+// 초기 실행 단일화 및 고정
 // ═══════════════════════════════════════════
-window.onload=()=>{
-  const now=new Date();
-  document.getElementById("startTime").value=String(now.getHours()).padStart(2,'0')+":"+String(now.getMinutes()).padStart(2,'0');
+window.onload = () => {
+  const now = new Date();
+  // 사용 편의성을 위해 초기 시작 시각을 현재 시 정각으로 기본 설정
+  document.getElementById("startTime").value = String(now.getHours()).padStart(2, '0') + ":00";
+  
+  buildTimelineStructure(); // 페이지 최초 오픈 시 타임라인 자동 세팅
   drawRoulette();
   newRound();
-  stRemain=stTotal=300;
+  stRemain = stTotal = 300;
   renderShareTimerUI();
-  initTimeline(false);
-  setTimeout(getWeather,1200);
+  
+  setTimeout(getWeather, 1200);
 };
 </script>
 </body>
