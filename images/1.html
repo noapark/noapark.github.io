@@ -1,1 +1,741 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스마트 클래스 매니저</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#6c7ef8;--primary2:#818cf8;
+  --teal:#2dd4bf;--teal2:#34d399;
+  --orange:#fb923c;--orange2:#f59e0b;
+  --red:#f87171;--red2:#fb7185;
+  --purple:#a78bfa;--purple2:#8b5cf6;
+  --slate:#64748b;--slate2:#475569;
+  --bg:#f0f2f8;--card:#fff;
+  --border:#e8eaf5;--border2:#e0e4f0;
+  --text:#1a1a2e;--muted:#7b88bb;--faint:#9aa3c2;
+}
+body{font-family:'Malgun Gothic','Apple SD Gothic Neo',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px 16px}
+.wrap{max-width:920px;margin:auto;display:flex;flex-direction:column;gap:14px}
 
+/* ── TOP BAR ── */
+.top-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding-bottom:4px}
+.app-title{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-0.5px;display:flex;align-items:center;gap:8px}
+.app-title span{font-size:24px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:flex;align-items:center;gap:7px;background:var(--card);border:1.5px solid var(--border2);border-radius:99px;padding:7px 14px;font-size:13px;font-weight:700;color:#3b4a72;box-shadow:0 1px 6px rgba(0,0,0,.06);cursor:pointer;transition:all .2s;white-space:nowrap}
+.pill:hover{border-color:var(--primary);color:var(--primary)}
+.clock-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── CARD ── */
+.card{background:var(--card);border-radius:20px;padding:20px 22px;box-shadow:0 2px 16px rgba(0,0,0,.06);border:1px solid var(--border)}
+.card-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.9px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.card-title .ico{font-size:15px}
+
+/* ── SETTINGS ── */
+.settings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:9px;margin-bottom:13px}
+.s-item label{display:block;font-size:10px;font-weight:700;color:var(--faint);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.s-item input,.p-input,textarea,select{width:100%;padding:8px 10px;border:1.5px solid var(--border2);border-radius:10px;font-size:14px;font-weight:600;color:var(--text);background:#f7f8fd;transition:all .2s}
+.s-item input:focus,.p-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(108,126,248,.1)}
+textarea{height:80px;resize:none;font-family:inherit}
+
+/* ── BUTTONS ── */
+.btn-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px}
+.btn{padding:9px 14px;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px;line-height:1}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn:active{transform:translateY(0);filter:brightness(.95)}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 2px 10px rgba(108,126,248,.3)}
+.btn-teal{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;box-shadow:0 2px 10px rgba(45,212,191,.3)}
+.btn-red{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;box-shadow:0 2px 10px rgba(248,113,113,.3)}
+.btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 2px 10px rgba(251,146,60,.3)}
+.btn-gray{background:#eceef5;color:#3b4a72}
+.btn-purple{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;box-shadow:0 2px 10px rgba(139,92,246,.3)}
+.btn-slate{background:linear-gradient(135deg,var(--slate),var(--slate2));color:#fff;box-shadow:0 2px 10px rgba(100,116,139,.3)}
+.btn-yellow{background:linear-gradient(135deg,#facc15,#eab308);color:#fff;box-shadow:0 2px 10px rgba(234,179,8,.3)}
+
+/* ── TIMELINE ── */
+.timeline-wrap{margin-top:14px;overflow-x:auto;padding-bottom:4px}
+.timeline{display:flex;align-items:stretch;min-width:max-content}
+.tl-item{min-width:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:9px 8px;background:#f4f6fa;border:1.5px solid var(--border2);font-size:12px;cursor:pointer;transition:all .22s;text-align:center}
+.tl-item:first-child{border-radius:12px 0 0 12px}
+.tl-item:last-child{border-radius:0 12px 12px 0}
+.tl-item+.tl-item{border-left:none}
+.tl-name{font-size:12px;font-weight:700;color:#6b7aab}
+.tl-time{font-size:10px;color:#b8c1d8;font-weight:500;white-space:nowrap}
+.tl-item:hover:not(.tl-active){background:#eff0fb;border-color:#c5caec}
+.tl-item.tl-active{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:var(--primary);box-shadow:0 3px 12px rgba(108,126,248,.35)}
+.tl-item.tl-active .tl-name,.tl-item.tl-active .tl-time{color:#fff}
+.tl-item.tl-break{background:#f0f9ff;border-color:#bae6fd}
+.tl-item.tl-break .tl-name{color:#0ea5e9}
+.tl-item.tl-break.tl-active{background:linear-gradient(135deg,#38bdf8,#0ea5e9);border-color:#0ea5e9;box-shadow:0 3px 12px rgba(14,165,233,.35)}
+.tl-item.tl-break.tl-active .tl-name,.tl-item.tl-break.tl-active .tl-time{color:#fff}
+.tl-item.tl-meal{background:#fefce8;border-color:#fef08a}
+.tl-item.tl-meal .tl-name{color:#ca8a04}
+.tl-item.tl-meal.tl-active{background:linear-gradient(135deg,#facc15,#eab308);border-color:#eab308;box-shadow:0 3px 12px rgba(234,179,8,.35)}
+.tl-item.tl-meal.tl-active .tl-name,.tl-item.tl-meal.tl-active .tl-time{color:#fff}
+.tl-item.tl-done{background:#f0f0f5;border-color:var(--border2)}
+.tl-item.tl-done .tl-name{color:#c0c8de;text-decoration:line-through}
+.tl-item.tl-done .tl-time{color:#d0d8e8}
+
+/* ── TIMER ── */
+.timer-wrap{text-align:center;padding:4px 0 12px}
+.status-badge{display:inline-flex;align-items:center;gap:6px;background:#f0f2ff;border:1.5px solid #d4d8f8;border-radius:99px;padding:5px 16px;font-size:13px;font-weight:700;color:#4a5ad4;margin-bottom:8px}
+.status-badge.break-mode{background:#f0f9ff;border-color:#bae6fd;color:#0369a1}
+.status-badge.meal-mode{background:#fefce8;border-color:#fef08a;color:#854d0e}
+.status-badge.paused{background:#fef3f2;border-color:#fecaca;color:#dc2626}
+.status-badge.done{background:#f0fdf4;border-color:#bbf7d0;color:#15803d}
+.timer-display{font-size:84px;font-weight:800;letter-spacing:5px;line-height:1;font-variant-numeric:tabular-nums;color:var(--text);transition:color .4s}
+.timer-display.warn{color:var(--orange2)}
+.timer-display.urgent{color:#ef4444}
+.timer-end{font-size:13px;color:var(--faint);font-weight:600;margin-top:5px;min-height:18px}
+.prog-wrap{background:#eef0f8;border-radius:99px;height:8px;margin:12px 0 4px;overflow:hidden}
+.prog-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--primary),var(--primary2));transition:width 1s linear,background .4s}
+.prog-bar.warn{background:linear-gradient(90deg,var(--orange),var(--orange2))}
+.prog-bar.urgent{background:linear-gradient(90deg,#ef4444,#f87171)}
+.prog-label{text-align:center;font-size:12px;color:#b0bad8;font-weight:500}
+
+/* ── NOTICE ── */
+.notice-board{border:1.5px dashed #cbd5e1;padding:12px 14px;min-height:60px;max-height:140px;overflow-y:auto;border-radius:12px;background:#fafbff;font-size:13px;color:#334155;margin-top:8px}
+.notice-board p{margin-bottom:7px;padding-bottom:6px;border-bottom:1px dotted #e2e8f0;line-height:1.5}
+.notice-board p:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+
+/* ── TABS ── */
+.tab-row{display:flex;gap:6px;margin-bottom:13px;flex-wrap:wrap}
+.tab-btn{padding:7px 15px;border-radius:99px;border:1.5px solid var(--border2);background:#f4f6fa;color:#6b7aab;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.tab-btn.active{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-color:var(--primary);box-shadow:0 2px 8px rgba(108,126,248,.3)}
+.tab-content{display:none}.tab-content.active{display:block}
+.p-input{margin-bottom:12px}
+
+/* ── DICE ── */
+.dice-display{font-size:58px;text-align:center;margin:10px 0;min-height:74px;line-height:1.25;white-space:pre}
+
+/* ── LADDER ── */
+.ladder-list{list-style:none;padding:0;margin:8px 0 0}
+.ladder-list li{display:flex;align-items:center;gap:6px;padding:9px 12px;border-radius:10px;background:#f7f8fd;margin-bottom:6px;font-size:14px;font-weight:600;color:#3b4a72;border:1px solid var(--border);transition:background .15s}
+.ladder-list li:hover{background:#eff0fb}
+.arr{color:var(--primary);font-weight:700;margin:0 2px}
+
+/* ── ROULETTE ── */
+.roulette-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:10px}
+#canvas{border-radius:50%;box-shadow:0 4px 24px rgba(0,0,0,.13)}
+.roulette-result,.guess-result{font-size:17px;font-weight:800;color:var(--primary);min-height:26px;text-align:center;margin-top:6px}
+
+/* ── GUESS GAME ── */
+.guess-row{display:flex;gap:8px;max-width:280px;margin-bottom:8px}
+.guess-row input{flex:1}
+
+/* ── SHARE ── */
+.share-row{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin-top:8px}
+#qrcode{padding:10px;background:#fff;border:1.5px solid var(--border);border-radius:12px;min-width:148px;min-height:148px;display:flex;align-items:center;justify-content:center}
+.live-board{flex:1;min-width:180px}
+.live-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:7px}
+.live-msg{background:#f7f8fd;border:1.5px solid var(--border);border-left:4px solid var(--primary);border-radius:0 12px 12px 0;padding:12px 14px;font-size:13px;color:#3b4a72;line-height:1.7;min-height:52px}
+.live-msg strong{color:var(--primary)}
+
+/* ── SHARE TIMER ── */
+.share-timer-box{background:#f8f9fd;border:1.5px solid var(--border2);border-radius:14px;padding:16px;margin-top:16px}
+.st-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:10px}
+.st-controls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:12px}
+.st-num{width:68px}
+.st-sel{min-width:150px;background:#fff}
+.st-display-area{display:flex;justify-content:center;align-items:center;padding:24px 16px;background:#fff;border:2px dashed #d1d5e8;border-radius:12px;min-height:150px;position:relative}
+/* digital */
+.st-digital{font-size:62px;font-weight:800;font-family:monospace;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:3px}
+/* analog */
+.st-clock{width:130px;height:130px;border:5px solid #334155;border-radius:50%;position:relative;background:#fff}
+.st-hand{position:absolute;bottom:50%;left:50%;width:4px;height:50px;background:#ef4444;border-radius:4px;transform-origin:bottom center;transform:translateX(-50%) rotate(0deg)}
+/* hourglass */
+.st-hg{display:flex;flex-direction:column;align-items:center;gap:0;width:70px}
+.st-hg-half{width:60px;height:48px;border:3px solid #475569;overflow:hidden;position:relative}
+.st-hg-top-half{border-radius:8px 8px 50% 50%;border-bottom:none}
+.st-hg-bot-half{border-radius:50% 50% 8px 8px;border-top:none}
+.st-hg-sand-t{background:var(--orange2);width:100%;height:100%;position:absolute;bottom:0;transform-origin:bottom;transition:transform 1s linear}
+.st-hg-sand-b{background:var(--orange2);width:100%;height:0%;position:absolute;bottom:0;transition:height 1s linear}
+.st-hg-neck{width:2px;height:10px;background:var(--orange2);opacity:.7}
+.st-hg-flow{width:2px;height:14px;background:var(--orange2);animation:flow .3s infinite alternate}
+@keyframes flow{0%{opacity:.3}100%{opacity:1}}
+
+/* ── DIVIDER ── */
+.divider{border:none;border-top:1.5px dashed #eceef5;margin:14px 0}
+
+@media(max-width:600px){
+  .timer-display{font-size:58px}
+  .settings-grid{grid-template-columns:1fr 1fr}
+  .top-bar{flex-direction:column;align-items:flex-start}
+  .pills{width:100%;justify-content:space-between}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ── TOP BAR ── -->
+<div class="top-bar">
+  <div class="app-title"><span>🎓</span>스마트 클래스 매니저</div>
+  <div class="pills">
+    <div class="pill" id="weatherPill" onclick="getWeather()">🌤️ 날씨 불러오기</div>
+    <div class="pill"><span class="clock-dot"></span><span id="realClock">00:00:00</span></div>
+  </div>
+</div>
+
+<!-- ── 설정 & 타임라인 ── -->
+<div class="card">
+  <div class="card-title"><span class="ico">⚙️</span> 수업 시간표 및 알림 설정</div>
+  <div class="settings-grid">
+    <div class="s-item"><label>시작 시각</label><input type="time" id="startTime" value="09:00"></div>
+    <div class="s-item"><label>수업 시간(분)</label><input type="number" id="lectureTime" value="50" min="1"></div>
+    <div class="s-item"><label>쉬는 시간(분)</label><input type="number" id="breakTime" value="10" min="1"></div>
+    <div class="s-item"><label>총 차시 수</label><input type="number" id="totalPeriods" value="4" min="1" max="10"></div>
+    <div class="s-item"><label>알림 (분 전)</label><input type="number" id="alarmBefore" value="5" min="0"></div>
+    <div class="s-item"><label>🍱 식사 시작</label><input type="time" id="mealTime" value="12:00"></div>
+    <div class="s-item"><label>🍱 식사 시간(분)</label><input type="number" id="mealDuration" value="60" min="1"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="initTimeline(false)">▶ 정시 시작</button>
+    <button class="btn btn-teal" onclick="initTimeline(true)">⚡ 현재 시각 동기화</button>
+    <button class="btn btn-red" onclick="stopTimer()">⏸ 일시정지</button>
+    <button class="btn btn-orange" onclick="resumeTimer()">▶ 재개</button>
+    <button class="btn btn-slate" onclick="skipToNext()">⏭ 다음 단계</button>
+  </div>
+  <div class="timeline-wrap"><div class="timeline" id="timelineVisual"></div></div>
+</div>
+
+<!-- ── 타이머 ── -->
+<div class="card">
+  <div class="card-title"><span class="ico">⏰</span> 실시간 강의 타이머</div>
+  <div class="timer-wrap">
+    <div id="statusBadge" class="status-badge">대기중</div>
+    <div class="timer-display" id="timer">00:00</div>
+    <div class="timer-end" id="timerEndTime"></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-bar" id="progressBar" style="width:100%"></div></div>
+  <div class="prog-label" id="progressLabel"></div>
+</div>
+
+<!-- ── 공지사항 ── -->
+<div class="card">
+  <div class="card-title"><span class="ico">📢</span> 공지사항</div>
+  <textarea id="noticeInput" placeholder="전달할 공지사항을 입력하고 아래 버튼을 누르세요."></textarea>
+  <div class="btn-row" style="margin-top:8px">
+    <button class="btn btn-primary" onclick="postNotice()">📢 공지 올리기</button>
+    <button class="btn btn-gray" onclick="clearNotices()">🗑 전체 삭제</button>
+  </div>
+  <div class="notice-board" id="notice-board">등록된 공지사항이 없습니다.</div>
+</div>
+
+<!-- ── 미니게임 ── -->
+<div class="card">
+  <div class="card-title"><span class="ico">🎮</span> 집중도 향상 미니게임</div>
+  <input class="p-input" type="text" id="participants" value="홍길동, 김철수, 이영희, 박민수, 최수연" placeholder="참여자 이름 (쉼표 구분)">
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchTab('dice',this)">🎲 주사위</button>
+    <button class="tab-btn" onclick="switchTab('ladder',this)">🪜 사다리</button>
+    <button class="tab-btn" onclick="switchTab('roulette',this)">🎡 룰렛</button>
+    <button class="tab-btn" onclick="switchTab('guess',this)">🔢 숫자 맞추기</button>
+  </div>
+
+  <div class="tab-content active" id="tab-dice">
+    <div class="btn-row">
+      <button class="btn btn-orange" onclick="rollDice()">🎲 1개 굴리기</button>
+      <button class="btn btn-gray" onclick="rollMultiDice()">🎲🎲 2개 굴리기</button>
+    </div>
+    <div class="dice-display" id="diceResult">?</div>
+  </div>
+
+  <div class="tab-content" id="tab-ladder">
+    <div class="btn-row"><button class="btn btn-purple" onclick="makeLadder()">🪜 사다리 추첨 수행</button></div>
+    <ul class="ladder-list" id="ladderArea"></ul>
+  </div>
+
+  <div class="tab-content" id="tab-roulette">
+    <div class="btn-row">
+      <button class="btn btn-gray" onclick="drawRoulette()">🔄 명단 동기화</button>
+      <button class="btn btn-orange" onclick="spinRoulette()">🎡 룰렛 돌리기</button>
+    </div>
+    <div class="roulette-wrap">
+      <canvas id="canvas" width="260" height="260"></canvas>
+      <div class="roulette-result" id="rouletteResult">당첨자: ?</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-guess">
+    <p style="font-size:13px;color:#6b7aab;margin-bottom:10px;line-height:1.6">시스템이 생성한 <b>1~10</b> 사이의 비밀 숫자를 맞추세요!</p>
+    <div class="guess-row">
+      <input class="p-input" type="number" id="guessInput" min="1" max="10" placeholder="1~10 입력" style="margin-bottom:0">
+      <button class="btn btn-teal" onclick="playGuessGame()">도전!</button>
+      <button class="btn btn-gray" onclick="newRound()">새 라운드</button>
+    </div>
+    <div class="guess-result" id="guessResult">결과 대기 중...</div>
+    <div style="font-size:12px;color:#b0bad8;margin-top:6px" id="guessCount"></div>
+  </div>
+</div>
+
+<!-- ── 공유 & 비주얼 타이머 ── -->
+<div class="card">
+  <div class="card-title"><span class="ico">📱</span> 화면 실시간 공유</div>
+  <div class="share-row">
+    <div>
+      <button class="btn btn-primary" onclick="generateQR()" style="margin-bottom:10px">📷 QR코드 생성</button>
+      <div id="qrcode"><span style="font-size:12px;color:#b0bad8;text-align:center;line-height:1.8">버튼을 눌러<br>QR 생성</span></div>
+    </div>
+    <div class="live-board">
+      <div class="live-label">📡 실시간 중계 보드</div>
+      <div class="live-msg" id="liveShareArea">수업이 시작되거나 이벤트가 발생하면 자동으로 공유됩니다.</div>
+    </div>
+  </div>
+
+  <div class="share-timer-box">
+    <div class="st-label">⏳ 화면 공유용 독립 비주얼 타이머</div>
+    <div class="st-controls">
+      <input class="p-input st-num" type="number" id="stMin" value="5" min="0" placeholder="분">
+      <span style="font-size:13px;color:var(--muted);font-weight:700">분</span>
+      <input class="p-input st-num" type="number" id="stSec" value="0" min="0" max="59" placeholder="초">
+      <span style="font-size:13px;color:var(--muted);font-weight:700">초</span>
+      <select class="p-input st-sel" id="stType" onchange="renderShareTimerUI()">
+        <option value="digital">🔠 디지털 타이머</option>
+        <option value="analog">🕒 아날로그 시계</option>
+        <option value="hourglass">⏳ 모래시계</option>
+      </select>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-teal" onclick="startShareTimer()">▶ 시작</button>
+      <button class="btn btn-gray" onclick="toggleShareTimer()">⏸ 일시정지/재개</button>
+      <button class="btn btn-red" onclick="resetShareTimer()">↺ 초기화</button>
+    </div>
+    <div class="st-display-area" id="stArea">
+      <div class="st-digital" id="stDigital">05:00</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// ═══════════════════════════════════════════
+// 전역 상태
+// ═══════════════════════════════════════════
+let timerIv=null, remainSec=0, totalSec=0;
+let alarmPlayed=false, curPeriod=1, curStage='lecture';
+let totalPeriods=4, isPaused=false;
+let schedTL=[];
+
+// 공유 타이머
+let stIv=null, stRemain=0, stTotal=0, stPaused=true;
+
+// 시계
+setInterval(()=>{ document.getElementById("realClock").innerText=new Date().toLocaleTimeString(); },1000);
+
+// ═══════════════════════════════════════════
+// 날씨
+// ═══════════════════════════════════════════
+async function getWeather(){
+  const el=document.getElementById("weatherPill");
+  el.innerHTML="⏳ 불러오는 중...";
+  try{
+    // API key 없이 wttr.in 무료 API 사용
+    const r=await fetch("https://wttr.in/Seoul?format=j1");
+    const d=await r.json();
+    const cur=d.current_condition[0];
+    const desc=cur.lang_ko?.[0]?.value||cur.weatherDesc[0].value;
+    const temp=cur.temp_C;
+    el.innerHTML=`🌡️ 서울 ${temp}°C · ${desc}`;
+  }catch(e){
+    el.innerHTML="🌤️ 날씨 정보 없음";
+  }
+}
+
+// ═══════════════════════════════════════════
+// 공지사항
+// ═══════════════════════════════════════════
+function postNotice(){
+  const txt=document.getElementById("noticeInput").value.trim();
+  if(!txt){alert("공지 내용을 입력해주세요.");return;}
+  const board=document.getElementById("notice-board");
+  if(board.innerText.includes("등록된 공지사항이 없습니다."))board.innerHTML="";
+  const p=document.createElement("p");
+  const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  p.innerHTML=`<strong style="color:var(--primary)">[${t}]</strong> ${txt}`;
+  board.insertBefore(p,board.firstChild);
+  shareToStudents(`📢 공지: ${txt}`);
+  document.getElementById("noticeInput").value="";
+}
+function clearNotices(){
+  document.getElementById("notice-board").innerHTML="등록된 공지사항이 없습니다.";
+}
+
+// ═══════════════════════════════════════════
+// 알림음
+// ═══════════════════════════════════════════
+function beep(urgent=false){
+  try{
+    const ac=new(window.AudioContext||window.webkitAudioContext)();
+    const notes=urgent?[880,440,880,440]:[440,554,659,880];
+    notes.forEach((f,i)=>setTimeout(()=>{
+      const o=ac.createOscillator(),g=ac.createGain();
+      o.type=urgent?'square':'sine';
+      o.frequency.setValueAtTime(f,ac.currentTime);
+      g.gain.setValueAtTime(0.28,ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+0.45);
+      o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+0.5);
+    },i*260));
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════
+// 타임라인 빌드
+// ═══════════════════════════════════════════
+function initTimeline(syncNow=false){
+  totalPeriods=Math.max(1,+document.getElementById("totalPeriods").value);
+  const lMin=+document.getElementById("lectureTime").value;
+  const bMin=+document.getElementById("breakTime").value;
+  const mMin=+document.getElementById("mealDuration").value;
+  const mStr=document.getElementById("mealTime").value;
+
+  let base=new Date();
+  if(!syncNow){const sp=document.getElementById("startTime").value.split(":");base.setHours(+sp[0],+sp[1],0,0);}
+
+  schedTL=[];
+  let cur=new Date(base);
+  let mealTarget=null, mealDone=false;
+  if(mStr){const mp=mStr.split(":");mealTarget=new Date(cur);mealTarget.setHours(+mp[0],+mp[1],0,0);}
+
+  for(let i=1;i<=totalPeriods;i++){
+    // 점심 삽입 체크 (교시 앞)
+    if(mealTarget&&!mealDone&&cur>=mealTarget){
+      let ms=new Date(cur);cur.setMinutes(cur.getMinutes()+mMin);
+      schedTL.push({type:'meal',period:i-1,start:ms,end:new Date(cur)});mealDone=true;
+    }
+    let s=new Date(cur);cur.setMinutes(cur.getMinutes()+lMin);
+    schedTL.push({type:'lecture',period:i,start:s,end:new Date(cur)});
+    // 점심 삽입 체크 (교시 뒤)
+    if(mealTarget&&!mealDone&&cur>=mealTarget){
+      let ms=new Date(cur);cur.setMinutes(cur.getMinutes()+mMin);
+      schedTL.push({type:'meal',period:i,start:ms,end:new Date(cur)});mealDone=true;
+    }
+    if(i<totalPeriods){let bs=new Date(cur);cur.setMinutes(cur.getMinutes()+bMin);schedTL.push({type:'break',period:i,start:bs,end:new Date(cur)});}
+  }
+
+  if(syncNow){
+    const now=new Date();let found=false;
+    for(const s of schedTL){
+      if(now>=s.start&&now<s.end){
+        curPeriod=s.period;curStage=s.type;
+        remainSec=Math.floor((s.end-now)/1000);
+        totalSec=Math.floor((s.end-s.start)/1000);
+        found=true;break;
+      }
+    }
+    if(!found){
+      if(new Date()<schedTL[0].start){
+        alert("현재 시간이 시간표 시작 전입니다. 1교시 대기 상태로 준비합니다.");
+        curPeriod=1;curStage='lecture';remainSec=totalSec=Math.floor((schedTL[0].end-schedTL[0].start)/1000);
+      }else{alert("현재 시간이 시간표를 벗어났습니다. 시작 시각을 조절해주세요.");return;}
+    }
+  }else{curPeriod=1;curStage='lecture';remainSec=totalSec=lMin*60;}
+
+  isPaused=false;alarmPlayed=false;
+  renderTL();startSession();
+}
+
+function renderTL(){
+  const el=document.getElementById("timelineVisual");el.innerHTML="";
+  const ai=schedTL.findIndex(s=>s.period===curPeriod&&s.type===curStage);
+  schedTL.forEach((s,idx)=>{
+    const d=document.createElement("div");
+    let cls="tl-item";
+    if(s.type==='break')cls+=" tl-break";
+    if(s.type==='meal')cls+=" tl-meal";
+    if(idx<ai)cls+=" tl-done";
+    if(idx===ai)cls+=" tl-active";
+    d.className=cls;
+    const ts=`${s.start.toTimeString().slice(0,5)}~${s.end.toTimeString().slice(0,5)}`;
+    const label=s.type==='lecture'?`${s.period}교시`:s.type==='break'?'☕ 휴식':'🍱 식사';
+    d.innerHTML=`<span class="tl-name">${label}</span><span class="tl-time">${ts}</span>`;
+    d.onclick=()=>jumpTo(idx);
+    el.appendChild(d);
+  });
+}
+
+function jumpTo(idx){
+  if(idx<0||idx>=schedTL.length)return;
+  clearInterval(timerIv);
+  const s=schedTL[idx];
+  curPeriod=s.period;curStage=s.type;isPaused=false;alarmPlayed=false;
+  const now=new Date();
+  if(now>=s.start&&now<s.end){remainSec=Math.floor((s.end-now)/1000);totalSec=Math.floor((s.end-s.start)/1000);}
+  else{remainSec=totalSec=Math.floor((s.end-s.start)/1000);}
+  startSession();
+}
+
+function startSession(){
+  setBadge();renderTL();
+  shareToStudents(document.getElementById("statusBadge").innerText);
+  updateDisp();updateProg();runTimer();
+}
+
+function setBadge(extra=''){
+  const el=document.getElementById("statusBadge");
+  if(isPaused){el.className='status-badge paused';el.innerText='⏸ 일시정지됨';return;}
+  if(curStage==='break'){el.className='status-badge break-mode';el.innerText=`☕ ${curPeriod}교시 후 — 쉬는 시간`;}
+  else if(curStage==='meal'){el.className='status-badge meal-mode';el.innerText='🍱 점심 식사 시간';}
+  else{el.className='status-badge';el.innerText=`📚 ${curPeriod}교시 — 수업 진행 중`;}
+  if(extra)el.innerText+=extra;
+}
+
+// ═══════════════════════════════════════════
+// 타이머 엔진
+// ═══════════════════════════════════════════
+function runTimer(){
+  clearInterval(timerIv);
+  timerIv=setInterval(()=>{
+    if(isPaused)return;
+    if(remainSec<=0){
+      clearInterval(timerIv);beep(true);
+      const ci=schedTL.findIndex(s=>s.period===curPeriod&&s.type===curStage);
+      const ni=ci+1;
+      if(ni>=schedTL.length){
+        document.getElementById("statusBadge").className='status-badge done';
+        document.getElementById("statusBadge").innerText='🎉 모든 수업 종료!';
+        document.getElementById("timer").innerText="00:00";
+        document.getElementById("timerEndTime").innerText="";
+        document.getElementById("progressBar").style.width="0%";
+        document.getElementById("progressLabel").innerText="";
+        renderTL();shareToStudents("모든 수업 일정이 종료되었습니다! 수고하셨습니다 🎉");
+        alert("모든 수업 일정이 종료되었습니다!");return;
+      }
+      const msgs={lecture:"수업 시간이 끝났습니다!",break:"쉬는 시간이 끝났습니다!",meal:"식사 시간이 끝났습니다!"};
+      alert(msgs[curStage]||"다음 단계로 이동합니다.");
+      jumpTo(ni);return;
+    }
+    const ab=+document.getElementById("alarmBefore").value*60;
+    if(!alarmPlayed&&ab>0&&remainSec===ab){beep();alarmPlayed=true;setBadge(" ⚠️ 종료 임박!");}
+    remainSec--;updateDisp();updateProg();
+  },1000);
+}
+
+function updateDisp(){
+  const m=Math.floor(remainSec/60),s=remainSec%60;
+  const el=document.getElementById("timer");
+  el.innerText=String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
+  const end=new Date(Date.now()+remainSec*1000);
+  document.getElementById("timerEndTime").innerText=`종료 예정  ${String(end.getHours()).padStart(2,'0')}:${String(end.getMinutes()).padStart(2,'0')}`;
+  const ab=+document.getElementById("alarmBefore").value*60;
+  const r=totalSec>0?remainSec/totalSec:1;
+  el.className='timer-display'+(remainSec<=ab&&ab>0?(r<.18?' urgent':' warn'):'');
+}
+function updateProg(){
+  const r=totalSec>0?remainSec/totalSec:1,pct=Math.round(r*100);
+  const b=document.getElementById("progressBar");b.style.width=pct+"%";
+  b.className='prog-bar'+(pct<20?' urgent':pct<40?' warn':'');
+  const m=Math.floor(remainSec/60),s=remainSec%60;
+  document.getElementById("progressLabel").innerText=`남은 시간  ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}  (${pct}%)`;
+}
+function stopTimer(){isPaused=true;setBadge();}
+function resumeTimer(){if(!isPaused)return;isPaused=false;setBadge();}
+function skipToNext(){
+  const ci=schedTL.findIndex(s=>s.period===curPeriod&&s.type===curStage);
+  const ni=ci+1;
+  if(ni<schedTL.length)jumpTo(ni);
+  else{clearInterval(timerIv);document.getElementById("statusBadge").className='status-badge done';document.getElementById("statusBadge").innerText='🎉 모든 수업 종료!';document.getElementById("timer").innerText="00:00";}
+}
+
+// ═══════════════════════════════════════════
+// 탭 & 미니게임
+// ═══════════════════════════════════════════
+function switchTab(n,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+n).classList.add('active');btn.classList.add('active');
+}
+function getNames(){return document.getElementById("participants").value.split(",").map(n=>n.trim()).filter(Boolean);}
+
+// 주사위
+const DICE=['','⚀','⚁','⚂','⚃','⚄','⚅'];
+function rollDice(){
+  let c=0;const iv=setInterval(()=>{
+    document.getElementById("diceResult").innerText=DICE[Math.floor(Math.random()*6)+1];
+    if(++c>12){clearInterval(iv);const f=Math.floor(Math.random()*6)+1;
+      document.getElementById("diceResult").innerText=DICE[f]+"\n"+f;
+      shareToStudents(`🎲 주사위: ${DICE[f]} (${f})`);}
+  },75);
+}
+function rollMultiDice(){
+  let c=0;const iv=setInterval(()=>{
+    const r1=Math.floor(Math.random()*6)+1,r2=Math.floor(Math.random()*6)+1;
+    document.getElementById("diceResult").innerText=`${DICE[r1]} ${DICE[r2]}`;
+    if(++c>12){clearInterval(iv);const f1=Math.floor(Math.random()*6)+1,f2=Math.floor(Math.random()*6)+1;
+      document.getElementById("diceResult").innerText=`${DICE[f1]} ${DICE[f2]}\n합계: ${f1+f2}`;
+      shareToStudents(`🎲🎲 더블 주사위: ${DICE[f1]}${DICE[f2]} (합계 ${f1+f2})`);}
+  },75);
+}
+
+// 사다리
+function makeLadder(){
+  const names=getNames();if(names.length<2){alert("최소 2명 이상 입력해주세요.");return;}
+  const sh=[...names].sort(()=>Math.random()-.5);
+  const ul=document.getElementById("ladderArea");ul.innerHTML="";
+  names.forEach((n,i)=>{
+    const li=document.createElement("li");
+    li.innerHTML=`🙋 <b>${n}</b><span class="arr"> → </span>🎁 <b>${sh[i]}</b>`;
+    ul.appendChild(li);
+  });
+  shareToStudents(`🪜 사다리 결과: ${names[0]} → ${sh[0]} (외 ${names.length-1}명)`);
+}
+
+// 룰렛
+const cv=document.getElementById("canvas"),cx=cv.getContext("2d");
+let rNames=[],spinning=false,curRot=0;
+const PAL=['#6c7ef8','#2dd4bf','#fb923c','#a78bfa','#f472b6','#34d399','#f59e0b','#38bdf8','#f87171','#4ade80'];
+function drawRoulette(rot=0){
+  rNames=getNames();if(!rNames.length)return;
+  const n=rNames.length,arc=(2*Math.PI)/n;
+  cx.clearRect(0,0,260,260);cx.save();cx.translate(130,130);cx.rotate(rot);cx.translate(-130,-130);
+  rNames.forEach((name,i)=>{
+    const angle=i*arc;cx.fillStyle=PAL[i%PAL.length];
+    cx.beginPath();cx.moveTo(130,130);cx.arc(130,130,122,angle,angle+arc);cx.lineTo(130,130);cx.fill();
+    cx.strokeStyle="rgba(255,255,255,.85)";cx.lineWidth=1.5;cx.stroke();
+    cx.save();cx.translate(130,130);cx.rotate(angle+arc/2);cx.textAlign="right";
+    cx.font=`700 ${n>8?10:13}px Arial`;cx.fillStyle="#fff";
+    cx.shadowColor="rgba(0,0,0,.25)";cx.shadowBlur=3;
+    cx.fillText(name.length>5?name.slice(0,4)+'…':name,116,5);cx.restore();
+  });
+  cx.restore();
+  cx.beginPath();cx.arc(130,130,12,0,2*Math.PI);cx.fillStyle="#fff";cx.fill();
+  cx.strokeStyle="#444";cx.lineWidth=2;cx.stroke();
+  cx.beginPath();cx.moveTo(254,124);cx.lineTo(238,133);cx.lineTo(238,115);cx.closePath();cx.fillStyle="#ef4444";cx.fill();
+}
+function spinRoulette(){
+  if(spinning)return;
+  rNames=getNames();if(!rNames.length){alert("명단을 먼저 입력해주세요.");return;}
+  spinning=true;document.getElementById("rouletteResult").innerText="🎡 돌아가는 중...";
+  const total=(Math.random()*360+720*(Math.floor(Math.random()*3)+3))*(Math.PI/180);
+  const dur=3800,t0=performance.now(),sa=curRot;
+  const ease=t=>1-Math.pow(1-t,3);
+  (function ani(now){
+    const t=Math.min((now-t0)/dur,1);curRot=sa+total*ease(t);drawRoulette(curRot);
+    if(t<1){requestAnimationFrame(ani);}
+    else{
+      spinning=false;const n=rNames.length,arc=(2*Math.PI)/n;
+      const norm=((curRot%(2*Math.PI))+(2*Math.PI))%(2*Math.PI);
+      const idx=Math.floor(((2*Math.PI-norm)%(2*Math.PI))/arc)%n;
+      const w=rNames[idx];
+      document.getElementById("rouletteResult").innerText=`🎉 당첨자: ${w}님!`;
+      shareToStudents(`🎡 룰렛 당첨자: [${w}]님!`);
+    }
+  })(performance.now());
+}
+
+// 숫자 맞추기
+let secretNum=0, guessTries=0;
+function newRound(){secretNum=Math.floor(Math.random()*10)+1;guessTries=0;document.getElementById("guessResult").innerText="새 라운드 시작! 1~10 사이 숫자를 맞춰보세요.";document.getElementById("guessCount").innerText="";document.getElementById("guessInput").value="";}
+function playGuessGame(){
+  if(!secretNum)newRound();
+  const v=parseInt(document.getElementById("guessInput").value);
+  const res=document.getElementById("guessResult");
+  if(isNaN(v)||v<1||v>10){alert("1~10 사이 숫자를 입력해주세요.");return;}
+  guessTries++;
+  if(v===secretNum){
+    res.innerHTML=`🎉 정답! <b>${secretNum}</b>이 맞습니다! (${guessTries}번 만에 성공)`;
+    shareToStudents(`🔢 숫자 맞추기 정답! 정답은 [${secretNum}], ${guessTries}번 만에 성공!`);
+    secretNum=0;
+  }else{
+    res.innerText=`${v}은(는) 오답! 정답은 ${v<secretNum?'더 큽니다 📈':'더 작습니다 📉'}`;
+  }
+  document.getElementById("guessCount").innerText=`시도 횟수: ${guessTries}회`;
+  document.getElementById("guessInput").value="";
+}
+
+// ═══════════════════════════════════════════
+// QR & 공유
+// ═══════════════════════════════════════════
+function generateQR(){
+  const d=document.getElementById("qrcode");d.innerHTML="";
+  new QRCode(d,{text:window.location.href||"https://smart-classroom.example.com",width:128,height:128,colorDark:"#1a1a2e",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});
+}
+function shareToStudents(msg){
+  const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.getElementById("liveShareArea").innerHTML=`<strong>[${t}]</strong> ${msg}`;
+}
+
+// ═══════════════════════════════════════════
+// 공유 비주얼 타이머
+// ═══════════════════════════════════════════
+function renderShareTimerUI(){
+  const type=document.getElementById("stType").value;
+  const area=document.getElementById("stArea");
+  const m=Math.floor(stRemain/60),s=stRemain%60;
+  const ts=String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
+  const ratio=stTotal>0?stRemain/stTotal:1;
+
+  if(type==='digital'){
+    area.innerHTML=`<div class="st-digital" id="stDigital">${ts}</div>`;
+  } else if(type==='analog'){
+    const deg=ratio*360;
+    area.innerHTML=`
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+        <div class="st-clock">
+          <div style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:50%;background:conic-gradient(#818cf8 ${deg}deg,#eef0f8 ${deg}deg)"></div>
+          <div class="st-hand" style="transform:translateX(-50%) rotate(${deg}deg)"></div>
+        </div>
+        <div style="font-size:20px;font-weight:800;color:var(--text)">${ts}</div>
+      </div>`;
+  } else if(type==='hourglass'){
+    area.innerHTML=`
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <div class="st-hg-half st-hg-top-half"><div class="st-hg-sand-t" style="transform:scaleY(${ratio})"></div></div>
+        <div style="width:2px;height:10px;background:#f59e0b;opacity:.8;${!stPaused&&stRemain>0?'animation:flow .3s infinite alternate':''}"></div>
+        <div class="st-hg-half st-hg-bot-half"><div class="st-hg-sand-b" style="height:${(1-ratio)*100}%"></div></div>
+        <div style="font-size:20px;font-weight:800;color:var(--text);margin-top:10px">${ts}</div>
+      </div>`;
+  }
+}
+
+function startShareTimer(){
+  clearInterval(stIv);
+  const m=Math.max(0,parseInt(document.getElementById("stMin").value)||0);
+  const s=Math.max(0,Math.min(59,parseInt(document.getElementById("stSec").value)||0));
+  stRemain=stTotal=m*60+s;
+  if(!stTotal){alert("시간을 설정해 주세요.");return;}
+  stPaused=false;
+  renderShareTimerUI();
+  shareToStudents(`⏳ 공유 타이머 시작: [${m}분 ${s}초]`);
+  stIv=setInterval(()=>{
+    if(stPaused)return;
+    if(stRemain<=0){clearInterval(stIv);beep(false);shareToStudents("⏳ 공유 타이머 종료!");alert("공유용 타이머가 완료되었습니다!");return;}
+    stRemain--;renderShareTimerUI();
+  },1000);
+}
+function toggleShareTimer(){
+  if(!stTotal)return;
+  stPaused=!stPaused;
+  shareToStudents(`⏳ 공유 타이머 ${stPaused?'일시정지':'재개'}`);
+  renderShareTimerUI();
+}
+function resetShareTimer(){
+  clearInterval(stIv);stRemain=stTotal=0;stPaused=true;
+  document.getElementById("stMin").value=5;document.getElementById("stSec").value=0;
+  stRemain=300;stTotal=300;
+  renderShareTimerUI();
+  shareToStudents("⏳ 공유 타이머 초기화");
+}
+
+// ═══════════════════════════════════════════
+// 초기 실행
+// ═══════════════════════════════════════════
+window.onload=()=>{
+  const now=new Date();
+  document.getElementById("startTime").value=String(now.getHours()).padStart(2,'0')+":"+String(now.getMinutes()).padStart(2,'0');
+  drawRoulette();
+  newRound();
+  stRemain=stTotal=300;
+  renderShareTimerUI();
+  initTimeline(false);
+  setTimeout(getWeather,1200);
+};
+</script>
+</body>
+</html>
