@@ -591,18 +591,39 @@ function clearNotices(){
 // 알림음
 function beep(urgent=false){
   try{
+    // 오디오 컨텍스트 생성 (브라우저 호환성 고려)
     const ac=new(window.AudioContext||window.webkitAudioContext)();
+
+    // urgent 여부에 따라 다른 음계 배열 선택
+    // 긴급일 때는 880Hz와 440Hz를 번갈아, 일반일 때는 4개의 음계
     const notes=urgent?[880,440,880,440]:[440,554,659,880];
+
+    // 각 음을 일정 간격으로 재생
     notes.forEach((f,i)=>setTimeout(()=>{
+      // 오실레이터(소리 발생기)와 게인(볼륨 제어기) 생성
       const o=ac.createOscillator(),g=ac.createGain();
-      o.type=urgent?'square':'sine';
+
+      // 긴급이면 square 파형, 아니면 sine 파형 사용
+      o.type=urgent?'triangle':'sine';
+
+      // 현재 시간에 주파수 설정
       o.frequency.setValueAtTime(f,ac.currentTime);
+
+      // 초기 볼륨 설정 후 점차 감소 (부드럽게 사라지도록)
       g.gain.setValueAtTime(0.28,ac.currentTime); 
       g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+0.45); 
-      o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+0.5);
-    },i*260)); 
+
+      // 오실레이터 → 게인 → 출력 연결
+      o.connect(g);
+      g.connect(ac.destination);
+
+      // 소리 시작 후 0.5초 뒤 정지
+      o.start();
+      o.stop(ac.currentTime+0.5);
+    },i*260)); // 각 음을 260ms 간격으로 재생
   }catch(e){}
 }
+
 
 // 타임라인 빌드
 function buildTimelineStructure() {
