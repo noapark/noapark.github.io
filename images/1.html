@@ -8,35 +8,39 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root {
-  /* Primary & Accent (요청하신 Deep Teal 계열로 변경하여 차분하고 지적인 느낌 강조) */
-  --primary: #0b6b63;         /* 메인 Deep Teal */
-  --primary-light: #e6f6f4;   /* 연한 Teal 배경 */
-  --primary-dark: #074742;    /* 딥 Deep Teal */
+  /* Primary & Accent (테일의 감성은 살리되, 첫 번째 팔레트처럼 선명하고 화사하게 톤업) */
+  --primary: #0ea5e9;         /* 메인: 눈에 확 띄는 밝고 청량한 스카이 테일 (첫 번째 primary 느낌 복원) */
+  --primary2: #06b6d4;        /* 보조: 그라데이션이나 강조용 브라이트 시안 */
+  --primary-light: #ecfeff;   /* 연한 테일 배경 (컴포넌트 강조용) */
+  --primary-dark: #0369a1;    /* 호버(Hover) 시 사용할 깊은 테일 */
   
-  --success: #10b981;         /* 에메랄드 그린 */
-  --warning: #f97316;         /* 명시성 높은 오렌지 */
-  --danger: #ef4444;          /* 선명한 레드 */
+  --success: #10b981;         /* 에메랄드 그린 (첫 번째와 동일, 선명함 유지) */
+  --warning: #f59e0b;         /* 명시성 높은 따뜻한 옐로우 오렌지 */
+  --danger: #ef4444;          /* 선명한 레드 (첫 번째와 동일, 경고 효과 확실) */
 
-  /* Backgrounds & Surfaces (차분한 Slate 톤을 베이스로 정돈) */
-  --bg: #f8fafc;              /* Slate 50 기반의 아주 밝고 깨끗한 배경 */
-  --card: #ffffff;            /* 깨끗한 화이트 카드 */
+  /* Backgrounds & Surfaces (버튼이 대비되어 잘 보이도록 배경은 맑고 투명하게) */
+  --bg: #f4f7ff;              /* 첫 번째 팔레트의 화사하고 푸른기 도는 깨끗한 배경 복원 */
+  --card: #ffffffcc;          /* 첫 번째 팔레트의 반투명하고 트렌디한 화이트 카드 */
   
-  /* Typography (Slate 계열로 깊이감과 가독성 확보) */
-  --text: #0f172a;            /* Slate 900 - 메인 텍스트 */
-  --muted: #475569;           /* Slate 600 - 서브 텍스트 */
-  --faint: #94a3b8;           /* Slate 400 - 덜 중요한 텍스트/플레이스홀더 */
+  /* Typography (글씨가 흐리멍텅하지 않도록 대비 확정) */
+  --text: #1e293b;            /* Slate 800 - 첫 번째 팔레트의 또렷한 메인 텍스트 */
+  --muted: #64748b;           /* Slate 500 - 가독성 좋은 서브 텍스트 */
+  --faint: #94a3b8;           /* Slate 400 - 플레이스홀더 */
 
   /* Borders & Dividers */
-  --border: #e2e8f0;          /* Slate 200 - 기본 경계선 */
-  --border2: #cbd5e1;         /* Slate 300 - 조금 더 짙은 경계선 */
+  --border: #e2e8f0;          /* 깔끔한 경계선 */
+  --border2: #cbd5e1;         /* 조금 더 짙은 경계선 */
 
-  /* Shadows (새로운 메인 컬러를 은은하게 반영한 세련된 그림자) */
+  /* Shadows (입체감을 주어 버튼과 카드가 떠 보이게 제작) */
   --shadow: 
-    0 10px 30px rgba(11, 107, 99, 0.06), 
-    0 4px 12px rgba(15, 23, 42, 0.04);
+    0 10px 30px rgba(14, 165, 233, 0.12),  /* 새 primary 컬러를 반영한 화사한 그림자 */
+    0 4px 12px rgba(0, 0, 0, 0.05);
 
-  /* 보조/확장용 컬러 */
+  /* 보조/확장용 컬러 (첫 번째와 두 번째의 장점 조합) */
+  --teal: #14b8a6;
+  --teal2: #0d9488;
   --red2: #dc2626;
+  --orange: #f97316;
   --orange2: #ea580c;
   --purple: #a855f7;
   --purple2: #9333ea;
