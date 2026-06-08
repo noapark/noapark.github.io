@@ -701,7 +701,7 @@ function buildTimelineStructure(){
     let ms=new Date(cur);cur.setMinutes(cur.getMinutes()+mMin);
     schedTL.push({type:'meal',period:totalPeriods,start:ms,end:new Date(cur)});
   }
-  renderTL();
+  function renderTL();
 }
 
 function startFromBeginning(){
@@ -765,7 +765,7 @@ unction renderTL(){
   });
 }
 
-function jumpTo(idx){
+/* function jumpTo(idx){
   const s=schedTL[idx];if(!s)return;
   clearInterval(timerIv);
   curPeriod=s.period;curStage=s.type;
@@ -775,7 +775,7 @@ function jumpTo(idx){
   startSession();
   // ✅ [수정 B] 공유 메시지 텍스트: "N교시" → "N Class"
   shareToStudents(`⏭ ${curStage==='lecture'?curPeriod+' Class':curStage==='break'?'쉬는시간':'식사시간'} 시작!`);
-}
+} */
 
 function startSession(){
   setBadge();
@@ -801,8 +801,14 @@ function jumpTo(index){
   updateDisp();
   updateProg();
   runTimer();
-  shareToStudents(`⏭️ ${curStage === 'lecture' ? curPeriod + '교시' : curStage === 'break' ? '쉬는시간' : '식사시간'} 가 시작되었습니다.`);
-}
+  shareToStudents(
+    `⏭️ ${curStage === 'lecture'
+      ? curPeriod + ' Class'
+      : curStage === 'break'
+      ? '쉬는시간'
+      : '식사시간'} 시작`
+  );
+}}
 
 function setBadge(extra=""){
   const b=document.getElementById("statusBadge");
