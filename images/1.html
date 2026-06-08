@@ -102,12 +102,64 @@ body{
 }
 .card-title .ico{font-size:18px}
 
+/* ── CARD details ── */
+details {
+    width: 100%;
+}
+
+summary.card-title {
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+summary.card-title::-webkit-details-marker {
+    display: none;
+}
+
+summary.card-title::after {
+    content: "▼";
+    margin-left: auto;
+    transition: transform 0.2s;
+}
+
+details[open] summary.card-title::after {
+    transform: rotate(180deg);
+}
+
+.settings-wrap {
+    margin-top: 12px;
+}
+
 /* ── SETTINGS ── */
 .settings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:9px;margin-bottom:13px}
 .s-item label{display:block;font-size:10px;font-weight:700;color:var(--faint);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
 .s-item input,.p-input,textarea,select{width:100%;padding:8px 10px;border:1.5px solid var(--border2);border-radius:10px;font-size:14px;font-weight:600;color:var(--text);background:#f7f8fd;transition:all .2s}
 .s-item input:focus,.p-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(108,126,248,.1)}
 textarea{height:80px;resize:none;font-family:inherit}
+
+.settings-row{
+    display:flex;
+    gap:12px;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+}
+
+.s-item{
+    display:flex;
+    flex-direction:column;
+    min-width:160px;
+    flex:1;
+}
+
+.s-item label{
+    margin-bottom:4px;
+    font-size:14px;
+    font-weight:600;
+}
 
 /* ── BUTTONS ── */
 .btn-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px}
@@ -153,7 +205,7 @@ textarea{height:80px;resize:none;font-family:inherit}
 .status-badge.break-mode{background:#f0f9ff;border-color:#bae6fd;color:#0369a1}
 .status-badge.meal-mode{background:#fefce8;border-color:#fef08a;color:#854d0e}
 .status-badge.paused{background:#fef3f2;border-color:#fecaca;color:#dc2626}
-.status-badge.done{background:#f0df4;border-color:#bbf7d0;color:#15803d}
+.status-badge.done{background:#e8f5e9;border-color:#a5d6a7;color:#1b5e20}
 .timer-display{font-size:84px;font-weight:800;letter-spacing:5px;line-height:1;font-variant-numeric:tabular-nums;color:var(--text);transition:color .4s}
 .timer-display.warn{color:var(--orange2)}
 .timer-display.urgent{color:#ef4444}
@@ -230,6 +282,26 @@ textarea{height:80px;resize:none;font-family:inherit}
   .top-bar{flex-direction:column;align-items:flex-start}
   .pills{width:100%;justify-content:space-between}
 }
+
+/* ── dashboard── */
+.dashboard-grid{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+
+.grid-col{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+@media (max-width: 900px){
+  .dashboard-grid{
+    flex-direction:column;
+  }
+}
 </style>
 </head>
 <body>
@@ -239,34 +311,74 @@ textarea{height:80px;resize:none;font-family:inherit}
   <div class="app-title">스마트 클래스 매니저</div>
   <div class="pills">
     <div class="pill" id="weatherPill" onclick="getWeather()">🌤️ 날씨 불러오기</div>
-    <div class="pill"><span class="clock-dot"></span><span id="realClock">00:00:00</span></div>
+    <div class="pill">
+      <span class="clock-dot"></span> 🖥️ <span id="realClock">00:00:00</span> </div>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-title"><span class="ico">⚙️</span> 시간 및 알림 설정</div>
-  <div class="settings-grid">
-    <div class="s-item"><label>시작 시각</label><input type="time" id="startTime" value="09:00"></div>
-    <div class="s-item"><label>수업 시간(분)</label><input type="number" id="lectureTime" value="50" min="1"></div>
-    <div class="s-item"><label>쉬는 시간(분)</label><input type="number" id="breakTime" value="10" min="1"></div>
-    <div class="s-item"><label>총 차시 수</label><input type="number" id="totalPeriods" value="4" min="1" max="10"></div>
-    <div class="s-item"><label>알림 (분 전)</label><input type="number" id="alarmBefore" value="5" min="0"></div>
-    <div class="s-item"><label>🍱 식사 시작</label><input type="time" id="mealTime" value="12:00"></div>
-    <div class="s-item"><label>🍱 식사 시간(분)</label><input type="number" id="mealDuration" value="60" min="1"></div>
-  </div>
-  <div class="btn-row">
-    <button class="btn btn-purple" onclick="buildTimelineStructure()">⚙️ 시간표 세팅 완료</button>
-    <button class="btn btn-primary" onclick="startFromBeginning()">▶ 첫 교시 시작</button>
-    <button class="btn btn-teal" onclick="syncWithCurrentTime()">⚡ 현재 시각 동기화</button>
-    <button class="btn btn-red" onclick="stopTimer()">⏸ 일시정지</button>
-    <button class="btn btn-orange" onclick="resumeTimer()">▶ 재개</button>
-    <button class="btn btn-slate" onclick="skipToNext()">⏭ 다음 단계</button>
-  </div>
+  <details>
+    <summary class="card-title">
+      <span class="ico">⚙️</span>
+      시간 및 알림 설정
+    </summary>
+
+    <div class="settings-row">
+      <div class="s-item">
+        <label>시작 시간 설정</label>
+        <input type="time" id="startTime" value="09:00">
+      </div>
+
+      <div class="s-item">
+        <label>진행 시간(분)</label>
+        <input type="number" id="lectureTime" value="40" min="1">
+      </div>
+
+      <div class="s-item">
+        <label>쉬는 시간(분)</label>
+        <input type="number" id="breakTime" value="10" min="1">
+      </div>
+    </div>
+
+    <div class="settings-row">
+      <div class="s-item">
+        <label>총 차시 수</label>
+        <input type="number" id="totalPeriods" value="6" min="1" max="10">
+      </div>
+
+      <div class="s-item">
+        <label>알림 (분 전)</label>
+        <input type="number" id="alarmBefore" value="10" min="0">
+      </div>
+    </div>
+
+    <div class="settings-row">
+      <div class="s-item">
+        <label>🍱 식사 시작</label>
+        <input type="time" id="mealTime" value="12:00">
+      </div>
+
+      <div class="s-item">
+        <label>🍱 식사 시간(분)</label>
+        <input type="number" id="mealDuration" value="60" min="1">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-purple" onclick="buildTimelineStructure()">⚙️ 시간표 세팅 완료</button>
+      <button class="btn btn-primary" onclick="startFromBeginning()">▶ 첫 교시 시작</button>
+      <button class="btn btn-teal" onclick="syncWithCurrentTime()">⚡ 현재 시각 동기화</button>
+      <button class="btn btn-red" onclick="stopTimer()">⏸ 일시정지</button>
+      <button class="btn btn-orange" onclick="resumeTimer()">▶ 재개</button>
+      <button class="btn btn-slate" onclick="skipToNext()">⏭ 다음 단계</button>
+    </div>
+  </details>
+
   <div class="timeline-wrap"><div class="timeline" id="timelineVisual"></div></div>
 </div>
 
 <div class="card">
-  <div class="card-title"><span class="ico">⏰</span> 실시간 강의 타이머</div>
+  <div class="card-title"><span class="ico">⏰</span> 실시간 타이머</div>
   <div class="timer-wrap">
     <div id="statusBadge" class="status-badge">대기중</div>
     <div class="timer-display" id="timer">00:00</div>
@@ -276,103 +388,135 @@ textarea{height:80px;resize:none;font-family:inherit}
   <div class="prog-label" id="progressLabel"></div>
 </div>
 
-<div class="card">
-  <div class="card-title"><span class="ico">📢</span> 공지사항</div>
-  <textarea id="noticeInput" placeholder="전달할 공지사항을 입력하고 아래 버튼을 누르세요."></textarea>
-  <div class="btn-row" style="margin-top:8px">
-    <button class="btn btn-primary" onclick="postNotice()">📢 공지 올리기</button>
-    <button class="btn btn-gray" onclick="clearNotices()">🗑 전체 삭제</button>
+<div class="dashboard-grid">
+  <div class="grid-col">
+    <div class="card">
+      <div class="card-title"><span class="ico">📢</span> 공지사항</div>
+      <textarea id="noticeInput" placeholder="전달할 공지사항을 입력하고 아래 버튼을 누르세요."></textarea>
+
+      <div class="btn-row" style="margin-top:8px">
+        <button class="btn btn-primary" onclick="postNotice()">📢 공지 올리기</button>
+        <button class="btn btn-gray" onclick="clearNotices()">🗑 전체 삭제</button>
+      </div>
+
+      <div class="notice-board" id="notice-board">등록된 공지사항이 없습니다.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="ico">🎮</span> 집중도 향상 미니게임</div>
+
+      <input class="p-input" type="text" id="participants"
+        value="홍길동, 최철수, 우영희, 마민수"
+        placeholder="참여자 이름 (쉼표 구분)">
+
+      <div class="tab-row">
+        <button class="tab-btn active" onclick="switchTab('dice',this)">🎲 주사위</button>
+        <button class="tab-btn" onclick="switchTab('ladder',this)">🪜 사다리</button>
+        <button class="tab-btn" onclick="switchTab('roulette',this)">🎡 룰렛</button>
+        <button class="tab-btn" onclick="switchTab('guess',this)">🔢 숫자 맞추기</button>
+      </div>
+
+      <div class="tab-content active" id="tab-dice">
+        <div class="btn-row">
+          <button class="btn btn-orange" onclick="rollDice()">🎲 1개 굴리기</button>
+          <button class="btn btn-gray" onclick="rollMultiDice()">🎲🎲 2개 굴리기</button>
+        </div>
+        <div class="dice-display" id="diceResult">?</div>
+      </div>
+
+      <div class="tab-content" id="tab-ladder">
+        <div class="btn-row">
+          <button class="btn btn-purple" onclick="makeLadder()">🪜 사다리 추첨 수행</button>
+        </div>
+        <ul class="ladder-list" id="ladderArea"></ul>
+      </div>
+
+      <div class="tab-content" id="tab-roulette">
+        <div class="btn-row">
+          <button class="btn btn-gray" onclick="drawRoulette(0)">🔄 명단 동기화</button>
+          <button class="btn btn-orange" onclick="spinRoulette()">🎡 룰렛 돌리기</button>
+        </div>
+        <div class="roulette-wrap">
+          <canvas id="canvas" width="260" height="260"></canvas>
+          <div class="roulette-result" id="rouletteResult">당첨자: ?</div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-guess">
+        <p style="font-size:13px;color:#6b7aab;margin-bottom:10px;line-height:1.6">
+          시스템이 생성한 <b>1~10</b> 사이의 비밀 숫자를 맞추세요!
+        </p>
+
+        <div class="guess-row">
+          <input class="p-input" type="number" id="guessInput" min="1" max="10" placeholder="1~10 입력">
+          <button class="btn btn-teal" onclick="playGuessGame()">도전!</button>
+          <button class="btn btn-gray" onclick="newRound()">새 라운드</button>
+        </div>
+
+        <div class="guess-result" id="guessResult">결과 대기 중...</div>
+        <div style="font-size:12px;color:#b0bad8;margin-top:6px" id="guessCount"></div>
+      </div>
+    </div>
   </div>
-  <div class="notice-board" id="notice-board">등록된 공지사항이 없습니다.</div>
+
+  <div class="grid-col">
+    <div class="card">
+      <div class="card-title"><span class="ico">📱</span> 화면 실시간 공유</div>
+
+      <div class="share-row">
+        <div>
+          <button class="btn btn-primary" onclick="generateQR()" style="margin-bottom:10px">
+            📷 QR코드 생성
+          </button>
+
+          <div id="qrcode">
+            <span style="font-size:12px;color:#b0bad8;text-align:center;line-height:1.8">
+              버튼을 눌러<br>QR 생성
+            </span>
+          </div>
+        </div>
+
+        <div class="live-board">
+          <div class="live-label">📡 실시간 중계 보드</div>
+          <div class="live-msg" id="liveShareArea">
+            수업이 시작되거나 이벤트가 발생하면 자동으로 공유됩니다.
+          </div>
+        </div>
+      </div>
+
+      <div class="share-timer-box">
+        <div class="st-label">⏳ 화면 공유용 독립 비주얼 타이머</div>
+
+        <div class="st-controls">
+          <input class="p-input st-num" type="number" id="stMin" value="5" min="0" placeholder="분">
+          <span style="font-size:13px;color:var(--muted);font-weight:700">분</span>
+
+          <input class="p-input st-num" type="number" id="stSec" value="0" min="0" max="59" placeholder="초">
+          <span style="font-size:13px;color:var(--muted);font-weight:700">초</span>
+
+          <select class="p-input st-sel" id="stType" onchange="renderShareTimerUI()">
+            <option value="digital">🔠 디지털 타이머</option>
+            <option value="analog">🕒 아날로그 시계</option>
+            <option value="hourglass">⏳ 모래시계</option>
+          </select>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-teal" onclick="startShareTimer()">▶ 시작</button>
+          <button class="btn btn-gray" onclick="toggleShareTimer()">⏸ 일시정지/재개</button>
+          <button class="btn btn-red" onclick="resetShareTimer()">↺ 초기화</button>
+        </div>
+
+        <div class="st-display-area" id="stArea">
+          <div class="st-digital" id="stDigital">05:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="card">
-  <div class="card-title"><span class="ico">🎮</span> 집중도 향상 미니게임</div>
-  <input class="p-input" type="text" id="participants" value="홍길동, 최철수, 우영희, 마민수" placeholder="참여자 이름 (쉼표 구분)"> 
-  <div class="tab-row">
-    <button class="tab-btn active" onclick="switchTab('dice',this)">🎲 주사위</button>
-    <button class="tab-btn" onclick="switchTab('ladder',this)">🪜 사다리</button>
-    <button class="tab-btn" onclick="switchTab('roulette',this)">🎡 룰렛</button>
-    <button class="tab-btn" onclick="switchTab('guess',this)">🔢 숫자 맞추기</button>
-  </div>
-
-  <div class="tab-content active" id="tab-dice">
-    <div class="btn-row">
-      <button class="btn btn-orange" onclick="rollDice()">🎲 1개 굴리기</button>
-      <button class="btn btn-gray" onclick="rollMultiDice()">🎲🎲 2개 굴리기</button>
-    </div>
-    <div class="dice-display" id="diceResult">?</div>
-  </div>
-
-  <div class="tab-content" id="tab-ladder">
-    <div class="btn-row"><button class="btn btn-purple" onclick="makeLadder()">🪜 사다리 추첨 수행</button></div>
-    <ul class="ladder-list" id="ladderArea"></ul>
-  </div>
-
-  <div class="tab-content" id="tab-roulette">
-    <div class="btn-row">
-      <button class="btn btn-gray" onclick="drawRoulette()">🔄 명단 동기화</button>
-      <button class="btn btn-orange" onclick="spinRoulette()">🎡 룰렛 돌리기</button>
-    </div>
-    <div class="roulette-wrap">
-      <canvas id="canvas" width="260" height="260"></canvas>
-      <div class="roulette-result" id="rouletteResult">당첨자: ?</div>
-    </div>
-  </div>
-
-  <div class="tab-content" id="tab-guess">
-    <p style="font-size:13px;color:#6b7aab;margin-bottom:10px;line-height:1.6">시스템이 생성한 <b>1~10</b> 사이의 비밀 숫자를 맞추세요!</p>
-    <div class="guess-row">
-      <input class="p-input" type="number" id="guessInput" min="1" max="10" placeholder="1~10 입력" style="margin-bottom:0">
-      <button class="btn btn-teal" onclick="playGuessGame()">도전!</button>
-      <button class="btn btn-gray" onclick="newRound()">새 라운드</button>
-    </div>
-    <div class="guess-result" id="guessResult">결과 대기 중...</div>
-    <div style="font-size:12px;color:#b0bad8;margin-top:6px" id="guessCount"></div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-title"><span class="ico">📱</span> 화면 실시간 공유</div>
-  <div class="share-row">
-    <div>
-      <button class="btn btn-primary" onclick="generateQR()" style="margin-bottom:10px">📷 QR코드 생성</button>
-      <div id="qrcode"><span style="font-size:12px;color:#b0bad8;text-align:center;line-height:1.8">버튼을 눌러<br>QR 생성</span></div>
-    </div>
-    <div class="live-board">
-      <div class="live-label">📡 실시간 중계 보드</div>
-      <div class="live-msg" id="liveShareArea">수업이 시작되거나 이벤트가 발생하면 자동으로 공유됩니다.</div>
-    </div>
-  </div>
-
-  <div class="share-timer-box">
-    <div class="st-label">⏳ 화면 공유용 독립 비주얼 타이머</div>
-    <div class="st-controls">
-      <input class="p-input st-num" type="number" id="stMin" value="5" min="0" placeholder="분">
-      <span style="font-size:13px;color:var(--muted);font-weight:700">분</span>
-      <input class="p-input st-num" type="number" id="stSec" value="0" min="0" max="59" placeholder="초">
-      <span style="font-size:13px;color:var(--muted);font-weight:700">초</span>
-      <select class="p-input st-sel" id="stType" onchange="renderShareTimerUI()">
-        <option value="digital">🔠 디지털 타이머</option>
-        <option value="analog">🕒 아날로그 시계</option>
-        <option value="hourglass">⏳ 모래시계</option>
-      </select>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-teal" onclick="startShareTimer()">▶ 시작</button>
-      <button class="btn btn-gray" onclick="toggleShareTimer()">⏸ 일시정지/재개</button>
-      <button class="btn btn-red" onclick="resetShareTimer()">↺ 초기화</button>
-    </div>
-    <div class="st-display-area" id="stArea">
-      <div class="st-digital" id="stDigital">05:00</div>
-    </div>
-  </div>
-</div>
-
-</div><script>
-// ═══════════════════════════════════════════
+<script>
 // 전역 상태
-// ═══════════════════════════════════════════
 let timerIv=null, remainSec=0, totalSec=0;
 let alarmPlayed=false, curPeriod=1, curStage='lecture';
 let totalPeriods=4, isPaused=false;
@@ -382,29 +526,38 @@ let schedTL=[];
 let stIv=null, stRemain=0, stTotal=0, stPaused=true;
 
 // 시계
-setInterval(()=>{ document.getElementById("realClock").innerText=new Date().toLocaleTimeString(); },1000);
+function updateClock(){
+  const now = new Date();
+  const time = now.toLocaleTimeString('ko-KR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
+  document.getElementById("realClock").innerText = time;
+}
+setInterval(updateClock, 1000);
+updateClock();
 
-// ═══════════════════════════════════════════
 // 날씨
-// ═══════════════════════════════════════════
 async function getWeather(){
-  const el=document.getElementById("weatherPill");
-  el.innerHTML="⏳ 불러오는 중...";
+  const el = document.getElementById("weatherPill");
+  el.innerHTML = "⏳ 불러오는 중...";
   try{
-    const r=await fetch("https://wttr.in/Seoul?format=j1");
-    const d=await r.json();
-    const cur=d.current_condition[0];
-    const desc=cur.lang_ko?.[0]?.value||cur.weatherDesc[0].value;
-    const temp=cur.temp_C;
-    el.innerHTML=`🌡️ 서울 ${temp}°C · ${desc}`;
-  }catch(e){
-    el.innerHTML="🌤️ 날씨 정보 없음";
+    const r = await fetch("https://wttr.in/Seoul?format=j1");
+    if(!r.ok) throw new Error("Network response error");
+    const d = await r.json();
+    const cur = d.current_condition[0];
+    const desc = (cur.lang_ko && cur.lang_ko[0]?.value) || cur.weatherDesc?.[0]?.value || "맑음";
+    const temp = cur.temp_C;
+    el.innerHTML = `🌡️ 서울 ${temp}°C · ${desc}`;
+  } catch(e){
+    console.log(e);
+    el.innerHTML = "🌤️ 날씨 불러오기 실패";
   }
 }
 
-// ═══════════════════════════════════════════
 // 공지사항
-// ═══════════════════════════════════════════
 function postNotice(){
   const txt=document.getElementById("noticeInput").value.trim();
   if(!txt){alert("공지 내용을 입력해주세요.");return;}
@@ -421,28 +574,25 @@ function clearNotices(){
   document.getElementById("notice-board").innerHTML="등록된 공지사항이 없습니다.";
 }
 
-// ═══════════════════════════════════════════
 // 알림음
-// ═══════════════════════════════════════════
 function beep(urgent=false){
   try{
     const ac=new(window.AudioContext||window.webkitAudioContext)();
+    // 🎵 바로 이 부분이 음들의 높낮이(주파수 Hz)를 설정하는 곳입니다!
     const notes=urgent?[880,440,880,440]:[440,554,659,880];
     notes.forEach((f,i)=>setTimeout(()=>{
       const o=ac.createOscillator(),g=ac.createGain();
+      // 🎹 주사위나 타이머 모드에 따른 소리의 형태(파형) 설정
       o.type=urgent?'square':'sine';
       o.frequency.setValueAtTime(f,ac.currentTime);
-      g.gain.setValueAtTime(0.28,ac.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+0.45);
+      g.gain.setValueAtTime(0.28,ac.currentTime); // 🔊 볼륨 (0.28 = 약 28% 크기)
+      g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+0.45); // ⏳ 소리가 사라지는 시간
       o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+0.5);
-    },i*260));
+    },i*260)); // ⏱️ 음과 음 사이의 시간 간격 (260ms) -> 에러 수정완료
   }catch(e){}
 }
 
-// ═══════════════════════════════════════════
-// 타임라인 빌드 및 동기화 엔진 복구 및 검증
-// ═══════════════════════════════════════════
-
+// 타임라인 빌드
 function buildTimelineStructure() {
   totalPeriods = Math.max(1, +document.getElementById("totalPeriods").value);
   const lMin = +document.getElementById("lectureTime").value;
@@ -499,7 +649,6 @@ function buildTimelineStructure() {
   }
 
   renderTL();
-  shareToStudents("🗓️ 새로운 수업 시간표 구조가 세팅되었습니다.");
 }
 
 function startFromBeginning() {
@@ -524,11 +673,11 @@ function syncWithCurrentTime() {
 
   if (foundIndex === -1) {
     if (now < schedTL[0].start) {
-      alert("현재 시간이 시간표 첫 교시 시작 전입니다. 1교시 대기 상태로 설정합니다.");
       startFromBeginning();
       return;
     } else {
-      alert("현재 시간이 설정된 전체 시간표 범위를 벗어났습니다. 시작 시각이나 차시를 조절 후 다시 세팅해주세요.");
+      // 범위를 벗어난 밤/새벽 시간대에는 타임라인만 그려두고 대기
+      renderTL();
       return;
     }
   }
@@ -543,9 +692,6 @@ function syncWithCurrentTime() {
   startSession();
 }
 
-// ═══════════════════════════════════════════
-// 누락되었던 필수 화면 제어 및 타임라인 렌더링 함수 구현
-// ═══════════════════════════════════════════
 function renderTL(){
   const area = document.getElementById("timelineVisual");
   area.innerHTML = "";
@@ -557,15 +703,12 @@ function renderTL(){
     if(item.type === "break") cls += " tl-break";
     if(item.type === "meal") cls += " tl-meal";
     
-    // 현재 활성화된 상태 표시
-    if(item.period === curPeriod && item.type === curStage) {
+    if(item.period === curPeriod && item.type === curStage && remainSec > 0) {
       cls += " tl-active";
-    } else if (new Date() > item.end) {
-      cls += " tl-done"; // 지난 시간표 스타일링
     }
 
     div.className = cls;
-    div.onclick = () => jumpTo(index); // 클릭 시 해당 교시/시간으로 점프
+    div.onclick = () => jumpTo(index);
 
     let displayName = "";
     if(item.type === "lecture") displayName = item.period + "교시";
@@ -630,17 +773,29 @@ function setBadge(extra=""){
   }
 }
 
-// ═══════════════════════════════════════════
-// 타이머 엔진 안정화
-// ═══════════════════════════════════════════
 function runTimer(){
   clearInterval(timerIv);
+  
   timerIv = setInterval(() => {
     if(isPaused) return;
+
+    updateDisp(); 
+    updateProg();
+
+    const ab = +document.getElementById("alarmBefore").value * 60;
+    if(!alarmPlayed && ab > 0 && remainSec === ab){ 
+      beep(); 
+      alarmPlayed = true; 
+      setBadge(" ⚠️ 종료 임박!"); 
+    }
+
     if(remainSec <= 0){
-      clearInterval(timerIv); beep(true);
+      clearInterval(timerIv); 
+      beep(true);
+      
       const ci = schedTL.findIndex(s => s.period === curPeriod && s.type === curStage);
       const ni = ci + 1;
+      
       if(ni >= schedTL.length){
         document.getElementById("statusBadge").className = 'status-badge done';
         document.getElementById("statusBadge").innerText = '🎉 모든 수업 종료!';
@@ -648,16 +803,19 @@ function runTimer(){
         document.getElementById("timerEndTime").innerText = "";
         document.getElementById("progressBar").style.width = "0%";
         document.getElementById("progressLabel").innerText = "";
-        renderTL(); shareToStudents("모든 수업 일정이 종료되었습니다! 수고하셨습니다 🎉");
-        alert("모든 수업 일정이 종료되었습니다!"); return;
+        renderTL(); 
+        shareToStudents("모든 수업 일정이 종료되었습니다! 수고하셨습니다 🎉");
+        alert("모든 수업 일정이 종료되었습니다!"); 
+        return;
       }
+      
       const msgs = {lecture:"수업 시간이 끝났습니다!", break:"쉬는 시간이 끝났습니다!", meal:"식사 시간이 끝났습니다!"};
       alert(msgs[curStage] || "다음 단계로 이동합니다.");
-      jumpTo(ni); return;
+      jumpTo(ni); 
+      return;
     }
-    const ab = +document.getElementById("alarmBefore").value * 60;
-    if(!alarmPlayed && ab > 0 && remainSec === ab){ beep(); alarmPlayed = true; setBadge(" ⚠️ 종료 임박!"); }
-    remainSec--; updateDisp(); updateProg();
+
+    remainSec--; 
   }, 1000);
 }
 
@@ -694,9 +852,7 @@ function skipToNext(){
   }
 }
 
-// ═══════════════════════════════════════════
-// 탭 & 미니게임
-// ═══════════════════════════════════════════
+// 탭 전환
 function switchTab(n,btn){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -745,6 +901,7 @@ function makeLadder(){
 const cv=document.getElementById("canvas"), cx=cv.getContext("2d");
 let rNames=[], spinning=false, curRot=0;
 const PAL=['#6c7ef8','#2dd4bf','#fb923c','#a78bfa','#f472b6','#34d399','#f59e0b','#38bdf8','#f87171','#4ade80'];
+
 function drawRoulette(rot=0){
   rNames=getNames(); if(!rNames.length) return;
   const n=rNames.length, arc=(2*Math.PI)/n;
@@ -763,6 +920,7 @@ function drawRoulette(rot=0){
   cx.strokeStyle="#444"; cx.lineWidth=2; cx.stroke();
   cx.beginPath(); cx.moveTo(254,124); cx.lineTo(238,133); cx.lineTo(238,115); cx.closePath(); cx.fillStyle="#ef4444"; cx.fill();
 }
+
 function spinRoulette(){
   if(spinning) return;
   rNames=getNames(); if(!rNames.length){alert("명단을 먼저 입력해주세요."); return;}
@@ -804,9 +962,7 @@ function playGuessGame(){
   document.getElementById("guessInput").value="";
 }
 
-// ═══════════════════════════════════════════
-// QR & 공유
-// ═══════════════════════════════════════════
+// QR코드 생성
 function generateQR(){
   const d=document.getElementById("qrcode"); d.innerHTML="";
   new QRCode(d,{text:window.location.href||"https://smart-classroom.example.com",width:128,height:128,colorDark:"#1a1a2e",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});
@@ -816,9 +972,7 @@ function shareToStudents(msg){
   document.getElementById("liveShareArea").innerHTML=`<strong>[${t}]</strong> ${msg}`;
 }
 
-// ═══════════════════════════════════════════
 // 공유 비주얼 타이머
-// ═══════════════════════════════════════════
 function renderShareTimerUI(){
   const type=document.getElementById("stType").value;
   const area=document.getElementById("stArea");
@@ -870,24 +1024,30 @@ function toggleShareTimer(){
   shareToStudents(`⏳ 공유 타이머 ${stPaused?'일시정지':'재개'}`);
   renderShareTimerUI();
 }
+
 function resetShareTimer(){
-  clearInterval(stIv); stRemain=stTotal=0; stPaused=true;
-  document.getElementById("stMin").value=5; document.getElementById("stSec").value=0;
-  stRemain=300; stTotal=300;
+  clearInterval(stIv);
+  document.getElementById("stMin").value=5;
+  document.getElementById("stSec").value=0;
+  stRemain = 300;
+  stTotal = 300;
+  stPaused = true;
   renderShareTimerUI();
   shareToStudents("⏳ 공유 타이머 초기화");
 }
 
-// ═══════════════════════════════════════════
-// 초기 실행 단일화 및 고정
-// ═══════════════════════════════════════════
+// 초기 로딩
 window.onload = () => {
   const now = new Date();
   // 사용 편의성을 위해 초기 시작 시각을 현재 시 정각으로 기본 설정
   document.getElementById("startTime").value = String(now.getHours()).padStart(2, '0') + ":00";
   
-  buildTimelineStructure(); // 페이지 최초 오픈 시 타임라인 자동 세팅
-  drawRoulette();
+  buildTimelineStructure(); // 페이지 최초 오픈 시 타임라인 세팅 완료
+  
+  // ⚡ [자동 시작 연동] 사용자가 누르지 않아도 현재 시간에 맞춰 타이머를 즉시 자동 시작합니다.
+  syncWithCurrentTime();  
+  
+  drawRoulette(0);
   newRound();
   stRemain = stTotal = 300;
   renderShareTimerUI();
