@@ -645,68 +645,69 @@ function beep(urgent=false){
 }
 
 
-// 타임라인 빌드
-function buildTimelineStructure() {
-  totalPeriods = Math.max(1, +document.getElementById("totalPeriods").value);
-  const lMin = +document.getElementById("lectureTime").value;
-  const bMin = +document.getElementById("breakTime").value;
-  const mMin = +document.getElementById("mealDuration").value;
-  const mStr = document.getElementById("mealTime").value;
-
-  let base = new Date();
-  const sp = document.getElementById("startTime").value.split(":");
-  base.setHours(+sp[0], +sp[1], 0, 0);
-
-  schedTL = [];
-  let cur = new Date(base);
-  let mealTarget = null, mealDone = false;
-
-  if (mStr) {
-    const mp = mStr.split(":");
-    mealTarget = new Date(cur);
-    mealTarget.setHours(+mp[0], +mp[1], 0, 0);
+// ── 타임라인 빌드 ────────────────────────
+function buildTimelineStructure(){
+  totalPeriods=Math.max(1,+document.getElementById("totalPeriods").value);
+  const lMin=+document.getElementById("lectureTime").value;
+  const bMin=+document.getElementById("breakTime").value;
+  const mMin=+document.getElementById("mealDuration").value;
+  const mStr=document.getElementById("mealTime").value;
+  let base=new Date();
+  const sp=document.getElementById("startTime").value.split(":");
+  base.setHours(+sp[0],+sp[1],0,0);
+  schedTL=[];
+  let cur=new Date(base);
+  let mealTarget=null, mealDone=false;
+  if(mStr){
+    const mp=mStr.split(":");
+    mealTarget=new Date(cur);
+    mealTarget.setHours(+mp[0],+mp[1],0,0);
     mealTarget.setDate(cur.getDate());
   }
-
-  for (let i = 1; i <= totalPeriods; i++) {
-    if (mealTarget && !mealDone && cur >= mealTarget) {
-      let ms = new Date(cur); cur.setMinutes(cur.getMinutes() + mMin);
-      schedTL.push({ type: 'meal', period: i - 1, start: ms, end: new Date(cur) });
-      mealDone = true;
+  for(let i=1;i<=totalPeriods;i++){
+    // 교시 시작 전 식사 삽입 체크 (cur가 이미 식사 시각을 지난 경우)
+    if(mealTarget&&!mealDone&&cur>=mealTarget){
+      let ms=new Date(cur);cur.setMinutes(cur.getMinutes()+mMin);
+      schedTL.push({type:'meal',period:i-1,start:ms,end:new Date(cur)});mealDone=true;
     }
+    let s=new Date(cur);cur.setMinutes(cur.getMinutes()+lMin);
+    schedTL.push({type:'lecture',period:i,start:s,end:new Date(cur)});
 
-    let s = new Date(cur); cur.setMinutes(cur.getMinutes() + lMin);
-    schedTL.push({ type: 'lecture', period: i, start: s, end: new Date(cur) });
+    if(i<totalPeriods){
+      // ✅ [수정 A] 식사·쉬는시간 겹침 처리
+      // - 원인: 기존 코드는 식사를 삽입한 뒤에도 break를 무조건 추가해
+      //         식사 직후 불필요한 쉬는시간이 타임라인에 중복 삽입됨
+      // - 해결: 식사 시작 시각(mealTarget)이 쉬는시간 종료 시각(breakEndTime) 이전이면
+      //         식사 시간을 우선 삽입하고 쉬는시간은 생략(skip)
+      const breakEndTime=new Date(cur.getTime()+bMin*60*1000);
+      const mealOverlapsBreak=mealTarget&&!mealDone&&mealTarget<breakEndTime;
 
-    if (mealTarget && !mealDone && cur >= mealTarget) {
-      let ms = new Date(cur); cur.setMinutes(cur.getMinutes() + mMin);
-      schedTL.push({ type: 'meal', period: i, start: ms, end: new Date(cur) });
-      mealDone = true;
-    }
-
-    if (i < totalPeriods) {
-      if (mealTarget && !mealDone && cur >= mealTarget) {
-        let ms = new Date(cur); cur.setMinutes(cur.getMinutes() + mMin);
-        schedTL.push({ type: 'meal', period: i, start: ms, end: new Date(cur) });
-        mealDone = true;
+      if(mealOverlapsBreak){
+        // 식사 우선: 쉬는시간 생략 → 식사 시각이 현재보다 미래면 그 시각부터, 아니면 cur부터
+        const mealStart=mealTarget>cur?new Date(mealTarget):new Date(cur);
+        const mealEnd=new Date(mealStart.getTime()+mMin*60*1000);
+        schedTL.push({type:'meal',period:i,start:mealStart,end:mealEnd});
+        cur=mealEnd;
+        mealDone=true;
+        // ← break 삽입 없음 (식사로 대체)
+      } else {
+        // 겹침 없음: 쉬는시간 정상 삽입
+        let bs=new Date(cur);cur.setMinutes(cur.getMinutes()+bMin);
+        schedTL.push({type:'break',period:i,start:bs,end:new Date(cur)});
       }
-      let bs = new Date(cur); cur.setMinutes(cur.getMinutes() + bMin);
-      schedTL.push({ type: 'break', period: i, start: bs, end: new Date(cur) });
     }
   }
-
-  if (mealTarget && !mealDone) {
-    let ms = new Date(cur); cur.setMinutes(cur.getMinutes() + mMin);
-    schedTL.push({ type: 'meal', period: totalPeriods, start: ms, end: new Date(cur) });
-    mealDone = true;
+  // 모든 교시 종료 후에도 식사가 추가되지 않은 경우 마지막에 삽입
+  if(mealTarget&&!mealDone){
+    let ms=new Date(cur);cur.setMinutes(cur.getMinutes()+mMin);
+    schedTL.push({type:'meal',period:totalPeriods,start:ms,end:new Date(cur)});
   }
-
   renderTL();
 }
 
-function startFromBeginning() {
-  if (!schedTL.length) buildTimelineStructure();
-  if (!schedTL.length) return;
+function startFromBeginning(){
+  if(!schedTL.length)buildTimelineStructure();
+  if(!schedTL.length)return;
   jumpTo(0);
 }
 
@@ -744,35 +745,37 @@ function syncWithCurrentTime() {
   startSession();
 }
 
-function renderTL(){
-  const area = document.getElementById("timelineVisual");
-  area.innerHTML = "";
-
-  schedTL.forEach((item, index) => {
-    const div = document.createElement("div");
-    let cls = "tl-item";
-
-    if(item.type === "break") cls += " tl-break";
-    if(item.type === "meal") cls += " tl-meal";
-    
-    if(item.period === curPeriod && item.type === curStage && remainSec > 0) {
-      cls += " tl-active";
-    }
-
-    div.className = cls;
-    div.onclick = () => jumpTo(index);
-
-    let displayName = "";
-    if(item.type === "lecture") displayName = item.period + "교시";
-    else if(item.type === "break") displayName = "쉬는시간";
-    else if(item.type === "meal") displayName = "식사시간";
-
-    div.innerHTML = `
-      <div class="tl-name">${displayName}</div>
-      <div class="tl-time">${item.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-    `;
+unction renderTL(){
+  const area=document.getElementById("timelineVisual");area.innerHTML="";
+  schedTL.forEach((item,idx)=>{
+    const div=document.createElement("div");
+    let cls="tl-item";
+    if(item.type==="break")cls+=" tl-break";
+    if(item.type==="meal")cls+=" tl-meal";
+    const isCur=item.period===curPeriod&&item.type===curStage&&remainSec>0;
+    const ci=schedTL.findIndex(s=>s.period===curPeriod&&s.type===curStage);
+    if(idx<ci&&ci>=0)cls+=" tl-done";
+    if(isCur)cls+=" tl-active";
+    div.className=cls;
+    div.onclick=()=>jumpTo(idx);
+    // ✅ [수정 B] 교시 레이블 변경: "N교시" → "N Class"
+    const label=item.type==='lecture'?item.period+' Class':item.type==='break'?'☕ 쉬는시간':'🍱 식사';
+    const ts=item.start.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    div.innerHTML=`<div class="tl-name">${label}</div><div class="tl-time">${ts}</div>`;
     area.appendChild(div);
   });
+}
+
+function jumpTo(idx){
+  const s=schedTL[idx];if(!s)return;
+  clearInterval(timerIv);
+  curPeriod=s.period;curStage=s.type;
+  totalSec=Math.floor((s.end-s.start)/1000);
+  remainSec=totalSec;
+  alarmPlayed=false;isPaused=false;
+  startSession();
+  // ✅ [수정 B] 공유 메시지 텍스트: "N교시" → "N Class"
+  shareToStudents(`⏭ ${curStage==='lecture'?curPeriod+' Class':curStage==='break'?'쉬는시간':'식사시간'} 시작!`);
 }
 
 function startSession(){
@@ -803,72 +806,42 @@ function jumpTo(index){
 }
 
 function setBadge(extra=""){
-  const badge = document.getElementById("statusBadge");
-  badge.className = "status-badge";
-
-  if(isPaused){
-    badge.classList.add("paused");
-    badge.innerText = "⏸ 일시정지";
-    return;
-  }
-
-  if(curStage === "lecture"){
-    badge.innerText = `📚 ${curPeriod}교시 진행중${extra}`;
-  }
-  else if(curStage === "break"){
-    badge.classList.add("break-mode");
-    badge.innerText = `☕ 쉬는시간${extra}`;
-  }
-  else if(curStage === "meal"){
-    badge.classList.add("meal-mode");
-    badge.innerText = `🍱 식사시간${extra}`;
-  }
+  const b=document.getElementById("statusBadge");
+  b.className="status-badge";
+  if(isPaused){b.classList.add("paused");b.innerText="⏸ 일시정지";return;}
+  // ✅ [수정 B] 상태 배지 텍스트: "N교시 진행 중" → "N Class 진행 중"
+  if(curStage==="lecture")b.innerText=`📚 ${curPeriod} Class 진행 중${extra}`;
+  else if(curStage==="break"){b.classList.add("break-mode");b.innerText=`☕ 쉬는 시간${extra}`;}
+  else if(curStage==="meal"){b.classList.add("meal-mode");b.innerText=`🍱 식사 시간${extra}`;}
 }
 
 function runTimer(){
   clearInterval(timerIv);
-  
-  timerIv = setInterval(() => {
-    if(isPaused) return;
-
-    updateDisp(); 
-    updateProg();
-
-    const ab = +document.getElementById("alarmBefore").value * 60;
-    if(!alarmPlayed && ab > 0 && remainSec === ab){ 
-      beep(); 
-      alarmPlayed = true; 
-      setBadge(" ⚠️ 종료 임박!"); 
-    }
-
-    if(remainSec <= 0){
-      clearInterval(timerIv); 
-      beep(true);
-      
-      const ci = schedTL.findIndex(s => s.period === curPeriod && s.type === curStage);
-      const ni = ci + 1;
-      
-      if(ni >= schedTL.length){
-        document.getElementById("statusBadge").className = 'status-badge done';
-        document.getElementById("statusBadge").innerText = '🎉 모든 수업 종료!';
-        document.getElementById("timer").innerText = "00:00";
-        document.getElementById("timerEndTime").innerText = "";
-        document.getElementById("progressBar").style.width = "0%";
-        document.getElementById("progressLabel").innerText = "";
-        renderTL(); 
-        shareToStudents("모든 수업 일정이 종료되었습니다! 수고하셨습니다 🎉");
-        alert("모든 수업 일정이 종료되었습니다!"); 
-        return;
+  timerIv=setInterval(()=>{
+    if(isPaused)return;
+    updateDisp();updateProg();
+    const ab=+document.getElementById("alarmBefore").value*60;
+    if(!alarmPlayed&&ab>0&&remainSec===ab){beep();alarmPlayed=true;setBadge(" ⚠️ 종료 임박!");}
+    if(remainSec<=0){
+      clearInterval(timerIv);beep(true);
+      const ci=schedTL.findIndex(s=>s.period===curPeriod&&s.type===curStage);
+      const ni=ci+1;
+      if(ni>=schedTL.length){
+        document.getElementById("statusBadge").className='status-badge done';
+        document.getElementById("statusBadge").innerText='🎉 모든 일정 종료!';
+        document.getElementById("timer").innerText="00:00";
+        document.getElementById("timerEndTime").innerText="";
+        document.getElementById("progressBar").style.width="0%";
+        document.getElementById("progressLabel").innerText="";
+        renderTL();shareToStudents("모든 수업 일정이 종료되었습니다! 수고하셨습니다 🎉");
+        alert("모든 수업 일정이 종료되었습니다!");return;
       }
-      
-      const msgs = {lecture:"수업 시간이 끝났습니다!", break:"쉬는 시간이 끝났습니다!", meal:"식사 시간이 끝났습니다!"};
-      alert(msgs[curStage] || "다음 단계로 이동합니다.");
-      jumpTo(ni); 
-      return;
+      const msgs={lecture:"수업 시간이 끝났습니다!",break:"쉬는 시간이 끝났습니다!",meal:"식사 시간이 끝났습니다!"};
+      alert(msgs[curStage]||"다음 단계로 이동합니다.");
+      jumpTo(ni);return;
     }
-
-    remainSec--; 
-  }, 1000);
+    remainSec--;
+  },1000);
 }
 
 function updateDisp(){
