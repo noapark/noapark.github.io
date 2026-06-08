@@ -24,6 +24,22 @@
     0 4px 12px rgba(0,0,0,.05);
 }
 
+    /* 💡 [수정] 누락되었던 필수 CSS 변수 대거 추가 (버튼 및 테두리용) */
+  --teal: #14b8a6;
+  --teal2: #0d9488;
+  --red: #ef4444;
+  --red2: #dc2626;
+  --orange: #f97316;
+  --orange2: #ea580c;
+  --purple: #a855f7;
+  --purple2: #9333ea;
+  --slate: #64748b;
+  --slate2: #475569;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
+  --faint: #94a3b8;
+}
+  
 body{
   background:
     radial-gradient(circle at top left,#dbeafe 0%,transparent 40%),
@@ -97,8 +113,19 @@ body{
 .card:hover{
   transform:translateY(-3px);
 }
-/*.card-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.9px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:7px}
-.card-title .ico{font-size:15px} */
+  
+/* 💡 [수정] 주사위 박스 외 카드 타이틀 스타일이 주석 처리되어 있던 것을 해제 및 보완 */
+.card-title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:18px;
+  display:flex;
+  align-items:center;
+  gap:7px
+}
+.card-title .ico{font-size:18px}
+
 
 /* ── SETTINGS ── */
 .settings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:9px;margin-bottom:13px}
@@ -253,7 +280,7 @@ textarea{height:80px;resize:none;font-family:inherit}
 
 <!-- ── TOP BAR ── -->
 <div class="top-bar">
-  <div class="app-title"><span>🎓</span>스마트 클래스 매니저</div>
+  <div class="app-title"><span>[]</span>스마트 클래스 매니저</div>
   <div class="pills">
     <div class="pill" id="weatherPill" onclick="getWeather()">🌤️ 날씨 불러오기</div>
     <div class="pill"><span class="clock-dot"></span><span id="realClock">00:00:00</span></div>
