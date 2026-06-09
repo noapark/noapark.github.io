@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스마트 운영 매니저 Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --primary: #0ea5e9;
+  --primary2: #06b6d4;
+  --primary-light: #ecfeff;
+  --primary-dark: #0369a1;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --bg: #f4f7ff;
+  --card: #ffffffcc;
+  --text: #1e293b;
+  --muted: #64748b;
+  --faint: #94a3b8;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
+  --shadow: 0 10px 30px rgba(14, 165, 233, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
+  --teal: #14b8a6;
+  --teal2: #0d9488;
+  --red2: #dc2626;
+  --orange: #f97316;
+  --orange2: #ea580c;
+  --purple: #a855f7;
+  --purple2: #9333ea;
+  --slate: #64748b;
+  --slate2: #475569;
+}
+  
+body{
+  background: radial-gradient(circle at top left,#ccfbf1 0%,transparent 40%), radial-gradient(circle at top right,#e2e8f0 0%,transparent 35%), var(--bg);
+  min-height:100vh;
+  color:var(--text);
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+.wrap{ max-width:1400px; margin:auto; padding:24px; }
+
+/* ── TOP BAR ── */
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding:18px 24px;border-radius:22px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:white;box-shadow:0 12px 40px rgba(20, 184, 166, 0.25);}
+.app-title{font-size:26px;font-weight:800;letter-spacing:-0.5px;}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:flex;align-items:center;gap:7px;background:var(--card);border:1.5px solid var(--border2);border-radius:99px;padding:7px 14px;font-size:13px;font-weight:700;color:var(--muted);box-shadow:0 1px 6px rgba(0,0,0,.06);cursor:pointer;transition:all .2s;white-space:nowrap}
+.pill:hover{border-color:var(--primary);color:var(--primary)}
+.clock-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── CARD ── */
+.card{background:var(--card);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.7);border-radius:24px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);transition:.25s;}
+.card:hover{transform:translateY(-3px);}
+.card-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:18px;display:flex;align-items:center;gap:7px}
+.card-title .ico{font-size:18px}
+
+/* ── CARD details ── */
+details {width: 100%;}
+summary.card-title {cursor: pointer;list-style: none;user-select: none;display: flex;align-items: center;gap: 8px;}
+summary.card-title::-webkit-details-marker {display: none;}
+summary.card-title::after {content: "▼";margin-left: auto;transition: transform 0.2s;}
+details[open] summary.card-title::after {transform: rotate(180deg);}
+
+/* ── SETTINGS ── */
+.settings-row{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+.s-item{display:flex;flex-direction:column;min-width:160px;flex:1;}
+.s-item label{margin-bottom:4px;font-size:14px;font-weight:600;}
+.s-item input,.p-input,textarea,select{width:100%;padding:8px 10px;border:1.5px solid var(--border2);border-radius:10px;font-size:14px;font-weight:600;color:var(--text);background:#f8fafc;transition:all .2s}
+.s-item input:focus,.p-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(20, 184, 166, 0.1)} 
+textarea{height:80px;resize:none;font-family:inherit}
+
+/* ── BUTTONS ── */
+.btn-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px}
+.btn{padding:9px 14px;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px;line-height:1}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn:active{transform:translateY(0);filter:brightness(.95)}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 2px 10px rgba(20, 184, 166, 0.3)}
+.btn-teal{background:linear-gradient(135deg,#14b8a6,#0d9488);color:#fff;box-shadow:0 3px 10px rgba(20,184,166,.35)}
+.btn-red{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 3px 10px rgba(239,68,68,.35)}
+.btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 2px 10px rgba(249, 115, 22, 0.3)}
+.btn-purple{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;box-shadow:0 2px 10px rgba(168, 85, 247, 0.3)}
+.btn-slate{background:linear-gradient(135deg,var(--slate),var(--slate2));color:#fff;box-shadow:0 2px 10px rgba(100, 116, 139, 0.3)}
+.btn-yellow{background:linear-gradient(135deg,#facc15,#eab308);color:#fff;box-shadow:0 2px 10px rgba(234,179,8,.3)}
+.btn-success{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 3px 10px rgba(16,185,129,.35)}
+.btn-gray{background:#e2e8f0;color:#1e293b;border:1.5px solid #cbd5e1;font-weight:700}
+.btn-gray:hover{background:#d1d9e6;border-color:#b0bcc8}
+
+/* ── TIMELINE ── */
+.timeline-wrap{margin-top:14px;overflow-x:auto;padding-bottom:4px}
+.timeline{
+  display:inline-flex;
+  align-items:stretch;
+  border: 1.5px solid #cce0fc;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+.tl-item{
+  min-width: 125px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:14px 10px;
+  background:#f8fafe;
+  border-right:1.5px solid #cce0fc;
+  cursor:pointer;
+  transition:all .2s;
+  text-align:center;
+}
+.tl-item:last-child{border-right:none;}
+.tl-name{font-size:16px;font-weight:800;color:#7e8aa8;margin-bottom:6px; transition: color 0.2s;}
+.tl-time{font-size:13px;color:#aab5cb;font-weight:600;white-space:nowrap;font-variant-numeric: tabular-nums; transition: color 0.2s;}
+
+.tl-item.tl-break{background:#f3f9ff;}
+.tl-item.tl-break .tl-name{color:#5c97df;}
+.tl-item.tl-meal{background:#fffbeb;}
+.tl-item.tl-meal .tl-name{color:#d97706;}
+
+.tl-item.tl-active, .tl-item.tl-break.tl-active, .tl-item.tl-meal.tl-active {
+  background:#878df2; 
+  border-color:#878df2;
+}
+.tl-item.tl-active .tl-name, .tl-item.tl-active .tl-time {color:#ffffff;}
+
+.tl-item.tl-done{background:#f1f5f9;opacity:0.6;}
+.tl-item.tl-done .tl-name{color:#94a3b8;}
+.tl-item.tl-done .tl-time{color:#cbd5e1;}
+
+
+/* ── TIMER ── */
+.timer-wrap{text-align:center;padding:4px 0 12px}
+.status-badge{display:inline-flex;align-items:center;gap:6px;background:#ccfbf1;border:1.5px solid #99f6e4;border-radius:99px;padding:5px 16px;font-size:13px;font-weight:700;color:var(--primary2);margin-bottom:8px}
+.status-badge.break-mode{background:#dcfce7;border-color:#bbf7d0;color:#15803d}
+.status-badge.meal-mode{background:#fef3c7;border-color:#fde68a;color:#a16207}
+.status-badge.paused{background:#fee2e2;border-color:#fecaca;color:#b91c1c}
+.status-badge.done{background:#dcfce7;border-color:#bbf7d0;color:#15803d}
+.timer-display{font-size:84px;font-weight:800;letter-spacing:5px;line-height:1;font-variant-numeric:tabular-nums;color:var(--text);transition:color .4s}
+.timer-display.warn{color:var(--orange2)}
+.timer-display.urgent{color:var(--danger)}
+.timer-end{font-size:13px;color:var(--faint);font-weight:600;margin-top:5px;min-height:18px}
+.prog-wrap{background:#e2e8f0;border-radius:99px;height:8px;margin:12px 0 4px;overflow:hidden}
+.prog-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--primary),var(--primary2));transition:width 1s linear,background .4s}
+.prog-bar.warn{background:linear-gradient(90deg,var(--orange),var(--orange2))}
+.prog-bar.urgent{background:linear-gradient(90deg,var(--danger),#f87171)}
+.prog-label{text-align:center;font-size:12px;color:var(--muted);font-weight:500}
+
+/* ── NOTICE ── */
+.notice-board{border:1.5px dashed var(--border2);padding:12px 14px;min-height:60px;max-height:140px;overflow-y:auto;border-radius:12px;background:#fff;font-size:13px;color:var(--text);margin-top:8px}
+.notice-board p{margin-bottom:7px;padding-bottom:6px;border-bottom:1px dotted var(--border);line-height:1.5}
+.notice-board p:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+
+/* ── TABS ── */
+.tab-row{display:flex;gap:6px;margin-bottom:13px;flex-wrap:wrap}
+.tab-btn{padding:7px 15px;border-radius:99px;border:1.5px solid var(--border2);background:#f1f5f9;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.tab-btn.active{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-color:var(--primary);box-shadow:0 2px 8px rgba(20, 184, 166, 0.3)}
+.tab-content{display:none}.tab-content.active{display:block}
+.p-input{margin-bottom:12px}
+
+/* ── DICE ── */
+.dice-display{font-size:58px;text-align:center;margin:10px 0;min-height:74px;line-height:1.25;white-space:pre}
+
+/* ── LADDER ── */
+.ladder-list{list-style:none;padding:0;margin:8px 0 0}
+.ladder-list li{display:flex;align-items:center;gap:6px;padding:9px 12px;border-radius:10px;background:#f8fafc;margin-bottom:6px;font-size:14px;font-weight:600;color:var(--text);border:1px solid var(--border);transition:background .15s}
+.ladder-list li:hover{background:#f1f5f9}
+.arr{color:var(--primary);font-weight:700;margin:0 2px}
+
+/* ── ROULETTE ── */
+.roulette-wrap{display:flex;flex-direction:column;align-items:center;}
+#canvas{border-radius:50%;background:white;padding:10px;box-shadow:0 10px 40px rgba(0,0,0,.12);}
+.roulette-result,.guess-result{font-size:17px;font-weight:800;color:var(--primary);min-height:26px;text-align:center;margin-top:6px}
+
+/* ── GUESS GAME ── */
+.guess-row{display:flex;gap:8px;max-width:280px;margin-bottom:8px}
+.guess-row input{flex:1}
+
+/* ── SHARE ── */
+.share-row{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin-top:8px}
+#qrcode{padding:10px;background:#fff;border:1.5px solid var(--border);border-radius:12px;min-width:148px;min-height:148px;display:flex;align-items:center;justify-content:center}
+.live-board{flex:1;min-width:180px}
+.live-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:7px}
+.live-msg{background:#f8fafc;border:1.5px solid var(--border);border-left:4px solid var(--primary);border-radius:0 12px 12px 0;padding:12px 14px;font-size:13px;color:var(--text);line-height:1.7;min-height:52px}
+.live-msg strong{color:var(--primary)}
+
+/* ── SHARE TIMER ── */
+.share-timer-box{background:#f8fafc;border:1.5px solid var(--border2);border-radius:14px;padding:16px;margin-top:16px}
+.st-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:10px}
+.st-controls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:12px}
+.st-num{width:68px}
+.st-sel{min-width:150px;background:#fff}
+.st-display-area{display:flex;justify-content:center;align-items:center;padding:24px 16px;background:#fff;border:2px dashed var(--border2);border-radius:12px;min-height:150px;position:relative}
+.st-digital{font-size:62px;font-weight:800;font-family:monospace;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:3px}
+.st-clock{width:130px;height:130px;border:5px solid var(--text);border-radius:50%;position:relative;background:#fff}
+.st-hand{position:absolute;bottom:50%;left:50%;width:4px;height:50px;background:var(--danger);border-radius:4px;transform-origin:bottom center;transform:translateX(-50%) rotate(0deg)}
+.st-hg{display:flex;flex-direction:column;align-items:center;gap:0;width:70px}
+.st-hg-half{width:60px;height:48px;border:3px solid var(--muted);overflow:hidden;position:relative}
+.st-hg-top-half{border-radius:8px 8px 50% 50%;border-bottom:none}
+.st-hg-bot-half{border-radius:50% 50% 8px 8px;border-top:none}
+.st-hg-sand-t{background:var(--orange2);width:100%;height:100%;position:absolute;bottom:0;transform-origin:bottom;transition:transform 1s linear}
+.st-hg-sand-b{background:var(--orange2);width:100%;height:0%;position:absolute;bottom:0;transition:height 1s linear}
+.st-hg-neck{width:2px;height:10px;background:var(--orange2);opacity:.7}
+.st-hg-flow{width:2px;height:14px;background:var(--orange2);animation:flow .3s infinite alternate}
+
+.divider{border:none;border-top:1.5px dashed var(--border);margin:14px 0}
+
+@media(max-width:600px){
+  .timer-display{font-size:58px}
+  .settings-grid{grid-template-columns:1fr 1fr}
+  .top-bar{flex-direction:column;align-items:flex-start}
+  .pills{width:100%;justify-content:space-between}
+}
+
+.dashboard-grid{display:flex;gap:16px;align-items:flex-start;}
+.grid-col{flex:1;display:flex;flex-direction:column;gap:16px;}
+@media (max-width: 900px){.dashboard-grid{flex-direction:column;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="top-bar">
+  <div class="app-title">스마트 운영 매니저 Dashboard</div>
+  <div class="pills">
+    <div class="pill" id="weatherPill" onclick="getWeather()">🌤️ 날씨 불러오기</div>
+    <div class="pill">
+      <span class="clock-dot"></span> 🖥️ <span id="realClock">00:00:00</span> </div>
+  </div>
+</div>
+
+<div class="card">
+  <details open>
+    <summary class="card-title">
+      <span class="ico">⚙️</span>
+      시간 및 알림 설정
+    </summary>
+
+    <div class="settings-wrap">
+      <div class="settings-row">
+        <div class="s-item">
+          <label>시작 시간 설정</label>
+          <input type="time" id="startTime" value="09:00">
+        </div>
+        <div class="s-item">
+          <label>진행 시간(분)</label>
+          <input type="number" id="lectureTime" value="40" min="1">
+        </div>
+        <div class="s-item">
+          <label>쉬는 시간(분)</label>
+          <input type="number" id="breakTime" value="10" min="1">
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div class="s-item">
+          <label>총 차시 수</label>
+          <input type="number" id="totalPeriods" value="6" min="1" max="10">
+        </div>
+        <div class="s-item">
+          <label>알림 (분 전)</label>
+          <input type="number" id="alarmBefore" value="10" min="0">
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div class="s-item">
+          <label>🍱 식사 시작</label>
+          <input type="time" id="mealTime" value="12:00">
+        </div>
+        <div class="s-item">
+          <label>🍱 식사 시간(분)</label>
+          <input type="number" id="mealDuration" value="60" min="1">
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-purple" onclick="buildTimelineStructure()">⚙️ 시간표 세팅 완료</button>
+        <button class="btn btn-primary" onclick="startFromBeginning()">▶ 첫 교시 시작</button>
+        <button class="btn btn-teal" onclick="syncWithCurrentTime()">⚡ 현재 시각 동기화</button>
+        <button class="btn btn-red" onclick="stopTimer()">⏸ 일시정지</button>
+        <button class="btn btn-orange" onclick="resumeTimer()">▶ 재개</button>
+        <button class="btn btn-slate" onclick="skipToNext()">⏭ 다음 단계</button>
+      </div>
+    </div>
+  </details>
+
+  <div class="timeline-wrap"><div class="timeline" id="timelineVisual"></div></div>
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="ico">⏰</span> 실시간 타이머</div>
+  <div class="timer-wrap">
+    <div id="statusBadge" class="status-badge">대기중</div>
+    <div class="timer-display" id="timer">00:00</div>
+    <div class="timer-end" id="timerEndTime"></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-bar" id="progressBar" style="width:100%"></div></div>
+  <div class="prog-label" id="progressLabel"></div>
+</div>
+
+<div class="dashboard-grid">
+  <div class="grid-col">
+    <div class="card">
+      <div class="card-title"><span class="ico">📢</span> 공지사항</div>
+      <textarea id="noticeInput" placeholder="전달할 공지사항을 입력하고 아래 버튼을 누르세요."></textarea>
+      <div class="btn-row" style="margin-top:8px">
+        <button class="btn btn-primary" onclick="postNotice()">📢 공지 올리기</button>
+        <button class="btn btn-gray" onclick="clearNotices()">🗑 전체 삭제</button>
+      </div>
+      <div class="notice-board" id="notice-board">등록된 공지사항이 없습니다.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="ico">🎮</span> 집중도 향상 미니게임</div>
+      <input class="p-input" type="text" id="participants" value="홍길동, 최철수, 우영희, 마민수" placeholder="참여자 이름 (쉼표 구분)">
+      <div class="tab-row">
+        <button class="tab-btn active" onclick="switchTab('dice',this)">🎲 주사위</button>
+        <button class="tab-btn" onclick="switchTab('ladder',this)">🪜 사다리</button>
+        <button class="tab-btn" onclick="switchTab('roulette',this)">🎡 룰렛</button>
+        <button class="tab-btn" onclick="switchTab('guess',this)">🔢 숫자 맞추기</button>
+      </div>
+      <div class="tab-content active" id="tab-dice">
+        <div class="btn-row">
+          <button class="btn btn-orange" onclick="rollDice()">🎲 1개 굴리기</button>
+          <button class="btn btn-gray" onclick="rollMultiDice()">🎲🎲 2개 굴리기</button>
+        </div>
+        <div class="dice-display" id="diceResult">?</div>
+      </div>
+      <div class="tab-content" id="tab-ladder">
+        <div class="btn-row">
+          <button class="btn btn-purple" onclick="makeLadder()">🪜 사다리 추첨 수행</button>
+        </div>
+        <ul class="ladder-list" id="ladderArea"></ul>
+      </div>
+      <div class="tab-content" id="tab-roulette">
+        <div class="btn-row">
+          <button class="btn btn-gray" onclick="drawRoulette(0)">🔄 명단 동기화</button>
+          <button class="btn btn-orange" onclick="spinRoulette()">🎡 룰렛 돌리기</button>
+        </div>
+        <div class="roulette-wrap">
+          <canvas id="canvas" width="260" height="260"></canvas>
+          <div class="roulette-result" id="rouletteResult">당첨자: ?</div>
+        </div>
+      </div>
+      <div class="tab-content" id="tab-guess">
+        <p style="font-size:13px;color:#6b7aab;margin-bottom:10px;line-height:1.6">시스템이 생성한 <b>1~10</b> 사이의 비밀 숫자를 맞추세요!</p>
+        <div class="guess-row">
+          <input class="p-input" type="number" id="guessInput" min="1" max="10" placeholder="1~10 입력">
+          <button class="btn btn-teal" onclick="playGuessGame()">도전!</button>
+          <button class="btn btn-gray" onclick="newRound()">새 라운드</button>
+        </div>
+        <div class="guess-result" id="guessResult">결과 대기 중...</div>
+        <div style="font-size:12px;color:#b0bad8;margin-top:6px" id="guessCount"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-col">
+    <div class="card">
+      <div class="card-title"><span class="ico">📱</span> 화면 실시간 공유</div>
+      <div class="share-row">
+        <div>
+          <button class="btn btn-primary" onclick="generateQR()" style="margin-bottom:10px">📷 QR코드 생성</button>
+          <div id="qrcode"><span style="font-size:12px;color:#b0bad8;text-align:center;line-height:1.8">버튼을 눌러<br>QR 생성</span></div>
+        </div>
+        <div class="live-board">
+          <div class="live-label">📡 실시간 중계 보드</div>
+          <div class="live-msg" id="liveShareArea">수업이 시작되거나 이벤트가 발생하면 자동으로 공유됩니다.</div>
+        </div>
+      </div>
+      <div class="share-timer-box">
+        <div class="st-label">⏳ 화면 공유용 독립 비주얼 타이머</div>
+        <div class="st-controls">
+          <input class="p-input st-num" type="number" id="stMin" value="5" min="0" placeholder="분">
+          <span style="font-size:13px;color:var(--muted);font-weight:700">분</span>
+          <input class="p-input st-num" type="number" id="stSec" value="0" min="0" max="59" placeholder="초">
+          <span style="font-size:13px;color:var(--muted);font-weight:700">초</span>
+          <select class="p-input st-sel" id="stType" onchange="renderShareTimerUI()">
+            <option value="digital">🔠 디지털 타이머</option>
+            <option value="analog">🕒 아날로그 시계</option>
+            <option value="hourglass">⏳ 모래시계</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-teal" onclick="startShareTimer()">▶ 시작</button>
+          <button class="btn btn-gray" onclick="toggleShareTimer()">⏸ 일시정지/재개</button>
+          <button class="btn btn-red" onclick="resetShareTimer()">↺ 초기화</button>
+        </div>
+        <div class="st-display-area" id="stArea">
+          <div class="st-digital" id="stDigital">05:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 전역 상태
+let timerIv=null, remainSec=0, totalSec=0;
+let alarmPlayed=false, curPeriod=1, curStage='lecture';
+let totalPeriods=4, isPaused=false;
+let schedTL=[];
+
+// 공유 타이머
+let stIv=null, stRemain=0, stTotal=0, stPaused=true;
+
+// 시계
+function updateClock(){
+  const now = new Date();
+  const time = now.toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false});
+  document.getElementById("realClock").innerText = time;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// 날씨
+async function getWeather(){
+  const el = document.getElementById("weatherPill");
+  el.innerHTML = "⏳ 불러오는 중...";
+  try{
+    const r = await fetch("https://wttr.in/Seoul?format=j1");
+    if(!r.ok) throw new Error("Network response error");
+    const d = await r.json();
+    const cur = d.current_condition[0];
+    const desc = (cur.lang_ko && cur.lang_ko[0]?.value) || cur.weatherDesc?.[0]?.value || "맑음";
+    const temp = cur.temp_C;
+    el.innerHTML = `🌡️ 서울 ${temp}°C · ${desc}`;
+  } catch(e){
+    console.log(e);
+    el.innerHTML = "🌤️ 날씨 불러오기 실패";
+  }
+}
+
+// 공지사항
+function postNotice(){
+  const txt=document.getElementById("noticeInput").value.trim();
+  if(!txt){alert("공지 내용을 입력해주세요.");return;}
+  const board=document.getElementById("notice-board");
+  if(board.innerText.includes("등록된 공지사항이 없습니다."))board.innerHTML="";
+  const p=document.createElement("p");
+  const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  p.innerHTML=`<strong style="color:var(--primary)">[${t}]</strong> ${txt}`;
+  board.insertBefore(p,board.firstChild);
+  shareToStudents(`📢 공지: ${txt}`);
+  document.getElementById("noticeInput").value="";
+}
+function clearNotices(){ document.getElementById("notice-board").innerHTML="등록된 공지사항이 없습니다."; }
+
+// 알림음
+function beep(urgent=false){
+  try{
+    const ac=new(window.AudioContext||window.webkitAudioContext)();
+    const notes=urgent?[880,440,880,440]:[440,554,659,880];
+    notes.forEach((f,i)=>setTimeout(()=>{
+      const o=ac.createOscillator(),g=ac.createGain();
+      o.type=urgent?'triangle':'sine';
+      o.frequency.setValueAtTime(f,ac.currentTime);
+      g.gain.setValueAtTime(0.28,ac.currentTime); 
+      g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+0.45); 
+      o.connect(g); g.connect(ac.destination);
+      o.start(); o.stop(ac.currentTime+0.5);
+    },i*260));
+  }catch(e){}
+}
+
+// ── 타임라인 로직 ────────────────────────
+function buildTimelineStructure(){
+  totalPeriods=Math.max(1,+document.getElementById("totalPeriods").value);
+  const lMin=+document.getElementById("lectureTime").value;
+  const bMin=+document.getElementById("breakTime").value;
+  const mMin=+document.getElementById("mealDuration").value;
+  const mStr=document.getElementById("mealTime").value;
+  
+  let base=new Date();
+  const sp=document.getElementById("startTime").value.split(":");
+  base.setHours(+sp[0],+sp[1],0,0);
+  
+  schedTL=[];
+  let cur=new Date(base);
+  let mealTarget=null, mealDone=false;
+  
+  if(mStr){
+    const mp=mStr.split(":");
+    mealTarget=new Date(cur);
+    mealTarget.setHours(+mp[0],+mp[1],0,0);
+  }
+
+  for(let i=1;i<=totalPeriods;i++){
+    // 1. 수업 시간 추가
+    let s=new Date(cur);
+    cur.setMinutes(cur.getMinutes()+lMin);
+    schedTL.push({type:'lecture',period:i,start:s,end:new Date(cur)});
+
+    // 2. 쉬는 시간 또는 식사 시간 추가 (마지막 교시가 아니면 수행)
+    if(i<totalPeriods){
+      // 현재 교시 종료 시점부터 쉬는 시간이 끝나는 시점 계산
+      const breakEndTime=new Date(cur.getTime()+bMin*60*1000);
+      
+      // 설정한 식사 시간이 이번 쉬는 시간과 겹치거나 이미 지났는지 확인
+      const mealOverlapsBreak = mealTarget && !mealDone && mealTarget <= breakEndTime;
+
+      if(mealOverlapsBreak){
+        // 겹칠 경우: 쉬는 시간을 생략하고 현재 시각부터 바로 식사 시작
+        let ms=new Date(cur);
+        cur.setMinutes(cur.getMinutes()+mMin);
+        schedTL.push({type:'meal',period:i,start:ms,end:new Date(cur)});
+        mealDone=true;
+      } else {
+        // 안 겹칠 경우: 정상적으로 쉬는 시간 추가
+        let bs=new Date(cur);
+        cur.setMinutes(cur.getMinutes()+bMin);
+        schedTL.push({type:'break',period:i,start:bs,end:new Date(cur)});
+      }
+    }
+  }
+
+  // 3. 만약 모든 교시가 끝났는데도 식사가 들어가지 않았다면 일정 마지막에 추가
+  if(mealTarget && !mealDone){
+    let ms=new Date(cur);
+    cur.setMinutes(cur.getMinutes()+mMin);
+    schedTL.push({type:'meal',period:totalPeriods,start:ms,end:new Date(cur)});
+  }
+
+  // 타임라인 UI 다시 그리기
+  renderTL();
+}
+
+function renderTL(){
+  const area = document.getElementById("timelineVisual");
+  area.innerHTML = "";
+
+  schedTL.forEach((item, idx) => {
+    const div = document.createElement("div");
+    let cls = "tl-item";
+
+    if (item.type === "break") cls += " tl-break";
+    if (item.type === "meal") cls += " tl-meal";
+
+    // 활성화 상태 판단
+    const isCurItem = (item.period === curPeriod && item.type === curStage);
+    const ci = schedTL.findIndex(s => s.period === curPeriod && s.type === curStage);
+
+    if (idx < ci && ci >= 0) cls += " tl-done";
+    if (isCurItem) cls += " tl-active";
+
+    div.className = cls;
+    div.onclick = () => jumpTo(idx);
+
+    // 텍스트 매칭 (1교시, 휴식 등)
+    const label = item.type === 'lecture' ? item.period + '교시' : item.type === 'break' ? '☕ 휴식' : '🍱 식사';
+    
+    // 시간 문자열 포맷팅 (09:32~10:12)
+    const sTime = item.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    const eTime = item.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+    div.innerHTML = `
+      <div class="tl-name">${label}</div>
+      <div class="tl-time">${sTime}~${eTime}</div>
+    `;
+    area.appendChild(div);
+  });
+}
+
+function startFromBeginning() {
+  if (!schedTL.length) buildTimelineStructure();
+  if (!schedTL.length) return;
+  jumpTo(0);
+}
+
+function syncWithCurrentTime() {
+  if (!schedTL.length) buildTimelineStructure();
+
+  const now = new Date();
+  let foundIndex = -1;
+
+  for (let i = 0; i < schedTL.length; i++) {
+    const s = schedTL[i];
+    if (now >= s.start && now < s.end) {
+      foundIndex = i;
+      break;
+    }
+  }
+
+  if (foundIndex === -1) {
+    if (now < schedTL[0].start) {
+      startFromBeginning();
+      return;
+    } else {
+      clearInterval(timerIv);
+      document.getElementById("statusBadge").className = "status-badge done";
+      document.getElementById("statusBadge").innerText = "🎉 모든 일정 종료";
+      renderTL();
+      return;
+    }
+  }
+  jumpTo(foundIndex);
+}
+
+function jumpTo(index){
+  const s = schedTL[index];
+  if(!s) return;
+
+  clearInterval(timerIv);
+  curPeriod = s.period;
+  curStage = s.type;
+  totalSec = Math.floor((s.end - s.start) / 1000);
+  remainSec = totalSec;
+  alarmPlayed = false;
+  isPaused = false;
+
+  startSession();
+  
+  const stageName = curStage === 'lecture' ? curPeriod + '교시' : curStage === 'break' ? '휴식' : '식사시간';
+  shareToStudents(`⏭️ ${stageName} 시작!`);
+}
+
+function startSession(){
+  setBadge();
+  updateDisp();
+  updateProg();
+  renderTL();
+  runTimer();
+}
+
+function setBadge(extra=""){
+  const b=document.getElementById("statusBadge");
+  b.className="status-badge";
+  if(isPaused){b.classList.add("paused");b.innerText="⏸ 일시정지";return;}
+  if(curStage==="lecture")b.innerText=`📚 ${curPeriod}교시 진행 중${extra}`;
+  else if(curStage==="break"){b.classList.add("break-mode");b.innerText=`☕ 휴식 시간${extra}`;}
+  else if(curStage==="meal"){b.classList.add("meal-mode");b.innerText=`🍱 식사 시간${extra}`;}
+}
+
+function runTimer(){
+  clearInterval(timerIv);
+  timerIv=setInterval(()=>{
+    if(isPaused)return;
+    updateDisp();updateProg();
+    const ab=+document.getElementById("alarmBefore").value*60;
+    if(!alarmPlayed&&ab>0&&remainSec===ab){beep();alarmPlayed=true;setBadge(" ⚠️ 종료 임박!");}
+    if(remainSec<=0){
+      clearInterval(timerIv);beep(true);
+      const ci=schedTL.findIndex(s=>s.period===curPeriod&&s.type===curStage);
+      const ni=ci+1;
+      if(ni>=schedTL.length){
+        document.getElementById("statusBadge").className='status-badge done';
+        document.getElementById("statusBadge").innerText='🎉 모든 일정 종료!';
+        document.getElementById("timer").innerText="00:00";
+        document.getElementById("timerEndTime").innerText="";
+        document.getElementById("progressBar").style.width="0%";
+        document.getElementById("progressLabel").innerText="";
+        renderTL();shareToStudents("모든 수업 일정이 종료되었습니다! 수고하셨습니다 🎉");
+        alert("모든 수업 일정이 종료되었습니다!");return;
+      }
+      const msgs={lecture:"수업 시간이 끝났습니다!",break:"휴식 시간이 끝났습니다!",meal:"식사 시간이 끝났습니다!"};
+      alert(msgs[curStage]||"다음 단계로 이동합니다.");
+      jumpTo(ni);return;
+    }
+    remainSec--;
+  },1000);
+}
+
+function updateDisp(){
+  const m = Math.floor(remainSec / 60), s = remainSec % 60;
+  const el = document.getElementById("timer");
+  el.innerText = String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
+  const end = new Date(Date.now() + remainSec * 1000);
+  document.getElementById("timerEndTime").innerText = `종료 예정 ${String(end.getHours()).padStart(2, '0')}:${String(end.getMinutes()).padStart(2, '0')}`;
+  const ab = +document.getElementById("alarmBefore").value * 60;
+  const r = totalSec > 0 ? remainSec / totalSec : 1;
+  el.className = 'timer-display' + (remainSec <= ab && ab > 0 ? (r < .18 ? ' urgent' : ' warn') : '');
+}
+
+function updateProg(){
+  const r = totalSec > 0 ? remainSec / totalSec : 1, pct = Math.round(r * 100);
+  const b = document.getElementById("progressBar"); b.style.width = pct + "%";
+  b.className = 'prog-bar' + (pct < 20 ? ' urgent' : pct < 40 ? ' warn' : '');
+  const m = Math.floor(remainSec / 60), s = remainSec % 60;
+  document.getElementById("progressLabel").innerText = `남은 시간 ${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} (${pct}%)`;
+}
+
+function stopTimer(){ isPaused = true; setBadge(); }
+function resumeTimer(){ if(!isPaused) return; isPaused = false; setBadge(); }
+function skipToNext(){
+  const ci = schedTL.findIndex(s => s.period === curPeriod && s.type === curStage);
+  const ni = ci + 1;
+  if(ni < schedTL.length) jumpTo(ni);
+  else {
+    clearInterval(timerIv);
+    document.getElementById("statusBadge").className = 'status-badge done';
+    document.getElementById("statusBadge").innerText = '🎉 모든 수업 종료!';
+    document.getElementById("timer").innerText = "00:00";
+  }
+}
+
+function switchTab(n,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+n).classList.add('active'); btn.classList.add('active');
+}
+function getNames(){ return document.getElementById("participants").value.split(",").map(n=>n.trim()).filter(Boolean); }
+
+// 주사위, 사다리, 룰렛, 맞추기 게임들
+const DICE=['','⚀','⚁','⚂','⚃','⚄','⚅'];
+function rollDice(){ let c=0; const iv=setInterval(()=>{ document.getElementById("diceResult").innerText=DICE[Math.floor(Math.random()*6)+1]; if(++c>12){ clearInterval(iv); const f=Math.floor(Math.random()*6)+1; document.getElementById("diceResult").innerText=DICE[f]+"\n"+f; shareToStudents(`🎲 주사위: ${DICE[f]} (${f})`); } },75); }
+function rollMultiDice(){ let c=0; const iv=setInterval(()=>{ const r1=Math.floor(Math.random()*6)+1,r2=Math.floor(Math.random()*6)+1; document.getElementById("diceResult").innerText=`${DICE[r1]} ${DICE[r2]}`; if(++c>12){ clearInterval(iv); const f1=Math.floor(Math.random()*6)+1,f2=Math.floor(Math.random()*6)+1; document.getElementById("diceResult").innerText=`${DICE[f1]} ${DICE[f2]}\n합계: ${f1+f2}`; shareToStudents(`🎲🎲 더블 주사위: 합계 ${f1+f2}`); } },75); }
+
+function makeLadder(){ const names=getNames(); if(names.length<2){alert("최소 2명 이상 입력해주세요.");return;} const sh=[...names].sort(()=>Math.random()-.5); const ul=document.getElementById("ladderArea"); ul.innerHTML=""; names.forEach((n,i)=>{ const li=document.createElement("li"); li.innerHTML=`🙋 <b>${n}</b><span class="arr"> → </span>🎁 <b>${sh[i]}</b>`; ul.appendChild(li); }); shareToStudents(`🪜 사다리 결과 생성됨`); }
+
+const cv=document.getElementById("canvas"), cx=cv.getContext("2d");
+let rNames=[], spinning=false, curRot=0;
+const PAL=['#0d9488','#14b8a6','#2dd4bf','#0ea5e9','#38bdf8','#475569','#64748b','#94a3b8','#10b981','#34d399'];
+function drawRoulette(rot=0){ rNames=getNames(); if(!rNames.length) return; const n=rNames.length, arc=(2*Math.PI)/n; cx.clearRect(0,0,260,260); cx.save(); cx.translate(130,130); cx.rotate(rot); cx.translate(-130,-130); rNames.forEach((name,i)=>{ const angle=i*arc; cx.fillStyle=PAL[i%PAL.length]; cx.beginPath(); cx.moveTo(130,130); cx.arc(130,130,122,angle,angle+arc); cx.lineTo(130,130); cx.fill(); cx.strokeStyle="rgba(255,255,255,.85)"; cx.lineWidth=1.5; cx.stroke(); cx.save(); cx.translate(130,130); cx.rotate(angle+arc/2); cx.textAlign="right"; cx.font=`700 ${n>8?10:13}px Arial`; cx.fillStyle="#fff"; cx.fillText(name.length>5?name.slice(0,4)+'…':name,116,5); cx.restore(); }); cx.restore(); cx.beginPath(); cx.arc(130,130,12,0,2*Math.PI); cx.fillStyle="#fff"; cx.fill(); cx.strokeStyle="#444"; cx.lineWidth=2; cx.stroke(); cx.beginPath(); cx.moveTo(254,124); cx.lineTo(238,133); cx.lineTo(238,115); cx.closePath(); cx.fillStyle="#ef4444"; cx.fill(); }
+function spinRoulette(){ if(spinning) return; rNames=getNames(); if(!rNames.length){alert("명단을 입력해주세요.");return;} spinning=true; document.getElementById("rouletteResult").innerText="🎡 돌아가는 중..."; const total=(Math.random()*360+720*(Math.floor(Math.random()*3)+3))*(Math.PI/180); const dur=3800, t0=performance.now(), sa=curRot, ease=t=>1-Math.pow(1-t,3); (function ani(now){ const t=Math.min((now-t0)/dur,1); curRot=sa+total*ease(t); drawRoulette(curRot); if(t<1)requestAnimationFrame(ani); else{ spinning=false; const n=rNames.length, arc=(2*Math.PI)/n, norm=((curRot%(2*Math.PI))+(2*Math.PI))%(2*Math.PI), idx=Math.floor(((2*Math.PI-norm)%(2*Math.PI))/arc)%n, w=rNames[idx]; document.getElementById("rouletteResult").innerText=`🎉 당첨자: ${w}님!`; shareToStudents(`🎡 룰렛 당첨자: [${w}]님!`); } })(performance.now()); }
+
+let secretNum=0, guessTries=0;
+function newRound(){secretNum=Math.floor(Math.random()*10)+1; guessTries=0; document.getElementById("guessResult").innerText="1~10 사이 숫자를 맞춰보세요."; document.getElementById("guessCount").innerText=""; document.getElementById("guessInput").value="";}
+function playGuessGame(){ if(!secretNum) newRound(); const v=parseInt(document.getElementById("guessInput").value), res=document.getElementById("guessResult"); if(isNaN(v)||v<1||v>10){alert("1~10 사이 숫자를 입력해주세요.");return;} guessTries++; if(v===secretNum){ res.innerHTML=`🎉 정답! <b>${secretNum}</b>! (${guessTries}번 만에 성공)`; shareToStudents(`🔢 숫자 맞추기 정답! [${secretNum}]`); secretNum=0; }else{ res.innerText=`${v}은(는) 오답! 정답은 ${v<secretNum?'더 큽니다 📈':'더 작습니다 📉'}`; } document.getElementById("guessCount").innerText=`시도 횟수: ${guessTries}회`; document.getElementById("guessInput").value=""; }
+
+function generateQR(){ const d=document.getElementById("qrcode"); d.innerHTML=""; new QRCode(d,{text:window.location.href,width:128,height:128,colorDark:"#1e293b",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H}); }
+function shareToStudents(msg){ const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}); document.getElementById("liveShareArea").innerHTML=`<strong>[${t}]</strong> ${msg}`; }
+
+function renderShareTimerUI(){ const type=document.getElementById("stType").value, area=document.getElementById("stArea"), m=Math.floor(stRemain/60), s=stRemain%60, ts=String(m).padStart(2,'0')+":"+String(s).padStart(2,'0'), ratio=stTotal>0?stRemain/stTotal:1; if(type==='digital'){ area.innerHTML=`<div class="st-digital" id="stDigital">${ts}</div>`; } else if(type==='analog'){ const deg=ratio*360; area.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div class="st-clock"><div style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:50%;background:conic-gradient(var(--primary) ${deg}deg,#e2e8f0 ${deg}deg)"></div><div class="st-hand" style="transform:translateX(-50%) rotate(${deg}deg)"></div></div><div style="font-size:20px;font-weight:800;color:var(--text)">${ts}</div></div>`; } else if(type==='hourglass'){ area.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div class="st-hg-half st-hg-top-half"><div class="st-hg-sand-t" style="transform:scaleY(${ratio})"></div></div><div style="width:2px;height:10px;background:var(--warning);opacity:.8;${!stPaused&&stRemain>0?'animation:flow .3s infinite alternate':''}"></div><div class="st-hg-half st-hg-bot-half"><div class="st-hg-sand-b" style="height:${(1-ratio)*100}%"></div></div><div style="font-size:20px;font-weight:800;color:var(--text);margin-top:10px">${ts}</div></div>`; } }
+function startShareTimer(){ clearInterval(stIv); const m=Math.max(0,parseInt(document.getElementById("stMin").value)||0), s=Math.max(0,Math.min(59,parseInt(document.getElementById("stSec").value)||0)); stRemain=stTotal=m*60+s; if(!stTotal){alert("시간을 설정해 주세요.");return;} stPaused=false; renderShareTimerUI(); shareToStudents(`⏳ 공유 타이머 시작`); stIv=setInterval(()=>{ if(stPaused) return; if(stRemain<=0){clearInterval(stIv); beep(false); alert("공유용 타이머 완료!"); return;} stRemain--; renderShareTimerUI(); },1000); }
+function toggleShareTimer(){ if(!stTotal) return; stPaused=!stPaused; renderShareTimerUI(); }
+function resetShareTimer(){ clearInterval(stIv); document.getElementById("stMin").value=5; document.getElementById("stSec").value=0; stRemain=300; stTotal=300; stPaused=true; renderShareTimerUI(); }
+
+window.onload = () => {
+  const now = new Date();
+  document.getElementById("startTime").value = String(now.getHours()).padStart(2, '0') + ":00";
+  
+  buildTimelineStructure(); 
+  syncWithCurrentTime();  
+  
+  drawRoulette(0);
+  newRound();
+  stRemain = stTotal = 300;
+  renderShareTimerUI();
+  
+  setTimeout(getWeather, 1200);
+};
+</script>
+</body>
+</html>
