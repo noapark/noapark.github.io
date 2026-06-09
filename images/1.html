@@ -1143,6 +1143,33 @@ window.onload = () => {
   renderShareTimerUI();
   
   setTimeout(getWeather, 1200);
+
+  schedTL=[
+    {
+      type:'lecture',
+      period:1,
+      start:new Date(),
+      end:new Date(Date.now()+50*60000)
+    },
+    {
+      type:'break',
+      period:1,
+      start:new Date(),
+      end:new Date(Date.now()+10*60000)
+    },
+    {
+      type:'meal',
+      period:1,
+      start:new Date(),
+      end:new Date(Date.now()+60*60000)
+    }
+  ];
+
+  curPeriod=1;
+  curStage='lecture';
+
+  renderTL();
+}
 };
 </script>
 </body>
