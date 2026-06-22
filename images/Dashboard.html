@@ -406,7 +406,7 @@ function DonutChart({ data, colors }) {
           );
         })}
         <text x={cx} y={cy - 4} textAnchor="middle" fontSize="22" fontWeight="800" fill="#0f172a">{total}</text>
-        <text x={cx} y={cy + 16} textAnchor="middle" fontSize="11" fill="#94a3b8">전체 응답</text>
+        <text x={cx} y={cy + 16} textAnchor="middle" fontSize="11" fill="#94a3b8">전체 응답 14/30명 결측치제외</text>
       </svg>
       <div className="legend">
         {data.map((d, i) => (
@@ -435,8 +435,8 @@ function MetricsMatrix({ metrics, max = 5 }) {
         <tr>
           <th style={{ width: "30%" }}>지표</th>
           <th style={{ width: "15%", textAlign: "right" }}>평균</th>
-          <th style={{ width: "15%", textAlign: "right" }}>달성률</th>
-          <th>시각화</th>
+          <th style={{ width: "15%", textAlign: "right" }}>참여자 응답</th>   /* ── 시각화 ── */
+          <th>...</th> /* ── 시각화 ── */
         </tr>
       </thead>
       <tbody>
