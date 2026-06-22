@@ -442,31 +442,56 @@ function DonutChart({ data, colors }) {
     </svg>
   );
 }    ---*/
-/* ---매트릭스 차트---*/
-  function MetricsMatrix({ metrics, max = 5 }) {
+  /* ── 매트릭스 차트 (레이더 차트 대체) ── */
+function MetricsMatrix({ metrics, max = 5 }) {
+  const METRIC_COLORS = {
+    /* ──"사전 경험":  { bar: "#a7d8d3", badge: "#0b6b63" },── */
+    "사후 경험":  { bar: "#0b6b63", badge: "#074742" },
+     /* ──"사전 인지도": { bar: "#fcd9a0", badge: "#d97706" },── */
+    "사후 개선도": { bar: "#f59e0b", badge: "#92400e" },
+  };
+
   return (
-    <table style={{ borderCollapse: "collapse", width: "100%", maxWidth: 320 }}>
+    <table className="metrics-table">
       <thead>
         <tr>
-          <th style={{ border: "1px solid #ccc", padding: "6px" }}>Metric</th>
-          <th style={{ border: "1px solid #ccc", padding: "6px" }}>Value</th>
-          <th style={{ border: "1px solid #ccc", padding: "6px" }}>Ratio</th>
+          <th style={{ width: "30%" }}>지표</th>
+          <th style={{ width: "15%", textAlign: "right" }}>평균</th>
+          <th style={{ width: "15%", textAlign: "right" }}>달성률</th>
+          <th>시각화</th>
         </tr>
       </thead>
       <tbody>
-        {metrics.map((m, i) => (
-          <tr key={i}>
-            <td style={{ border: "1px solid #ccc", padding: "6px" }}>{m.metric}</td>
-            <td style={{ border: "1px solid #ccc", padding: "6px" }}>{m.value}</td>
-            <td style={{ border: "1px solid #ccc", padding: "6px" }}>
-              {(m.value / max * 100).toFixed(0)}%
-            </td>
-          </tr>
-        ))}
+        {metrics.map((m, i) => {
+          const pct = (m.value / max) * 100;
+          const colors = METRIC_COLORS[m.metric] || { bar: "#94a3b8", badge: "#475569" };
+          return (
+            <tr key={i}>
+              <td style={{ fontWeight: 600, color: "var(--dark)" }}>{m.metric}</td>
+              <td style={{ textAlign: "right" }}>
+                <span className="score-badge" style={{ color: colors.badge }}>
+                  {m.value.toFixed(2)}
+                </span>
+              </td>
+              <td style={{ textAlign: "right", fontWeight: 600, color: colors.badge }}>
+                {pct.toFixed(0)}%
+              </td>
+              <td>
+                <div className="bar-track">
+                  <div
+                    className="bar-fill"
+                    style={{ width: `${pct}%`, background: colors.bar }}
+                  />
+                </div>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
 }
+
 
 
   
