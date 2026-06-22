@@ -7,7 +7,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js" crossorigin></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js" crossorigin></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.28.4/babel.min.js"></script>
 
 <style>
   :root {
@@ -34,7 +34,6 @@
     line-height: 1.7;
     letter-spacing: -0.02em;
     -webkit-font-smoothing: antialiased;
-    margin: 0;
   }
 
   .container {
@@ -71,7 +70,7 @@
   }
   .logo:hover { transform: scale(1.05); }
 
-  .nav ul { display: flex; gap: 10px; list-style: none; margin: 0; padding: 0; }
+  .nav ul { display: flex; gap: 10px; list-style: none; }
 
   .nav a {
     cursor: pointer;
@@ -170,19 +169,18 @@
     padding: 6px 13px; border-radius: 999px;
   }
   .feedback-list { display: flex; flex-direction: column; gap: 10px; }
-  
-  /* 연수 후기 안에 있는 텍스트 상자 크기 및 여백 확대 수정 */
   .feedback-item {
     background: var(--bg-color);
     border: 1px solid var(--border-color);
     border-radius: 13px;
-    padding: 14px 18px;
-    font-size: 16px;
-    color: var(--dark);
-    line-height: 1.6;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    color: var(--gray-text);
+    line-height: 1.5;
   }
-  .feedback-id { font-weight: 700; color: var(--gray-light); margin-right: 10px; }
+  .feedback-id { font-weight: 700; color: var(--gray-light); margin-right: 8px; }
 
+  /* ── 매트릭스 테이블 ── */
   .metrics-table {
     width: 100%;
     border-collapse: collapse;
@@ -227,7 +225,9 @@
   }
 
   .footnote { text-align: center; font-size: 11.5px; color: var(--gray-light); margin-top: 28px; }
+
   svg text { font-family: inherit; }
+
   .wrap { padding: 28px 24px 40px; max-width: 1140px; margin: 0 auto; }
   .header { margin-bottom: 8px; }
   .header h1 { font-size: 22px; font-weight: 800; margin: 0 0 4px; }
@@ -238,11 +238,11 @@
 
 <header class="site-header">
   <div class="container">
-    <div class="logo">AI 연수 센터</div>
+    <div class="logo">[]</div>
     <nav class="nav">
       <ul>
         <li><a href="https://noapark.github.io/index.html">강사 홈페이지</a></li>
-        <li><a class="active">대시보드</a></li>
+        <li><a>대시보드</a></li>
       </ul>
     </nav>
   </div>
@@ -278,55 +278,54 @@ const PROGRAM_COLORS = {
 };
 
 function avg(arr, key) {
-  if (!arr.length) return 0;
   return arr.reduce((s, d) => s + d[key], 0) / arr.length;
 }
 
-/* ── 아이콘 컴포넌트 ── */
-const IconUsers = ({ color, size }) => (
+/* ── 아이콘 ── */
+const IconBase = ({ children, color, size }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    {children}
+  </svg>
+);
+const IconUsers = (p) => (
+  <IconBase {...p}>
     <circle cx="9" cy="8" r="3.2" />
     <path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" />
     <circle cx="17" cy="9" r="2.6" />
     <path d="M14.8 14.3c2.4.3 4.2 2.1 4.2 4.7" />
-  </svg>
+  </IconBase>
 );
-
-const IconTrend = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+const IconTrend = (p) => (
+  <IconBase {...p}>
     <path d="M3 17l5.5-6 4 3.5L21 6" />
     <path d="M15 6h6v6" />
-  </svg>
+  </IconBase>
 );
-
-const IconSpark = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+const IconSpark = (p) => (
+  <IconBase {...p}>
     <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" />
     <path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z" />
-  </svg>
+  </IconBase>
 );
-
-const IconClipboard = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+const IconClipboard = (p) => (
+  <IconBase {...p}>
     <rect x="5" y="4" width="14" height="17" rx="2" />
     <rect x="9" y="2.3" width="6" height="3.4" rx="1" />
     <path d="M8.5 11h7M8.5 14.5h7M8.5 18h4.5" />
-  </svg>
+  </IconBase>
 );
-
-const IconQuote = ({ color, size }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+const IconQuote = (p) => (
+  <IconBase {...p}>
     <path d="M7 7c-2.2 0-3.5 1.6-3.5 4 0 2 1.2 3.4 3 3.4.4 2.6-1 4.4-3 5.1" />
     <path d="M16.5 7c-2.2 0-3.5 1.6-3.5 4 0 2 1.2 3.4 3 3.4.4 2.6-1 4.4-3 5.1" />
-  </svg>
+  </IconBase>
 );
 
-/* ── 도넛 차트 호(Arc) 유틸 ── */
+/* ── 공통 차트 유틸 ── */
 function polar(cx, cy, r, angleDeg) {
   const a = ((angleDeg - 90) * Math.PI) / 180;
   return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
 }
-
 function arcPath(cx, cy, rOuter, rInner, startAngle, endAngle) {
   const so = polar(cx, cy, rOuter, endAngle);
   const eo = polar(cx, cy, rOuter, startAngle);
@@ -395,7 +394,7 @@ function DonutChart({ data, colors }) {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <svg viewBox="0 0 280 280" width="100%" style={{ maxWidth: 280 }}>
         {data.map((d, i) => {
-          const angle = total > 0 ? (d.value / total) * 360 : 0;
+          const angle = (d.value / total) * 360;
           const start = cursor;
           const end = cursor + angle;
           cursor = end;
@@ -407,7 +406,7 @@ function DonutChart({ data, colors }) {
           );
         })}
         <text x={cx} y={cy - 4} textAnchor="middle" fontSize="22" fontWeight="800" fill="#0f172a">{total}</text>
-        <text x={cx} y={cy + 16} textAnchor="middle" fontSize="11" fill="#94a3b8">전체 응답 14/30(참석인원)</text>
+        <text x={cx} y={cy + 16} textAnchor="middle" fontSize="11" fill="#94a3b8">전체 응답</text>
       </svg>
       <div className="legend">
         {data.map((d, i) => (
@@ -421,106 +420,12 @@ function DonutChart({ data, colors }) {
   );
 }
 
-/* ── 매트릭스 지표 리스트 ── */
+/* ── 매트릭스 차트 (레이더 차트 대체) ── */
 function MetricsMatrix({ metrics, max = 5 }) {
   const METRIC_COLORS = {
     "사전 경험":  { bar: "#a7d8d3", badge: "#0b6b63" },
     "사후 경험":  { bar: "#0b6b63", badge: "#074742" },
     "사전 인지도": { bar: "#fcd9a0", badge: "#d97706" },
-    "사후 개선도": { bar: "#f59e0b", badge: "#92400e" },
-  };
-
-  return (
-    <table className="metrics-table">
-      <thead>
-        <tr>
-          <th style={{ width: "30%" }}>지표</th>
-          <th style={{ width: "15%", textAlign: "right" }}>평균</th>
-          <th style={{ width: "15%", textAlign: "right" }}>달성률</th>
-          <th>시각화</th>
-        </tr>
-      </thead>
-      <tbody>
-        {metrics.map((m, i) => {
-          const pct = (m.value / max) * 100;
-          const colors = METRIC_COLORS[m.metric] || { bar: "#94a3b8", badge: "#475569" };
-          return (
-            <tr key={i}>
-              <td style={{ fontWeight: 600, color: "var(--dark)" }}>{m.metric}</td>
-              <td style={{ textAlign: "right" }}>
-                <span className="score-badge" style={{ color: colors.badge }}>
-                  {m.value.toFixed(2)}
-                </span>
-              </td>
-              <td style={{ textAlign: "right", fontWeight: 600, color: colors.badge }}>
-                {pct.toFixed(0)}%
-              </td>
-              <td>
-                <div className="bar-track">
-                  <div className="bar-fill" style={{ width: `${pct}%`, background: colors.bar }} />
-                </div>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
-}
-
-/* ---------------- 레이더 차트 ---------------- */
-/* ---function RadarChartCustom({ metrics, max = 5 }) {
-  const cx = 150, cy = 140, r = 95;
-  const n = metrics.length;
-  const angleStep = 360 / n;
-  const rings = [1, 2, 3, 4, 5];
-
-  const pointsFor = (scale) =>
-    metrics
-      .map((m, i) => {
-        const p = polar(cx, cy, r * scale, i * angleStep);
-        return `${p.x},${p.y}`;
-      })
-      .join(" ");
-
-  const dataPoints = metrics
-    .map((m, i) => {
-      const p = polar(cx, cy, (m.value / max) * r, i * angleStep);
-      return `${p.x},${p.y}`;
-    })
-    .join(" ");
-
-  return (
-    <svg viewBox="0 0 300 280" width="100%" style={{ maxWidth: 320 }}>
-      {rings.map((v) => (
-        <polygon key={v} points={pointsFor(v / max)} fill="none" stroke="#e2e8f0" strokeWidth="1" />
-      ))}
-      {metrics.map((m, i) => {
-        const p = polar(cx, cy, r, i * angleStep);
-        return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="#e2e8f0" strokeWidth="1" />;
-      })}
-      <polygon points={dataPoints} fill="#0b6b63" fillOpacity="0.32" stroke="#0b6b63" strokeWidth="2" />
-      {metrics.map((m, i) => {
-        const p = polar(cx, cy, r + 18, i * angleStep);
-        return (
-          <text key={i} x={p.x} y={p.y} fontSize="10.5" fill="#475569" textAnchor="middle">
-            {m.metric}
-          </text>
-        );
-      })}
-      {metrics.map((m, i) => {
-        const p = polar(cx, cy, (m.value / max) * r, i * angleStep);
-        return <circle key={i} cx={p.x} cy={p.y} r="3" fill="#0b6b63" />;
-      })}
-    </svg>
-  );
-}    ---*/
-  /* ── 매트릭스 차트 (레이더 차트 대체) ── */
-/* ──function MetricsMatrix({ metrics, max = 5 }) {
-  const METRIC_COLORS = {
-    /* ──"사전 경험":  { bar: "#a7d8d3", badge: "#0b6b63" },── */
-    "사후 경험":  { bar: "#0b6b63", badge: "#074742" },
-     /* ──"사전 인지도": { bar: "#fcd9a0", badge: "#d97706" },── */
     "사후 개선도": { bar: "#f59e0b", badge: "#92400e" },
   };
 
@@ -563,10 +468,9 @@ function MetricsMatrix({ metrics, max = 5 }) {
       </tbody>
     </table>
   );
-} ── */
+}
 
-
-/* ── 메인 대시보드 컴포넌트 ── */
+/* ── 메인 대시보드 ── */
 function Dashboard() {
   const [tab, setTab] = useState("experience");
 
@@ -575,14 +479,11 @@ function Dashboard() {
     const postAvg = avg(rawData, "posterior");
     const awareAvg = avg(rawData, "awareness");
     const impAvg = avg(rawData, "improvement");
-    
     const programCounts = {};
     rawData.forEach((d) => { programCounts[d.program] = (programCounts[d.program] || 0) + 1; });
     const programData = Object.entries(programCounts).map(([name, value]) => ({ name, value }));
-    
     const improved = rawData.filter((d) => d.posterior > d.prior).length;
     const maxed = rawData.filter((d) => d.posterior === 5).length;
-    
     return { priorAvg, postAvg, awareAvg, impAvg, programData, improved, maxed };
   }, []);
 
@@ -590,70 +491,52 @@ function Dashboard() {
   const awareChartData = rawData.map((d) => ({ name: `${d.id}번`, awareness: d.awareness, improvement: d.improvement }));
 
   const matrixMetrics = [
+    { metric: "사전 경험",  value: stats.priorAvg },
     { metric: "사후 경험",  value: stats.postAvg },
+    { metric: "사전 인지도", value: stats.awareAvg },
     { metric: "사후 개선도", value: stats.impAvg },
   ];
 
-  const feedbacks    = rawData.filter((d) => d.feedback && d.feedback.trim().length > 0);
+  const feedbacks    = rawData.filter((d) => d.feedback.trim().length > 0);
   const requirements = rawData.map((d) => d.requirement);
+
+  const KpiCard = ({ Icon, label, value, sub, accent }) => (
+    <div className="card kpi-card">
+      <div className="kpi-top">
+        <span className="kpi-label">{label}</span>
+        <div className="kpi-icon" style={{ background: accent + "1a" }}>
+          <Icon color={accent} size={17} />
+        </div>
+      </div>
+      <div className="kpi-value">{value}</div>
+      {sub && <div className="kpi-sub">{sub}</div>}
+    </div>
+  );
+
+  const TabButton = ({ id, label }) => (
+    <button className={`tab-btn ${tab === id ? "active" : ""}`} onClick={() => setTab(id)}>
+      {label}
+    </button>
+  );
 
   return (
     <div className="wrap">
       <div className="header">
         <h1>생성형 AI 활용 만족도_교사 연수</h1>
-        <p>2026.05.11 진행 · 응답자 {rawData.length}명 · 사전·사후 설문 비교 (결측치 제외)</p>
+        <p>2026.05.11 진행 · 응답자 {rawData.length}명 · 사전·사후 설문 비교 _ 30명 중 결측치 제외</p>
       </div>
 
       <div className="kpi-grid">
-        <div className="card kpi-card">
-          <div className="kpi-top">
-            <span className="kpi-label">평균 사전 경험</span>
-            <div className="kpi-icon" style={{ background: "#0b6b631a" }}>
-              <IconUsers color="#0b6b63" size={17} />
-            </div>
-          </div>
-          <div className="kpi-value">{stats.priorAvg.toFixed(2)}</div>
-          <div className="kpi-sub">5점 만점</div>
-        </div>
-
-        <div className="card kpi-card">
-          <div className="kpi-top">
-            <span className="kpi-label">평균 사후 경험</span>
-            <div className="kpi-icon" style={{ background: "#0747421a" }}>
-              <IconTrend color="#074742" size={17} />
-            </div>
-          </div>
-          <div className="kpi-value">{stats.postAvg.toFixed(2)}</div>
-          <div className="kpi-sub">{`사전 대비 +${(stats.postAvg - stats.priorAvg).toFixed(2)}`}</div>
-        </div>
-
-        <div className="card kpi-card">
-          <div className="kpi-top">
-            <span className="kpi-label">경험 향상 응답자</span>
-            <div className="kpi-icon" style={{ background: "#f59e0b1a" }}>
-              <IconSpark color="#f59e0b" size={17} />
-            </div>
-          </div>
-          <div className="kpi-value">{`${stats.improved}명`}</div>
-          <div className="kpi-sub">{`전체의 ${Math.round((stats.improved / rawData.length) * 100)}%`}</div>
-        </div>
-
-        <div className="card kpi-card">
-          <div className="kpi-top">
-            <span className="kpi-label">만점(5점) 도달</span>
-            <div className="kpi-icon" style={{ background: "#64748b1a" }}>
-              <IconClipboard color="#64748b" size={17} />
-            </div>
-          </div>
-          <div className="kpi-value">{`${stats.maxed}명`}</div>
-          <div className="kpi-sub">사후 경험 기준</div>
-        </div>
+        <KpiCard Icon={IconUsers}    label="평균 사전 경험"    value={stats.priorAvg.toFixed(2)} sub="5점 만점"                                                  accent="#0b6b63" />
+        <KpiCard Icon={IconTrend}    label="평균 사후 경험"    value={stats.postAvg.toFixed(2)}  sub={`사전 대비 +${(stats.postAvg - stats.priorAvg).toFixed(2)}`} accent="#074742" />
+        <KpiCard Icon={IconSpark}    label="경험 향상 응답자"  value={`${stats.improved}명`}     sub={`전체의 ${Math.round((stats.improved / rawData.length) * 100)}%`} accent="#f59e0b" />
+        <KpiCard Icon={IconClipboard} label="만점(5점) 도달"  value={`${stats.maxed}명`}        sub="사후 경험 기준"                                              accent="#64748b" />
       </div>
 
       <div className="tabs">
-        <button className={`tab-btn ${tab === "overview" ? "active" : ""}`} onClick={() => setTab("overview")}>요구사항</button>
-        <button className={`tab-btn ${tab === "experience" ? "active" : ""}`} onClick={() => setTab("experience")}>사전·사후 경험 비교</button>
-        <button className={`tab-btn ${tab === "awareness" ? "active" : ""}`} onClick={() => setTab("awareness")}>인지도 · 개선도</button>
+        <TabButton id="overview"    label="요구사항" />
+        <TabButton id="experience"  label="사전·사후 경험 비교" />
+        <TabButton id="awareness"   label="인지도 · 개선도" />
       </div>
 
       <div className="card chart-card">
@@ -686,7 +569,7 @@ function Dashboard() {
               <DonutChart data={stats.programData} colors={PROGRAM_COLORS} />
             </div>
             <div>
-              <h2 className="chart-title">2개 지표 종합 평균 (5점 만점)</h2>
+              <h2 className="chart-title">4개 지표 종합 평균 (5점 만점)</h2>
               <MetricsMatrix metrics={matrixMetrics} />
             </div>
           </div>
@@ -702,7 +585,7 @@ function Dashboard() {
         </div>
 
         <div className="card section-card">
-          <h2 className="section-title" style={{ fontSize: "16px" }}><IconQuote color="#0b6b63" size={16} />연수 후기 (사후 응답) ({feedbacks.length}건)</h2>
+          <h2 className="section-title"><IconQuote color="#0b6b63" size={16} />연수 후기 (사후 응답) ({feedbacks.length}건)</h2>
           <div className="feedback-list">
             {feedbacks.map((f) => (
               <div className="feedback-item" key={f.id}>
@@ -714,7 +597,7 @@ function Dashboard() {
       </div>
 
       <p className="footnote">
-        ※ 사용 프로그램 생성형 AI의 표기 변형은 모두 Gemini로 통합 집계했습니다.
+        ※ 사용 프로그램 생성형 AI의 "제미나이/geminai/재미나이" 등 표기 변형은 모두 Gemini로 통합 집계했습니다.
       </p>
     </div>
   );
