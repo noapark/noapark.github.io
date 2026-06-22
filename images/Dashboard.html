@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 활용 교사 연수 대시보드</title>
+<title>AI 교사 연수 대시보드</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js" crossorigin></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js" crossorigin></script>
@@ -174,7 +174,7 @@
     border: 1px solid var(--border-color);
     border-radius: 13px;
     padding: 12px 14px;
-    font-size: 15px;
+    font-size: 14.5px;
     color: var(--gray-text);
     line-height: 1.5;
   }
@@ -420,23 +420,14 @@ function DonutChart({ data, colors }) {
   );
 }
 
-/* ── 매트릭스 차트 (레이더 차트 대체 4개) ── */
+/* ── 매트릭스 차트 (레이더 차트 대체) ── */
 function MetricsMatrix({ metrics, max = 5 }) {
   const METRIC_COLORS = {
     "사전 경험":  { bar: "#a7d8d3", badge: "#0b6b63" },
     "사후 경험":  { bar: "#0b6b63", badge: "#074742" },
     "사전 인지도": { bar: "#fcd9a0", badge: "#d97706" },
     "사후 개선도": { bar: "#f59e0b", badge: "#92400e" },
-  }; ── */
-  /* ── 매트릭스 차트 (2개) ── */
-/* ──function MetricsMatrix({ metrics, max = 5 }) {
-  const METRIC_COLORS = {
-    /* ──"사전 경험":  { bar: "#a7d8d3", badge: "#0b6b63" },── */
-    "사후 경험":  { bar: "#0b6b63", badge: "#074742" },
-     /* ──"사전 인지도": { bar: "#fcd9a0", badge: "#d97706" },── */
-    "사후 개선도": { bar: "#f59e0b", badge: "#92400e" },
   };
-
 
   return (
     <table className="metrics-table">
@@ -531,7 +522,7 @@ function Dashboard() {
   return (
     <div className="wrap">
       <div className="header">
-        <h1>생성형 AI 활용 실습_교사 연수</h1>
+        <h1>생성형 AI 실습 만족도 _교사 연수</h1>
         <p>2026.05.11 진행 · 응답자 {rawData.length}명 · 사전·사후 설문 비교 _ 30명 중 결측치 제외</p>
       </div>
 
