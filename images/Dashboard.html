@@ -507,9 +507,10 @@ function Dashboard() {
       </div>
 
       <div className="tabs">
+         <TabButton id="overview" label=" 요구사항 " />
         <TabButton id="experience" label="사전·사후 경험 비교" />
         <TabButton id="awareness" label="인지도 · 개선도" />
-        <TabButton id="overview" label="종합 요약" />
+
       </div>
 
       <div className="card chart-card">
@@ -568,7 +569,7 @@ function Dashboard() {
         </div>
 
         <div className="card section-card">
-          <h2 className="section-title"><IconQuote color="#0b6b63" size={16} />주관식 피드백 ({feedbacks.length}건)</h2>
+          <h2 className="section-title"><IconQuote color="#0b6b63" size={16} />연수 후기(사후응답) ({feedbacks.length}건)</h2>
           <div className="feedback-list">
             {feedbacks.map((f) => (
               <div className="feedback-item" key={f.id}>
