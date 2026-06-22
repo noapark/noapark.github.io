@@ -420,14 +420,23 @@ function DonutChart({ data, colors }) {
   );
 }
 
-/* ── 매트릭스 차트 (레이더 차트 대체) ── */
+/* ── 매트릭스 차트 (레이더 차트 대체 4개) ── */
 function MetricsMatrix({ metrics, max = 5 }) {
   const METRIC_COLORS = {
     "사전 경험":  { bar: "#a7d8d3", badge: "#0b6b63" },
     "사후 경험":  { bar: "#0b6b63", badge: "#074742" },
     "사전 인지도": { bar: "#fcd9a0", badge: "#d97706" },
     "사후 개선도": { bar: "#f59e0b", badge: "#92400e" },
+  }; ── */
+  /* ── 매트릭스 차트 (2개) ── */
+/* ──function MetricsMatrix({ metrics, max = 5 }) {
+  const METRIC_COLORS = {
+    /* ──"사전 경험":  { bar: "#a7d8d3", badge: "#0b6b63" },── */
+    "사후 경험":  { bar: "#0b6b63", badge: "#074742" },
+     /* ──"사전 인지도": { bar: "#fcd9a0", badge: "#d97706" },── */
+    "사후 개선도": { bar: "#f59e0b", badge: "#92400e" },
   };
+
 
   return (
     <table className="metrics-table">
