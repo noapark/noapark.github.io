@@ -4,6 +4,8 @@ Instructor Info & Contact https://noapark.github.io/index.html
 
 스마트 클래스 매니저   https://noapark.github.io/images/__.html
 
+교통수단 시뮬레이터   https://noapark.github.io/images/Mobility.html
+
 sine 파형 – 가장 기본적인 순수한 음색, 부드럽고 맑은 소리
 square 파형 – 날카롭고 전자적인 느낌, 알림음에 적합
 sawtooth 파형 – 거칠고 풍부한 배음, 경고음이나 효과음에 자주 사용
