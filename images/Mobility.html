@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Multi Mobility Controller Simulator (Dual Key Mapping)</title>
+<style>
+:root {
+  --main-color: #00b8ff; 
+  --color-car: #3a9a3a;
+  --color-bus: #ffcc00;
+  --color-ship: #0874a8;
+  --color-maglev: #95a5a6;
+  --color-dron: #9b59b6;
+  --color-space: #e74c3c;
+  
+  --bg-sky-top: #1a82e2;
+  --bg-sky-bottom: #72c8ff;
+  --bg-ground: #3b3b3b;
+  --horizon-y: 58%;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  overflow:hidden;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#0f141c;
+  color:white;
+}
+
+#scene{
+  width:100vw;
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+  background: linear-gradient(to bottom, var(--bg-sky-top) 0%, var(--bg-sky-bottom) var(--horizon-y), var(--bg-ground) var(--horizon-y), var(--bg-ground) 100%);
+  transition: background 0.6s ease;
+}
+
+#world{
+  position:absolute;
+  inset:-30%;
+  pointer-events:none;
+  will-change:transform;
+}
+
+.cloud{
+  position:absolute;
+  width:150px;
+  height:44px;
+  border-radius:999px;
+  background:rgba(255,255,255,.7);
+  filter:blur(.2px);
+}
+.cloud:before,
+.cloud:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  background:inherit;
+}
+.cloud:before{width:60px;height:60px;left:28px;top:-24px}
+.cloud:after{width:78px;height:78px;left:70px;top:-36px}
+
+.c1{left:8%;top:16%}
+.c2{left:38%;top:10%;transform:scale(.7)}
+.c3{left:68%;top:20%;transform:scale(.9)}
+
+.roadLine{
+  position:absolute;
+  left:-20%;
+  top:58%;
+  width:140%;
+  height:8px;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.85) 0 55px,transparent 55px 110px);
+  opacity:.8;
+}
+
+.wave{
+  position:absolute;
+  left:-10%;
+  top:60%;
+  width:130%;
+  height:80px;
+  opacity:.45;
+  background:
+    radial-gradient(ellipse at center, rgba(255,255,255,.5) 0 25%, transparent 28%) 0 0/120px 28px;
+}
+
+.stars{
+  position:absolute;
+  inset:0;
+  opacity:.8;
+  background:
+    radial-gradient(circle,#fff 0 1px,transparent 2px) 10% 18%/160px 120px,
+    radial-gradient(circle,#fff 0 1px,transparent 2px) 70% 28%/190px 140px;
+}
+
+#vehicle-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 58%; 
+  transform: translate(-50%, -100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  will-change: left, top, transform;
+}
+
+#vehicle{
+  font-size:76px;
+  filter:drop-shadow(0 10px 15px rgba(0,0,0,.35));
+  white-space: nowrap;
+  display: flex;
+  gap: 2px;
+}
+
+.train-car {
+  font-size: 76px;
+  display: inline-block;
+}
+
+#shadow{
+  position:absolute;
+  left:50%;
+  bottom: -5px;
+  width:90px;
+  height:14px;
+  border-radius:50%;
+  background:rgba(0,0,0,.3);
+  transform:translateX(-50%);
+  filter:blur(4px);
+  pointer-events:none;
+  transition: width 0.3s ease;
+}
+
+#vehicleMenu{
+  position:fixed;
+  top:18px;
+  left:18px;
+  right:18px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  z-index:20;
+}
+.vehicle-btn{
+  padding:10px 16px;
+  border-radius:999px;
+  background:rgba(0,0,0,.55);
+  border:1px solid rgba(255,255,255,.2);
+  color:#fff;
+  cursor:pointer;
+  user-select:none;
+  backdrop-filter:blur(8px);
+  font-size:14px;
+  transition: all 0.3s ease;
+}
+.vehicle-btn:hover{
+  background:rgba(255,255,255,.15);
+}
+.vehicle-btn.active{
+  background: var(--main-color);
+  color: #000;
+  font-weight:700;
+  box-shadow: 0 0 15px var(--main-color);
+}
+
+/* 메인 제어 패널 위치 조정 */
+.panel{
+  position:fixed;
+  left:20px;
+  right:20px;
+  bottom:95px; /* 설명창 공간 확보를 위해 위로 올림 */
+  height:160px;
+  z-index:30;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.card{
+  background:rgba(15,22,32,.8);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:24px;
+  backdrop-filter:blur(16px);
+  box-shadow:0 18px 40px rgba(0,0,0,.4);
+}
+
+/* 하단 가이드 설명창 스타일 */
+#guidePanel {
+  position: fixed;
+  left: 20px;
+  right: 20px;
+  bottom: 15px;
+  height: 65px;
+  z-index: 30;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 13px;
+  color: #ccc;
+  border-radius: 14px;
+  background: rgba(10, 15, 24, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.guide-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.key-cap {
+  background: #333;
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border-bottom: 3px solid #111;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+/* dashboard */
+.dashboard{
+  width:min(720px,100%);
+  height:150px;
+  padding:12px;
+  display:grid;
+  grid-template-columns:1fr 1.2fr 1fr;
+  align-items:center;
+  gap:16px;
+  margin:auto;
+}
+.gauge{
+  width:105px;
+  height:105px;
+  border-radius:50%;
+  border:6px solid rgba(255,255,255,.15);
+  border-top-color: var(--main-color);
+  position:relative;
+  display:grid;
+  place-items:center;
+  margin:auto;
+}
+.needle{
+  width:4px;
+  height:42px;
+  background: var(--main-color);
+  border-radius:5px;
+  position:absolute;
+  bottom:50%;
+  left:50%;
+  transform-origin:bottom center;
+  transform:translateX(-50%) rotate(-120deg);
+  transition: transform 0.1s ease-out;
+}
+.steering-container {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+.steerBtn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: #222;
+  color: white;
+  font-size: 16px;
+}
+.centerBtn{
+  width:95px;
+  height:95px;
+  border-radius:50%;
+  border:4px solid #333;
+  background:linear-gradient(145deg,#2c3036,#1a1c20);
+  color:white;
+  font-size:32px;
+  box-shadow:inset 0 0 20px rgba(255,255,255,.1),0 8px 16px rgba(0,0,0,.4);
+}
+.pedals{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
+.pedal{
+  width:60px;
+  height:100px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.2);
+  background:linear-gradient(#3a3f47,#1a1c21);
+  color:white;
+  font-size:22px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* boat */
+.shipWheel{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  border:10px solid #d7a85d;
+  position:relative;
+  margin:auto;
+}
+.shipWheel:before,.shipWheel:after{
+  content:"";
+  position:absolute;
+  background:#d7a85d;
+  left:50%;
+  top:50%;
+  width:120px;
+  height:8px;
+  transform:translate(-50%,-50%);
+  border-radius:999px;
+}
+.shipWheel:after{transform:translate(-50%,-50%) rotate(90deg)}
+
+.throttle{
+  width:92px;
+  height:110px;
+  position:relative;
+  margin:auto;
+}
+.throttle:before{
+  content:"";
+  position:absolute;
+  left:42px;
+  top:10px;
+  width:8px;
+  height:85px;
+  background:#222;
+  border-radius:99px;
+}
+.lever{
+  position:absolute;
+  left:20px;
+  top:30px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #fff, #888);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  transition: top 0.1s;
+}
+
+/* joystick */
+.joystick-container {
+  display: flex;
+  gap: 60px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.joystick{
+  width:110px;
+  height:110px;
+  border:2px solid rgba(255,255,255,.4);
+  border-radius:50%;
+  position:relative;
+  touch-action:none;
+  background:rgba(255,255,255,.05);
+}
+.stick{
+  position:absolute;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#fff,#666);
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* spacecraft */
+.spaceDash{
+  width:min(760px,100%);
+  height:150px;
+  padding:12px;
+  display:grid;
+  grid-template-columns:1fr 1.2fr 1fr;
+  gap:14px;
+  margin:auto;
+}
+.screen{
+  border-radius:16px;
+  background:radial-gradient(circle at center,rgba(0,255,255,.15),rgba(0,0,0,.8));
+  border:1px solid rgba(0,255,255,.3);
+  position:relative;
+  overflow: hidden;
+}
+.screen-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(0,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,255,0.05) 1px, transparent 1px);
+  background-size: 15px 15px;
+}
+.rocketBtns{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+}
+.rocketBtns button{
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;
+  background:rgba(255,255,255,.1);
+  color:#fff;
+  font-size:18px;
+}
+.bigLaunch{
+  border:0;
+  border-radius:16px;
+  background:linear-gradient(var(--main-color),#a01010);
+  color:#fff;
+  font-size:22px;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(255,77,77,0.4);
+}
+
+@media(max-width:640px){
+  #vehicle{font-size:54px}
+  .train-car{font-size:54px}
+  .panel{height:130px;bottom:85px;left:12px;right:12px}
+  #guidePanel{height:auto;flex-direction:column;gap:6px;font-size:11px;bottom:5px}
+  .dashboard,.spaceDash{height:120px;padding:8px}
+  .gauge{width:80px;height:80px}
+  .centerBtn{width:70px;height:70px;font-size:24px}
+  .pedal{width:45px;height:80px;font-size:16px}
+  .shipWheel{width:75px;height:75px}
+  .joystick-container{gap:20px}
+}
+</style>
+</head>
+<body>
+
+<div id="scene">
+  <div id="world">
+    <div class="stars"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="roadLine"></div>
+    <div class="wave"></div>
+  </div>
+  <div id="vehicle-wrapper">
+    <div id="shadow"></div>
+    <div id="vehicle">🚗</div>
+  </div>
+</div>
+
+<div id="vehicleMenu">
+  <button class="vehicle-btn active" onclick="goPage('car', this)">🚗 자동차</button>
+  <button class="vehicle-btn" onclick="goPage('bus', this)">🚌 버스</button>
+  <button class="vehicle-btn" onclick="goPage('ship', this)">🛳️ 유람선</button>
+  <button class="vehicle-btn" onclick="goPage('maglev', this)">🚄 자기부상열차</button>
+  <button class="vehicle-btn" onclick="goPage('dron', this)">🚁 드론</button>
+  <button class="vehicle-btn" onclick="goPage('space', this)">🚀 우주선</button>
+</div>
+
+<div class="panel" id="controlPanel"></div>
+
+<div id="guidePanel">
+  <div class="guide-section">
+    <span>[왼쪽 컨트롤러 제어]</span>
+    <span class="key-cap">W</span> 고도▲ / 전진
+    <span class="key-cap">A</span> 좌회전
+    <span class="key-cap">D</span> 우회전
+    <span class="key-cap">X</span> 후진 / 감속
+  </div>
+  <div class="guide-section">
+    <span>[오른쪽 컨트롤러 제어]</span>
+    <span class="key-cap">▲</span> 전진 / 고도▲
+    <span class="key-cap">◀</span> 좌회전 / 좌이동
+    <span class="key-cap">▶</span> 우회전 / 우이동
+    <span class="key-cap">▼</span> 후진 / 감속
+  </div>
+</div>
+
+<script>
+const scene=document.getElementById("scene");
+const world=document.getElementById("world");
+const wrapper=document.getElementById("vehicle-wrapper");
+const vehicle=document.getElementById("vehicle");
+const shadow=document.getElementById("shadow");
+const panel=document.getElementById("controlPanel");
+
+let x=window.innerWidth/2, y=window.innerHeight*.58, speed=0, angle=0, mode="car";
+let horizonRatio=.58;
+let steerAngle = 0;
+let bgX = 0;
+let bgY = 0;
+
+// 키 입력 추적을 위한 인터페이스 구조화
+const keys = {
+  w: false, a: false, d: false, x: false,
+  ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false
+};
+
+function updateVehicle(){
+  const prevX = x;
+  const prevY = y;
+
+  // 1. 키보드 상태에 기반한 실시간 물리 움직임 연산
+  // [왼쪽 제어: WADX]
+  if(keys.w) speed += 0.08;
+  if(keys.x) speed -= 0.06;
+  if(keys.a) angle -= 0.035;
+  if(keys.d) angle += 0.035;
+
+  // [오른쪽 제어: 화살표 키]
+  if(keys.ArrowUp) {
+    if (mode === "dron" || mode === "space") y -= 2.5; // 공중 수단 고도 상승
+    else speed += 0.08;
+  }
+  if(keys.ArrowDown) {
+    if (mode === "dron" || mode === "space") y += 2.5;
+    else speed -= 0.06;
+  }
+  if(keys.ArrowLeft) {
+    if (mode === "dron" || mode === "space" || mode === "maglev") x -= 2.5; // 드론/기차 좌측 기동
+    else angle -= 0.035;
+  }
+  if(keys.ArrowRight) {
+    if (mode === "dron" || mode === "space" || mode === "maglev") x += 2.5;
+    else angle += 0.035;
+  }
+
+  // 기본 마우스/패달 타이머 가속도 엔진 연동
+  x += Math.cos(angle) * speed;
+  if(mode === "car" || mode === "bus" || mode === "maglev" || mode === "ship") {
+    y = window.innerHeight * horizonRatio;
+  } else {
+    if(speed !== 0) y += Math.sin(angle) * speed;
+  }
+  
+  x=Math.max(100,Math.min(window.innerWidth-100,x));
+  y=Math.max(95,Math.min(window.innerHeight-210,y));
+
+  const moveX = x - prevX;
+  const moveY = y - prevY;
+
+  // 교통수단이 오른쪽으로 움직이면 배경은 왼쪽으로,
+  // 위로 움직이면 배경은 아래쪽으로 이동
+  bgX -= moveX * 0.65;
+  bgY -= moveY * 0.65;
+
+  if(mode === "car" || mode === "bus" || mode === "maglev"){
+    bgY = 0;
+  }
+
+  world.style.transform = `translate(${bgX}px, ${bgY}px)`;
+
+  const hover = mode==="dron" ? Math.sin(Date.now()/190)*5 : 0;
+  
+  wrapper.style.left=x+"px";
+  wrapper.style.top=(y+hover)+"px";
+  
+  // 가상 핸들(스티어링 휠/레버) 그래픽 동기화 시각 연출
+  if(keys.a || keys.ArrowLeft) steerAngle -= 4;
+  if(keys.d || keys.ArrowRight) steerAngle += 4;
+  
+  const wheel = document.getElementById("mainWheel");
+  if(wheel) wheel.style.transform = `rotate(${steerAngle}deg)`;
+
+  const lever = document.getElementById("shipLever");
+  if(lever) {
+    if(keys.w || keys.ArrowUp) lever.style.top = "-20px";
+    else if(keys.x || keys.ArrowDown) lever.style.top = "70px";
+    else lever.style.top = "30px";
+  }
+
+  // 조이스틱 그래픽 연동
+  const stick1 = document.querySelector("#joy1 .stick");
+  const stick2 = document.querySelector("#joy2 .stick");
+  if(stick1) {
+    let sx = (keys.a ? -30 : 0) + (keys.d ? 30 : 0);
+    let sy = (keys.w ? -30 : 0) + (keys.x ? 30 : 0);
+    stick1.style.transform = `translate(calc(-50% + ${sx}px), calc(-50% + ${sy}px))`;
+  }
+  if(stick2) {
+    let sx = (keys.ArrowLeft ? -30 : 0) + (keys.ArrowRight ? 30 : 0);
+    let sy = (keys.ArrowUp ? -30 : 0) + (keys.ArrowDown ? 30 : 0);
+    stick2.style.transform = `translate(calc(-50% + ${sx}px), calc(-50% + ${sy}px))`;
+  }
+
+  if(mode === "space" || mode === "dron" || mode === "ship") {
+    vehicle.style.transform=`rotate(${angle*180/Math.PI}deg)`;
+  } else {
+    vehicle.style.transform=`rotate(${speed * 1.5}deg)`;
+  }
+  
+  speed*=.96;
+
+  const needle = document.getElementById("needle");
+  if(needle) {
+    const targetDeg = -120 + (Math.abs(speed) * 22); 
+    needle.style.transform = `translateX(-50%) rotate(${Math.min(120, targetDeg)}deg)`;
+  }
+
+  requestAnimationFrame(updateVehicle);
+}
+updateVehicle();
+
+function goPage(type, el){
+  mode=type;
+  document.querySelectorAll(".vehicle-btn").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+
+  const data={
+    car:   ['🚗', "var(--color-car)",    "#1e528e", "#72c8ff", "#3b3b3b", .58, carControls],
+    bus:   ['🚌', "var(--color-bus)",    "#1a4275", "#ffd23f", "#3b3b3b", .58, busControls],
+    ship:  ['🛳️', "var(--color-ship)",   "#0c4a6e", "#38bdf8", "#0874a8", .48, shipControls],
+    maglev:['<span class="train-car">🚄</span><span class="train-car">🟪</span><span class="train-car">🟪</span>', "var(--color-maglev)", "#334155", "#cbd5e1", "#475569", .55, maglevControls],
+    dron:  ['🚁', "var(--color-dron)",   "#4c1d95", "#c084fc", "#1e293b", .70, droneControls],
+    space: ['🚀', "var(--color-space)",  "#020617", "#1e1b4b", "#090514", .68, spaceControls]
+  };
+
+  const current = data[type];
+  vehicle.innerHTML = current[0];
+  
+  if(type === 'maglev') shadow.style.width = "220px";
+  else shadow.style.width = "90px";
+  
+  const resolvedColor = current[1].startsWith('var(')
+    ? getComputedStyle(document.documentElement).getPropertyValue(current[1].replace('var(','').replace(')','')).trim()
+    : current[1];
+  document.documentElement.style.setProperty('--main-color', resolvedColor);
+  document.documentElement.style.setProperty('--bg-sky-top', current[2]);
+  document.documentElement.style.setProperty('--bg-sky-bottom', current[3]);
+  document.documentElement.style.setProperty('--bg-ground', current[4]);
+  
+  horizonRatio = current[5];
+  document.documentElement.style.setProperty('--horizon-y', (horizonRatio * 100) + '%');
+  y = window.innerHeight * horizonRatio;
+
+  speed=0;
+  angle=0;
+  steerAngle=0;
+  clearInterval(driveTimer);
+  clearInterval(turnTimer);
+  current[6]();
+}
+
+function carControls(){
+  panel.innerHTML=`
+  <div class="dashboard card">
+    <div class="gauge"><div class="needle" id="needle"></div></div>
+    <div class="steering-container">
+      <button class="steerBtn" onpointerdown="keys.a=true" onpointerup="keys.a=false">◀</button>
+      <button class="centerBtn" id="mainWheel">◎</button>
+      <button class="steerBtn" onpointerdown="keys.d=true" onpointerup="keys.d=false">▶</button>
+    </div>
+    <div class="pedals">
+      <button class="pedal" onpointerdown="keys.w=true" onpointerup="keys.w=false">▲</button>
+      <button class="pedal" onpointerdown="keys.x=true" onpointerup="keys.x=false">▼</button>
+    </div>
+  </div>`;
+}
+
+function busControls(){
+  panel.innerHTML=`
+  <div class="dashboard card">
+    <div class="gauge"><div class="needle" id="needle"></div></div>
+    <div class="steering-container">
+      <button class="steerBtn" onpointerdown="keys.a=true" onpointerup="keys.a=false">◀</button>
+      <button class="centerBtn" id="mainWheel">🚌</button>
+      <button class="steerBtn" onpointerdown="keys.d=true" onpointerup="keys.d=false">▶</button>
+    </div>
+    <div class="pedals">
+      <button class="pedal" onpointerdown="keys.w=true" onpointerup="keys.w=false">▲</button>
+      <button class="pedal" onpointerdown="keys.x=true" onpointerup="keys.x=false">▼</button>
+    </div>
+  </div>`;
+}
+
+function shipControls(){
+  panel.innerHTML=`
+  <div class="dashboard card">
+    <div class="steering-container">
+      <button class="steerBtn" onpointerdown="keys.a=true" onpointerup="keys.a=false">◀</button>
+      <div class="shipWheel" id="mainWheel"></div>
+      <button class="steerBtn" onpointerdown="keys.d=true" onpointerup="keys.d=false">▶</button>
+    </div>
+    <div class="screen"><div class="screen-grid"></div></div>
+    <div class="throttle" onpointerdown="keys.w=true" onpointerup="keys.w=false"><div class="lever" id="shipLever"></div></div>
+  </div>`;
+}
+
+function maglevControls(){
+  panel.innerHTML=`
+  <div class="dashboard card">
+    <button class="pedal" onpointerdown="keys.x=true" onpointerup="keys.x=false">◀ 후진</button>
+    <div class="screen"><div class="screen-grid"></div></div>
+    <button class="pedal" onpointerdown="keys.w=true" onpointerup="keys.w=false">전진 ▶</button>
+  </div>`;
+}
+
+function droneControls(){
+  panel.innerHTML=`
+  <div class="joystick-container">
+    <div class="joystick card" id="joy1"><div class="stick"></div></div>
+    <div class="joystick card" id="joy2"><div class="stick"></div></div>
+  </div>`;
+  setupJoystick("joy1",(dx,dy)=>{ 
+    if(dx < -10) keys.a = true; else if(dx > 10) keys.d = true; else { keys.a = false; keys.d = false; }
+    if(dy < -10) keys.w = true; else if(dy > 10) keys.x = true; else { keys.w = false; keys.x = false; }
+  });
+  setupJoystick("joy2",(dx,dy)=>{ 
+    if(dx < -10) keys.ArrowLeft = true; else if(dx > 10) keys.ArrowRight = true; else { keys.ArrowLeft = false; keys.ArrowRight = false; }
+    if(dy < -10) keys.ArrowUp = true; else if(dy > 10) keys.ArrowDown = true; else { keys.ArrowUp = false; keys.ArrowDown = false; }
+  });
+}
+
+function spaceControls(){
+  panel.innerHTML=`
+  <div class="spaceDash card">
+    <div class="screen"><div class="screen-grid"></div></div>
+    <div class="rocketBtns">
+      <button onpointerdown="keys.a=true" onpointerup="keys.a=false">↺</button>
+      <button onpointerdown="keys.w=true" onpointerup="keys.w=false">▲</button>
+      <button onpointerdown="keys.d=true" onpointerup="keys.d=false">↻</button>
+      <button onpointerdown="keys.ArrowLeft=true" onpointerup="keys.ArrowLeft=false">◀</button>
+      <button onclick="speed=0">●</button>
+      <button onpointerdown="keys.ArrowRight=true" onpointerup="keys.ArrowRight=false">▶</button>
+    </div>
+    <button class="bigLaunch" onpointerdown="keys.w=true; speed+=1;" onpointerup="keys.w=false">BOOST 🚀</button>
+  </div>`;
+}
+
+let driveTimer=null, turnTimer=null;
+
+function setupJoystick(id, callback){
+  const joy=document.getElementById(id);
+  if(!joy) return;
+  const stick=joy.querySelector(".stick");
+  const max=40;
+  
+  function move(e){
+    const r=joy.getBoundingClientRect();
+    const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    let dx=e.clientX-cx, dy=e.clientY-cy;
+    const d=Math.hypot(dx,dy);
+    if(d>max){dx=dx/d*max;dy=dy/d*max}
+    stick.style.transform=`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+    callback(dx,dy);
+  }
+  function reset(){ 
+    stick.style.transform="translate(-50%,-50%)"; 
+    callback(0,0);
+  }
+  
+  joy.onpointerdown=move;
+  joy.onpointermove=e=>{ if(e.buttons) move(e); }
+  joy.onpointerup=reset;
+  joy.onpointerleave=reset;
+  joy.onpointercancel=reset;
+}
+
+// 2. 키보드 다운/업 상태 실시간 동기화 이벤트
+document.addEventListener("keydown",e=>{
+  const k = e.key.toLowerCase();
+  if (k === 'w' || k === 'a' || k === 'd' || k === 'x') keys[k] = true;
+  if (e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "ArrowLeft" || e.key === "ArrowRight") keys[e.key] = true;
+});
+
+document.addEventListener("keyup",e=>{
+  const k = e.key.toLowerCase();
+  if (k === 'w' || k === 'a' || k === 'd' || k === 'x') keys[k] = false;
+  if (e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "ArrowLeft" || e.key === "ArrowRight") keys[e.key] = false;
+});
+
+// 초기 실행
+carControls();
+goPage('car', document.querySelector('.vehicle-btn'));
+</script>
+</body>
+</html>
